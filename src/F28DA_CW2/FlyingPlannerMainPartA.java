@@ -10,6 +10,8 @@ import org.jgrapht.graph.SimpleGraph;
 public class FlyingPlannerMainPartA {	
 	
 	private static void deleteDemo() {
+		
+		// DELETEEE SOOOOOOOOOOOOOOOOOOOOOOOOOOOON !!!!!!!!!!!!!!!!!!!!!!!!
 
 		// The following code is from HelloJGraphT.java of the org.jgrapth.demo package
 		
@@ -64,6 +66,7 @@ public class FlyingPlannerMainPartA {
 //				System.out.println("Code: " + airport[0] + ",		location: " + airport[1] + ",		name: " + airport[2]);
 //				
 //			}
+			
 			
 			System.out.println("Flights");
 			for( String[] flight: flights)
