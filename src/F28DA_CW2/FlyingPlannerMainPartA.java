@@ -14,7 +14,6 @@ public class FlyingPlannerMainPartA {
 		// DELETEEE SOOOOOOOOOOOOOOOOOOOOOOOOOOOON !!!!!!!!!!!!!!!!!!!!!!!!
 
 		// The following code is from HelloJGraphT.java of the org.jgrapth.demo package
-		
 		System.err.println("The example code is from HelloJGraphT.java from the org.jgrapt.demo package.");
 		System.err.println("Use similar code to build the small graph from Part A by hand.");
 		System.err.println("Note that you will need to use a different graph class as your graph is not just a Simple Graph.");
