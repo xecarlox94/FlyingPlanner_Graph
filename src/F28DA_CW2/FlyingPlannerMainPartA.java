@@ -55,70 +55,27 @@ public class FlyingPlannerMainPartA {
 
 
 
-	public static void main(String[] args) {
+	public static void main(String[] args) 
+	{
 //		deleteDemo();
+		
+		
 
-		try {
-			FlightsReader rd = new FlightsReader();
-			
-			HashSet<String[]> airportsString = rd.getAirports();
-			
-			HashSet<Airport> airports = new HashSet<Airport>();
-			
-			LinkedList<Flight> flights = new LinkedList<Flight>();
-			
-			HashSet<String[]> flightsString = rd.getFlights();
-			
-			Iterator<Airport> airportsIterator = airports.iterator();
-			
-			Hashtable<String, Airport> airportHashTable = new Hashtable<String, Airport>();
-			
-			
-			System.out.println("Airports");
-			for( String[] airport: airportsString)
-			{
-				System.out.println("Code: " + airport[0] + ",		location: " + airport[1] + ",		name: " + airport[2]);
-				Airport temp = new Airport(airport[0], airport[2], airport[1]);
-				airports.add(temp);
-			}
-			
-			
-			while(airportsIterator.hasNext())
-			{
-				Airport tempAirport = airportsIterator.next();
-				airportHashTable.put(tempAirport.getCode(), tempAirport);
-			}
-			
-			
-			System.out.println("Flights");
-			for( String[] flight: flightsString)
-			{
-				System.out.println("code: " + 
-						flight[0] + ", from: " + flight[1] + ", leave: " +
-						flight[2] + ", to: " + flight[3] + ", arrive: " +
-						flight[4] + ", price: " + flight[5]);
-
-				String originCode = flight[1];
-				String destinationCode = flight[3];
-				
-				Airport originAirport = airportHashTable.get(originCode);
-				Airport destinationAirport = airportHashTable.get(destinationCode);
-				
-				int price = Integer.parseInt(flight[5]);
-				
-				Flight newFlight = new Flight(flight[0],flight[1],originAirport,flight[3],destinationAirport,price);
-				
-				flights.add(newFlight);
-				
-			}
-			
-			System.out.println("finished");
-			
-			
+        FlyingPlanner fp = new FlyingPlanner();
+        
+        FlightsReader fr;
+        
+        try {
+        	fr = new FlightsReader();
+            
+            fp.populate(fr);
+            
+            
 		} catch (FileNotFoundException | FlyingPlannerException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+        
         
 	}
 	

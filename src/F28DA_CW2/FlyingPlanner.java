@@ -1,21 +1,74 @@
 package F28DA_CW2;
 
+import java.io.FileNotFoundException;
 import java.util.HashSet;
+import java.util.Hashtable;
+import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 
 public class FlyingPlanner implements IFlyingPlannerPartB<Airport,Flight>, IFlyingPlannerPartC<Airport,Flight> {
+	
+	HashSet<Airport> airports;
+	
+	LinkedList<Flight> flights;
 
 	@Override
-	public boolean populate(FlightsReader fr) {
-		// TODO Auto-generated method stub
-		return false;
+	public boolean populate(FlightsReader fr) 
+	{
+		HashSet<String[]> airports = fr.getAirports();
+		
+		HashSet<String[]> flights = fr.getFlights();
+		
+		// overloading he method
+		return  this.populate(airports, flights);
 	}
 
 	@Override
 	public boolean populate(HashSet<String[]> airports, HashSet<String[]> flights) {
-		// TODO Auto-generated method stub
-		return false;
+
+		this.airports = new HashSet<Airport>();
+		
+		this.flights = new LinkedList<Flight>();
+		
+		
+		for( String[] airport: airports)
+		{
+			Airport temp = new Airport(airport[0], airport[2], airport[1]);
+			this.airports.add(temp);
+		}
+
+		Iterator<Airport> airportsIterator = this.airports.iterator();
+		
+		
+		Hashtable<String, Airport> airportHashTable = new Hashtable<String, Airport>();
+		while(airportsIterator.hasNext())
+		{
+			Airport tempAirport = airportsIterator.next();
+
+			airportHashTable.put(tempAirport.getCode(), tempAirport);
+		}
+		
+		
+		for( String[] flight: flights)
+		{
+
+			String originCode = flight[1];
+			String destinationCode = flight[3];
+			
+			Airport originAirport = airportHashTable.get(originCode);
+			Airport destinationAirport = airportHashTable.get(destinationCode);
+			
+			int price = Integer.parseInt(flight[5]);
+			
+			Flight newFlight = new Flight(flight[0],flight[1],originAirport,flight[3],destinationAirport,price);
+			
+			this.flights.add(newFlight);
+			
+		}
+		
+		return true;
 	}
 
 	@Override
@@ -98,6 +151,8 @@ public class FlyingPlanner implements IFlyingPlannerPartB<Airport,Flight>, IFlyi
 		// TODO Auto-generated method stub
 		return null;
 	}
+	
+	
 
 
 }

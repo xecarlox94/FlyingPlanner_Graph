@@ -22,7 +22,7 @@ public class Flight implements IFlight {
 	
 	
 	// constructor
-	public Flight(String flightCode, String fromGMTime, Airport from, String toGMTime, Airport to, int price)
+	public Flight(String flightCode, String fromGMTime, Airport from, String toGMTime, Airport to, int cost)
 	{
 		this.flightCode = flightCode;
 		this.fromGMTime = fromGMTime;
