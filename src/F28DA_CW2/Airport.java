@@ -13,6 +13,9 @@ public class Airport implements IAirportPartB, IAirportPartC
 	// city or location name
 	private String location;
 	
+	// stores the airports with common edges
+	private Set<Airport> directlyConnected;
+	
 	
 	// constructor
 	public Airport(String code, String name, String location)
@@ -38,15 +41,15 @@ public class Airport implements IAirportPartB, IAirportPartC
 	}
 
 	@Override
-	public void setDicrectlyConnected(Set<Airport> dicrectlyConnected) {
-		// TODO Auto-generated method stub
-
+	public void setDicrectlyConnected(Set<Airport> directlyConnected) 
+	{
+		this.directlyConnected = directlyConnected;
 	}
 
 	@Override
-	public Set<Airport> getDicrectlyConnected() {
-		// TODO Auto-generated method stub
-		return null;
+	public Set<Airport> getDicrectlyConnected() 
+	{
+		return this.directlyConnected;
 	}
 
 
