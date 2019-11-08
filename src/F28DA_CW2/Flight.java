@@ -31,6 +31,7 @@ public class Flight implements IFlight {
 		this.to = to;
 		this.cost = cost;
 	}
+	
 
 	@Override
 	public String getFlightCode() 
@@ -45,6 +46,19 @@ public class Flight implements IFlight {
 		// returns destination airport
 		return this.to;
 	}
+	
+	public void setTo(Airport airport)
+	{
+		// sets the destination airport for this flight
+		this.to = airport;
+	}
+	
+	public void setFrom(Airport airport)
+	{
+		// sets the origin airport for this flight
+		this.from = airport;
+	}
+	
 
 	@Override
 	public Airport getFrom()

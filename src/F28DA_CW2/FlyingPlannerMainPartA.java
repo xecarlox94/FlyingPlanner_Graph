@@ -2,6 +2,9 @@ package F28DA_CW2;
 
 import java.io.FileNotFoundException;
 import java.util.HashSet;
+import java.util.Hashtable;
+import java.util.Iterator;
+import java.util.LinkedList;
 
 import org.jgrapht.Graph;
 import org.jgrapht.graph.DefaultEdge;
@@ -62,9 +65,14 @@ public class FlyingPlannerMainPartA {
 			
 			HashSet<Airport> airports = new HashSet<Airport>();
 			
-			HashSet<Flight> flights = new HashSet<Flight>();
+			LinkedList<Flight> flights = new LinkedList<Flight>();
 			
 			HashSet<String[]> flightsString = rd.getFlights();
+			
+			Iterator<Airport> airportsIterator = airports.iterator();
+			
+			Hashtable<String, Airport> airportHashTable = new Hashtable<String, Airport>();
+			
 			
 			System.out.println("Airports");
 			for( String[] airport: airportsString)
@@ -75,6 +83,13 @@ public class FlyingPlannerMainPartA {
 			}
 			
 			
+			while(airportsIterator.hasNext())
+			{
+				Airport tempAirport = airportsIterator.next();
+				airportHashTable.put(tempAirport.getCode(), tempAirport);
+			}
+			
+			
 			System.out.println("Flights");
 			for( String[] flight: flightsString)
 			{
@@ -82,8 +97,22 @@ public class FlyingPlannerMainPartA {
 						flight[0] + ", from: " + flight[1] + ", leave: " +
 						flight[2] + ", to: " + flight[3] + ", arrive: " +
 						flight[4] + ", price: " + flight[5]);
-//				Flight temp = new Flight(flight[0],);
+
+				String originCode = flight[1];
+				String destinationCode = flight[3];
+				
+				Airport originAirport = airportHashTable.get(originCode);
+				Airport destinationAirport = airportHashTable.get(destinationCode);
+				
+				int price = Integer.parseInt(flight[5]);
+				
+				Flight newFlight = new Flight(flight[0],flight[1],originAirport,flight[3],destinationAirport,price);
+				
+				flights.add(newFlight);
+				
 			}
+			
+			System.out.println("finished");
 			
 			
 		} catch (FileNotFoundException | FlyingPlannerException e) {

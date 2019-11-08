@@ -39,6 +39,12 @@ public class Airport implements IAirportPartB, IAirportPartC
 		// name getter
 		return this.name;
 	}
+	
+	public String getLocation()
+	{
+		// it returns the airport location
+		return this.location;
+	}
 
 	@Override
 	public void setDicrectlyConnected(Set<Airport> directlyConnected) 
