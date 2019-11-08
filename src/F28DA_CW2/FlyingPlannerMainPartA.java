@@ -45,6 +45,9 @@ public class FlyingPlannerMainPartA {
         // @example:toString:end
         System.out.println();
 		// Code is from HelloJGraphT.java of the org.jgrapth.demo package (start)
+        
+        
+        
 	}
 
 
@@ -55,25 +58,31 @@ public class FlyingPlannerMainPartA {
 		try {
 			FlightsReader rd = new FlightsReader();
 			
-			HashSet<String[]> airports = rd.getAirports();
+			HashSet<String[]> airportsString = rd.getAirports();
 			
-			HashSet<String[]> flights = rd.getFlights();
+			HashSet<Airport> airports = new HashSet<Airport>();
 			
-//			System.out.println("Airports");
-//			for( String[] airport: airports)
-//			{
-//				System.out.println("Code: " + airport[0] + ",		location: " + airport[1] + ",		name: " + airport[2]);
-//				
-//			}
+			HashSet<Flight> flights = new HashSet<Flight>();
+			
+			HashSet<String[]> flightsString = rd.getFlights();
+			
+			System.out.println("Airports");
+			for( String[] airport: airportsString)
+			{
+				System.out.println("Code: " + airport[0] + ",		location: " + airport[1] + ",		name: " + airport[2]);
+				Airport temp = new Airport(airport[0], airport[2], airport[1]);
+				airports.add(temp);
+			}
 			
 			
 			System.out.println("Flights");
-			for( String[] flight: flights)
+			for( String[] flight: flightsString)
 			{
-				System.out.println("light: " + 
+				System.out.println("code: " + 
 						flight[0] + ", from: " + flight[1] + ", leave: " +
 						flight[2] + ", to: " + flight[3] + ", arrive: " +
 						flight[4] + ", price: " + flight[5]);
+//				Flight temp = new Flight(flight[0],);
 			}
 			
 			
