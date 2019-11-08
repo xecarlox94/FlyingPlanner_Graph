@@ -12,17 +12,17 @@ public class Flight implements IFlight {
 	private String toGMTime;
 	
 	// airport of destination
-	private String to;
+	private Airport to;
 	
 	// airport of departure
-	private String from;
+	private Airport from;
 	
 	// flight cost
 	private int cost;
 	
 	
 	// constructor
-	public Flight(String flightCode, String fromGMTime, String from, String toGMTime, String to, int price)
+	public Flight(String flightCode, String fromGMTime, Airport from, String toGMTime, Airport to, int price)
 	{
 		this.flightCode = flightCode;
 		this.fromGMTime = fromGMTime;
@@ -40,15 +40,17 @@ public class Flight implements IFlight {
 	}
 
 	@Override
-	public Airport getTo() {
-		// TODO Auto-generated method stub
-		return null;
+	public Airport getTo() 
+	{
+		// returns destination airport
+		return this.to;
 	}
 
 	@Override
-	public Airport getFrom() {
-		// TODO Auto-generated method stub
-		return null;
+	public Airport getFrom()
+	{
+		// returns origin airport
+		return this.from;
 	}
 
 	@Override
