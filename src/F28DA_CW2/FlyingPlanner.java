@@ -1,18 +1,15 @@
 package F28DA_CW2;
 
-import java.io.FileNotFoundException;
 import java.util.HashSet;
 import java.util.Hashtable;
 import java.util.Iterator;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
+import org.jgrapht.Graph;
 
 public class FlyingPlanner implements IFlyingPlannerPartB<Airport,Flight>, IFlyingPlannerPartC<Airport,Flight> {
 	
-	HashSet<Airport> airports;
-	
-	LinkedList<Flight> flights;
+	private Graph<Airport, Flight> graph;
 
 	@Override
 	public boolean populate(FlightsReader fr) 
@@ -21,37 +18,37 @@ public class FlyingPlanner implements IFlyingPlannerPartB<Airport,Flight>, IFlyi
 		
 		HashSet<String[]> flights = fr.getFlights();
 		
-		// overloading he method
-		return  this.populate(airports, flights);
+		return this.populate(airports, flights);
 	}
 
 	@Override
-	public boolean populate(HashSet<String[]> airports, HashSet<String[]> flights) {
+	public boolean populate(HashSet<String[]> airports, HashSet<String[]> flights) 
+	{
 
-		this.airports = new HashSet<Airport>();
-		
-		this.flights = new LinkedList<Flight>();
+		HashSet<Airport> airportsSet = new HashSet<Airport>();
 		
 		
 		for( String[] airport: airports)
 		{
 			Airport temp = new Airport(airport[0], airport[2], airport[1]);
-			this.airports.add(temp);
+			airportsSet.add(temp);
 		}
 
-		Iterator<Airport> airportsIterator = this.airports.iterator();
+		Iterator<Airport> airportsIterator = airportsSet.iterator();
 		
 		
 		Hashtable<String, Airport> airportHashTable = new Hashtable<String, Airport>();
 		while(airportsIterator.hasNext())
 		{
 			Airport tempAirport = airportsIterator.next();
+			
+			this.graph.addVertex(tempAirport);
 
 			airportHashTable.put(tempAirport.getCode(), tempAirport);
 		}
 		
 		
-		for( String[] flight: flights)
+		for( String[] flight: flights )
 		{
 
 			String originCode = flight[1];
@@ -64,7 +61,7 @@ public class FlyingPlanner implements IFlyingPlannerPartB<Airport,Flight>, IFlyi
 			
 			Flight newFlight = new Flight(flight[0],flight[1],originAirport,flight[3],destinationAirport,price);
 			
-			this.flights.add(newFlight);
+			this.graph.addEdge(originAirport, destinationAirport, newFlight);
 			
 		}
 		
@@ -72,14 +69,46 @@ public class FlyingPlanner implements IFlyingPlannerPartB<Airport,Flight>, IFlyi
 	}
 
 	@Override
-	public Airport airport(String code) {
-		// TODO Auto-generated method stub
+	public Airport airport(String code) 
+	{
+		Set<Airport> airportSet = this.graph.vertexSet();
+		
+		Iterator<Airport> airportIterator = airportSet.stream().iterator();
+		
+		while(airportIterator.hasNext())
+		{
+			Airport tempAirport = airportIterator.next();
+			
+			String codeAirport = tempAirport.getCode();
+			
+			if( code.equals(codeAirport))
+			{
+				return tempAirport;
+			}
+		}
+		
 		return null;
 	}
 
 	@Override
-	public Flight flight(String code) {
-		// TODO Auto-generated method stub
+	public Flight flight(String code) 
+	{
+		Set<Flight> flightSet = this.graph.edgeSet();
+		
+		Iterator<Flight> flightIterator = flightSet.iterator();
+		
+		while(flightIterator.hasNext())
+		{
+			Flight tempFlight = flightIterator.next();
+			
+			String codeAirport = tempFlight.getFlightCode();
+			
+			if( code.equals(codeAirport))
+			{
+				return tempFlight;
+			}
+		}
+		
 		return null;
 	}
 
@@ -111,9 +140,23 @@ public class FlyingPlanner implements IFlyingPlannerPartB<Airport,Flight>, IFlyi
 
 
 	@Override
-	public Set<Airport> directlyConnected(Airport airport) {
-		// TODO Auto-generated method stub
-		return null;
+	public Set<Airport> directlyConnected(Airport airport) 
+	{
+		Set<Airport> connectedAirports = new HashSet<Airport>();
+		
+		
+		Set<Flight> egdesOfAirport = this.graph.edgesOf(airport);
+		
+
+		Iterator<Flight> flightsIterator = egdesOfAirport.stream().iterator();
+		
+		while(flightsIterator.hasNext())
+		{
+			Flight flight = flightsIterator.next();
+			
+			Airport originAirport = flight.getFrom();
+//			Airport
+		}
 	}
 
 	@Override

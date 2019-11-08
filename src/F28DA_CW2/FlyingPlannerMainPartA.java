@@ -8,7 +8,8 @@ import java.util.LinkedList;
 
 import org.jgrapht.Graph;
 import org.jgrapht.graph.DefaultEdge;
-import org.jgrapht.graph.SimpleGraph;
+import org.jgrapht.graph.SimpleDirectedWeightedGraph;
+import org.jgrapht.alg.shortestpath.DijkstraShortestPath;
 
 public class FlyingPlannerMainPartA {	
 	
@@ -22,7 +23,7 @@ public class FlyingPlannerMainPartA {
 		System.err.println("Note that you will need to use a different graph class as your graph is not just a Simple Graph.");
 		System.err.println("Once you understand how to build such graph by hand, move to Part B to build a more substantial graph.");
 		// Code is from HelloJGraphT.java of the org.jgrapth.demo package (start)
-        Graph<String, DefaultEdge> g = new SimpleGraph<>(DefaultEdge.class);
+        Graph<String, DefaultEdge> g = new SimpleDirectedWeightedGraph<>(DefaultEdge.class);
 
         String v1 = "v1";
         String v2 = "v2";
@@ -36,10 +37,23 @@ public class FlyingPlannerMainPartA {
         g.addVertex(v4);
 
         // add edges to create a circuit
-        g.addEdge(v1, v2);
-        g.addEdge(v2, v3);
-        g.addEdge(v3, v4);
-        g.addEdge(v4, v1);
+        DefaultEdge e1 = g.addEdge(v1, v2);
+
+        e1 = g.addEdge(v2, v3);
+        g.setEdgeWeight(e1, 4);
+
+        e1 = g.addEdge(v2, v4);
+        g.setEdgeWeight(e1, 6);
+        
+        e1 = g.addEdge(v1, v3);
+        g.setEdgeWeight(e1, 1);
+
+        e1 = g.addEdge(v3, v2);
+        g.setEdgeWeight(e1, 2);
+
+        e1 = g.addEdge(v3, v4);
+        g.setEdgeWeight(e1, 3);
+        
 
         // note undirected edges are printed as: {<v1>,<v2>}
         System.out.println("-- toString output");
@@ -49,7 +63,11 @@ public class FlyingPlannerMainPartA {
         System.out.println();
 		// Code is from HelloJGraphT.java of the org.jgrapth.demo package (start)
         
+//        DijkstraShortestPath<>
         
+        DijkstraShortestPath<String,DefaultEdge> dijkstra = new DijkstraShortestPath<String, DefaultEdge>(g);
+        
+        System.out.println(dijkstra.getPath(v1, v3));
         
 	}
 
@@ -57,7 +75,7 @@ public class FlyingPlannerMainPartA {
 
 	public static void main(String[] args) 
 	{
-//		deleteDemo();
+		deleteDemo();
 		
 		
 
@@ -69,6 +87,9 @@ public class FlyingPlannerMainPartA {
         	fr = new FlightsReader();
             
             fp.populate(fr);
+            
+            
+            
             
             
 		} catch (FileNotFoundException | FlyingPlannerException e) {
