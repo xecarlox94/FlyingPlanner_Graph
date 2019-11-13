@@ -157,6 +157,9 @@ public class FlyingPlanner implements IFlyingPlannerPartB<Airport,Flight>, IFlyi
 			Airport originAirport = flight.getFrom();
 //			Airport
 		}
+		
+		// temporary return
+		return new HashSet<Airport>();
 	}
 
 	@Override
