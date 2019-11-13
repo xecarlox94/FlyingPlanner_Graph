@@ -71,4 +71,13 @@ public class Airport implements IAirportPartB, IAirportPartC
 		return 0;
 	}
 
+
+	@Override
+	public String toString() {
+		return "Airport [code=" + code + ", name=" + name + ", location=" + location + ", directlyConnected="
+				+ directlyConnected + ", toString()=" + super.toString() + "]";
+	}
+	
+	
+
 }

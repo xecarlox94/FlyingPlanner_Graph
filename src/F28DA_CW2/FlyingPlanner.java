@@ -35,6 +35,8 @@ public class FlyingPlanner implements IFlyingPlannerPartB<Airport,Flight>, IFlyi
 		}
 
 		Iterator<Airport> airportsIterator = airportsSet.iterator();
+
+		System.out.println("size size: " + airportsSet.size());
 		
 		
 		Hashtable<String, Airport> airportHashTable = new Hashtable<String, Airport>();

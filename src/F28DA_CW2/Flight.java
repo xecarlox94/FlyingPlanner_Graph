@@ -89,4 +89,12 @@ public class Flight implements IFlight {
 	}
 
 
+	@Override
+	public String toString() {
+		// TODO Auto-generated method stub
+		return super.toString();
+	}
+
+	
+
 }
