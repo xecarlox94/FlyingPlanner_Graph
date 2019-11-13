@@ -76,8 +76,9 @@ public class FlyingPlannerMainPartA {
 
 	public static void main(String[] args) 
 	{
-		deleteDemo();
+//		deleteDemo();
 		
+		System.out.println("\n\n");
 		
 
         FlyingPlanner fp = new FlyingPlanner();

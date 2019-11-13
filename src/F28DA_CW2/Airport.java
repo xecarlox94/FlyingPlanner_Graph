@@ -13,8 +13,6 @@ public class Airport implements IAirportPartB, IAirportPartC
 	// city or location name
 	private String location;
 	
-	// stores the airports with common edges
-	private Set<Airport> directlyConnected;
 	
 	
 	// constructor
@@ -46,18 +44,6 @@ public class Airport implements IAirportPartB, IAirportPartC
 		return this.location;
 	}
 
-	@Override
-	public void setDicrectlyConnected(Set<Airport> directlyConnected) 
-	{
-		this.directlyConnected = directlyConnected;
-	}
-
-	@Override
-	public Set<Airport> getDicrectlyConnected() 
-	{
-		return this.directlyConnected;
-	}
-
 
 	@Override
 	public void setDicrectlyConnectedOrder(int order) {
@@ -74,9 +60,30 @@ public class Airport implements IAirportPartB, IAirportPartC
 
 	@Override
 	public String toString() {
-		return "Airport [code=" + code + ", name=" + name + ", location=" + location + ", directlyConnected="
-				+ directlyConnected + ", toString()=" + super.toString() + "]";
+		// TODO Auto-generated method stub
+		return "airport code: " + this.code + ",	name: " + this.getName() + ",	location: " + this.getLocation();
 	}
+	
+	public String toStringOverview() {
+		// TODO Auto-generated method stub
+		return "Airport code: " + this.code;
+	}
+
+
+	@Override
+	public Set<Airport> getDicrectlyConnected() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+	@Override
+	public void setDicrectlyConnected(Set<Airport> dicrectlyConnected) {
+		// TODO Auto-generated method stub
+		
+	}
+	
+	
 	
 	
 

@@ -6,9 +6,11 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 import org.jgrapht.Graph;
+import org.jgrapht.graph.SimpleDirectedWeightedGraph;
 
-public class FlyingPlanner implements IFlyingPlannerPartB<Airport,Flight>, IFlyingPlannerPartC<Airport,Flight> {
-	
+public class FlyingPlanner implements IFlyingPlannerPartB<Airport,Flight>, IFlyingPlannerPartC<Airport,Flight> 
+{
+
 	private Graph<Airport, Flight> graph;
 
 	@Override
@@ -24,19 +26,20 @@ public class FlyingPlanner implements IFlyingPlannerPartB<Airport,Flight>, IFlyi
 	@Override
 	public boolean populate(HashSet<String[]> airports, HashSet<String[]> flights) 
 	{
+		this.graph = new SimpleDirectedWeightedGraph<Airport, Flight>(Flight.class);
 
 		HashSet<Airport> airportsSet = new HashSet<Airport>();
 		
 		
 		for( String[] airport: airports)
 		{
-			Airport temp = new Airport(airport[0], airport[2], airport[1]);
-			airportsSet.add(temp);
+			Airport tempAirport = new Airport(airport[0], airport[2], airport[1]);
+			
+			airportsSet.add(tempAirport);
 		}
 
 		Iterator<Airport> airportsIterator = airportsSet.iterator();
 
-		System.out.println("size size: " + airportsSet.size());
 		
 		
 		Hashtable<String, Airport> airportHashTable = new Hashtable<String, Airport>();
@@ -50,18 +53,23 @@ public class FlyingPlanner implements IFlyingPlannerPartB<Airport,Flight>, IFlyi
 		}
 		
 		
+		
 		for( String[] flight: flights )
 		{
 
-			String originCode = flight[1];
-			String destinationCode = flight[3];
-			
-			Airport originAirport = airportHashTable.get(originCode);
-			Airport destinationAirport = airportHashTable.get(destinationCode);
-			
+			String flightCode = flight[0];
+			String originAirportCode = flight[1];
+			String fromTime = flight[2];
+			String destinationAirportCode = flight[3];
+			String toTime = flight[4];
 			int price = Integer.parseInt(flight[5]);
 			
-			Flight newFlight = new Flight(flight[0],flight[1],originAirport,flight[3],destinationAirport,price);
+			Airport originAirport = airportHashTable.get(originAirportCode);
+			Airport destinationAirport = airportHashTable.get(destinationAirportCode);
+			
+			
+			Flight newFlight = new Flight(flightCode,fromTime,originAirport,toTime,destinationAirport,price);
+
 			
 			this.graph.addEdge(originAirport, destinationAirport, newFlight);
 			
@@ -113,33 +121,6 @@ public class FlyingPlanner implements IFlyingPlannerPartB<Airport,Flight>, IFlyi
 		
 		return null;
 	}
-
-	@Override
-	public Journey leastCost(String from, String to) throws FlyingPlannerException {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public Journey leastHop(String from, String to) throws FlyingPlannerException {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public Journey leastCost(String from, String to, List<String> excluding)
-			throws FlyingPlannerException {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public Journey leastHop(String from, String to, List<String> excluding)
-			throws FlyingPlannerException {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
 
 	@Override
 	public Set<Airport> directlyConnected(Airport airport) 
@@ -199,6 +180,32 @@ public class FlyingPlanner implements IFlyingPlannerPartB<Airport,Flight>, IFlyi
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+	@Override
+	public Journey leastCost(String from, String to) throws FlyingPlannerException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Journey leastHop(String from, String to) throws FlyingPlannerException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Journey leastCost(String from, String to, List<String> excluding) throws FlyingPlannerException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Journey leastHop(String from, String to, List<String> excluding) throws FlyingPlannerException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	
 	
 	
 
