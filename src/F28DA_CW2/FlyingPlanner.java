@@ -11,13 +11,17 @@ import org.jgrapht.graph.SimpleDirectedWeightedGraph;
 public class FlyingPlanner implements IFlyingPlannerPartB<Airport,Flight>, IFlyingPlannerPartC<Airport,Flight> 
 {
 
+	// storing the graph
 	private Graph<Airport, Flight> graph;
 
 	@Override
 	public boolean populate(FlightsReader fr) 
 	{
+		// it stores the airport string array set locally
 		HashSet<String[]> airports = fr.getAirports();
 		
+
+		// it stores the airport string array set locally
 		HashSet<String[]> flights = fr.getFlights();
 		
 		return this.populate(airports, flights);

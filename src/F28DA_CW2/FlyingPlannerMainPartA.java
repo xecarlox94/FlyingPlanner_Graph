@@ -177,10 +177,15 @@ public class FlyingPlannerMainPartA {
     		// it initialises the dijkstra algorithm, by passing the graph as a parameter
     		DijkstraShortestPath<Airport,Flight> dijkstra = new DijkstraShortestPath<Airport,Flight>(graph);
     		
+    		// gets the shortest path
     		GraphPath<Airport, Flight> path = dijkstra.getPath(originAirport, departureAirport);
             
+    		//IMPROVE PRINTING
     		System.out.println(path);
     		
+    		
+    		//IMPROVE PRINTING
+    		System.out.println(path.getWeight() + " pounds");
     		
 		} 
         catch (FileNotFoundException | FlyingPlannerException e) 
@@ -188,64 +193,6 @@ public class FlyingPlannerMainPartA {
 			System.err.println(e);
 		}
         
-        
-	}
-	
-	private static void deleteDemo() {
-		
-		// DELETEEE SOOOOOOOOOOOOOOOOOOOOOOOOOOOON !!!!!!!!!!!!!!!!!!!!!!!!
-
-		// The following code is from HelloJGraphT.java of the org.jgrapth.demo package
-		System.err.println("The example code is from HelloJGraphT.java from the org.jgrapt.demo package.");
-		System.err.println("Use similar code to build the small graph from Part A by hand.");
-		System.err.println("Note that you will need to use a different graph class as your graph is not just a Simple Graph.");
-		System.err.println("Once you understand how to build such graph by hand, move to Part B to build a more substantial graph.");
-		// Code is from HelloJGraphT.java of the org.jgrapth.demo package (start)
-        Graph<String, DefaultWeightedEdge> g = new SimpleDirectedWeightedGraph<>(DefaultWeightedEdge.class);
-
-        String v1 = "v1";
-        String v2 = "v2";
-        String v3 = "v3";
-        String v4 = "v4";
-
-        // add the vertices
-        g.addVertex(v1);
-        g.addVertex(v2);
-        g.addVertex(v3);
-        g.addVertex(v4);
-
-        // add edges to create a circuit
-        DefaultWeightedEdge e1 = g.addEdge(v1, v2);
-
-        e1 = g.addEdge(v2, v3);
-        g.setEdgeWeight(e1, 4);
-
-        e1 = g.addEdge(v2, v4);
-        g.setEdgeWeight(e1, 6);
-        
-        e1 = g.addEdge(v1, v3);
-        g.setEdgeWeight(e1, 1);
-
-        e1 = g.addEdge(v3, v2);
-        g.setEdgeWeight(e1, 2);
-
-        e1 = g.addEdge(v3, v4);
-        g.setEdgeWeight(e1, 3);
-        
-
-        // note undirected edges are printed as: {<v1>,<v2>}
-        System.out.println("-- toString output");
-        // @example:toString:begin
-        System.out.println(g.toString());
-        // @example:toString:end
-        System.out.println();
-		// Code is from HelloJGraphT.java of the org.jgrapth.demo package (start)
-        
-//        DijkstraShortestPath<>
-        
-        DijkstraShortestPath<String,DefaultWeightedEdge> dijkstra = new DijkstraShortestPath<String, DefaultWeightedEdge>(g);
-        
-        System.out.println(dijkstra.getPath(v1, v3));
         
 	}
 	
