@@ -11,13 +11,18 @@ public class FlyingPlannerMainPartBC {
 
 		FlyingPlanner fi;
 		fi = new FlyingPlanner();
-		try {
+		try 
+		{
 			fi.populate(new FlightsReader());
 
 			// Implement here your user interface using the methods of Part B. You could
 			// optionally expand it to use the methods of Part C.
+			
+			System.out.println("working");
 
-		} catch (FileNotFoundException | FlyingPlannerException e) {
+		} 
+		catch (FileNotFoundException | FlyingPlannerException e) 
+		{
 			e.printStackTrace();
 		}
 
