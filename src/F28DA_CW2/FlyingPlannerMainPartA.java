@@ -7,6 +7,7 @@ import java.util.Iterator;
 import java.util.Scanner;
 
 import org.jgrapht.Graph;
+import org.jgrapht.GraphPath;
 import org.jgrapht.graph.DefaultWeightedEdge;
 import org.jgrapht.graph.SimpleDirectedWeightedGraph;
 import org.jgrapht.alg.shortestpath.DijkstraShortestPath;
@@ -127,14 +128,8 @@ public class FlyingPlannerMainPartA {
     			Airport tempAirport = airportSet.next();
 
     			// prints the airport name
-//    			System.out.println(tempAirport.getLocation());
+    			System.out.println("( " + tempAirport.getCode() + " ) -		" + tempAirport.getLocation() );
     			
-    			if(tempAirport.getLocation().equals("Newcastle"))
-    			{
-        			// prints the airport name
-//        			System.out.println(tempAirport.getLocation());
-        			System.out.println(tempAirport.getName());
-    			}
     		}
     		
     		// to extract the string
@@ -143,30 +138,48 @@ public class FlyingPlannerMainPartA {
     		// makes sure the airports are found, otherwise asks user again
     		boolean airportsFound = false;
     		
+    		// origin airport temporarily to null
+    		Airport originAirport = null;
+    		
+    		// departure airport temporarily to null
+    		Airport departureAirport = null;
+    		
     		while ( !airportsFound )
     		{
     			// questions the origin airport
-        		System.out.println("Please enter the start airport code \n");
+        		System.out.println("Please enter the start airport code");
         		
-        		// stores the origin aiport location string
-        		String origin = sc.nextLine();
+        		// stores the origin airport location string
+        		String originCode = sc.nextLine();
         		
+        		// gets the origin airport
+        		originAirport = airportHashTable.get(originCode);
         		
+        		// if no airport found, ask user again
+        		if(originAirport == null) continue;
         		
-        		System.out.println("Please enter the destination airport code \n");
+        		System.out.println("Please enter the destination airport code");
         		
-        		// stores the origin aiport loaction string
-        		String destination = sc.nextLine();
+        		// stores the departure airport location string
+        		String destinationCode = sc.nextLine();
+
+        		// gets the departure airport
+        		departureAirport = airportHashTable.get(destinationCode);
+        		
+
+        		// if no airport found, ask user again
+        		if(departureAirport == null) continue;
+        		
+        		airportsFound = true;
     		}
     		
-    		
-    		
-
     		
     		// it initialises the dijkstra algorithm, by passing the graph as a parameter
     		DijkstraShortestPath<Airport,Flight> dijkstra = new DijkstraShortestPath<Airport,Flight>(graph);
     		
+    		GraphPath<Airport, Flight> path = dijkstra.getPath(originAirport, departureAirport);
             
+    		System.out.println(path);
 		} 
         catch (FileNotFoundException | FlyingPlannerException e) 
         {
