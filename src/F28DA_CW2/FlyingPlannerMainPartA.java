@@ -180,6 +180,8 @@ public class FlyingPlannerMainPartA {
     		GraphPath<Airport, Flight> path = dijkstra.getPath(originAirport, departureAirport);
             
     		System.out.println(path);
+    		
+    		
 		} 
         catch (FileNotFoundException | FlyingPlannerException e) 
         {
