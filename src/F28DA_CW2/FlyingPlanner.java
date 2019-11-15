@@ -26,54 +26,6 @@ public class FlyingPlanner implements IFlyingPlannerPartB<Airport,Flight>, IFlyi
 	@Override
 	public boolean populate(HashSet<String[]> airports, HashSet<String[]> flights) 
 	{
-		this.graph = new SimpleDirectedWeightedGraph<Airport, Flight>(Flight.class);
-
-		HashSet<Airport> airportsSet = new HashSet<Airport>();
-		
-		
-		for( String[] airport: airports)
-		{
-			Airport tempAirport = new Airport(airport[0], airport[2], airport[1]);
-			
-			airportsSet.add(tempAirport);
-		}
-
-		Iterator<Airport> airportsIterator = airportsSet.iterator();
-
-		
-		
-		Hashtable<String, Airport> airportHashTable = new Hashtable<String, Airport>();
-		while(airportsIterator.hasNext())
-		{
-			Airport tempAirport = airportsIterator.next();
-			
-			this.graph.addVertex(tempAirport);
-
-			airportHashTable.put(tempAirport.getCode(), tempAirport);
-		}
-		
-		
-		
-		for( String[] flight: flights )
-		{
-
-			String flightCode = flight[0];
-			String originAirportCode = flight[1];
-			String fromTime = flight[2];
-			String destinationAirportCode = flight[3];
-			String toTime = flight[4];
-			int price = Integer.parseInt(flight[5]);
-			
-			Airport originAirport = airportHashTable.get(originAirportCode);
-			Airport destinationAirport = airportHashTable.get(destinationAirportCode);
-			
-			
-			Flight newFlight = new Flight(flightCode,fromTime,originAirport,toTime,destinationAirport,price);
-
-			
-			this.graph.addEdge(originAirport, destinationAirport, newFlight);
-			
-		}
 		
 		return true;
 	}

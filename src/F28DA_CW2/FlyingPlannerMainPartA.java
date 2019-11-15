@@ -14,6 +14,96 @@ import org.jgrapht.alg.shortestpath.DijkstraShortestPath;
 
 public class FlyingPlannerMainPartA {	
 	
+
+
+
+
+	public static void main(String[] args) 
+	{
+        
+        try 
+        {
+        	// it initialises the file reader, which
+        	FlightsReader fr = new FlightsReader();
+        	
+        	
+        	// it reads and stores a string array set, containing information about each airport
+    		HashSet<String[]> airports = fr.getAirports();
+
+    		
+        	// it reads and stores a string array set, containing information about each flight
+    		HashSet<String[]> flights = fr.getFlights();            
+            
+    		
+    		// it initialises the graph which will hold the information about the airports and flights
+            Graph<Airport, Flight> graph = new SimpleDirectedWeightedGraph<Airport, Flight>(Flight.class);
+
+
+    		// creates an airport hash table, with the airport code as the key
+    		Hashtable<String, Airport> airportHashTable = new Hashtable<String, Airport>();
+    		
+    		
+    		
+    		// it iterates per each airport string array
+    		for( String[] airport: airports)
+    		{
+    			// creates an airport using the string
+    			Airport tempAirport = new Airport(airport[0], airport[2], airport[1]);
+
+    			// adds the airport as a graph vertex
+    			graph.addVertex(tempAirport);
+
+    			// adds the same temporary airport to a hash table
+    			airportHashTable.put(tempAirport.getCode(), tempAirport);
+    		}
+
+    		
+    		
+    		// it iterates over the flight string array set
+    		for( String[] flight: flights )
+    		{
+
+    			// stores the temporary flight code string
+    			String flightCode = flight[0];
+
+    			// stores the temporary origin airport code string
+    			String originAirportCode = flight[1];
+
+    			// stores the temporary departure time
+    			String fromTime = flight[2];
+
+    			// stores the temporary origin airport code string
+    			String destinationAirportCode = flight[3];
+
+    			// stores the temporary arrival time
+    			String toTime = flight[4];
+    			
+    			// it parses the temporary flight price string into an integer
+    			int price = Integer.parseInt(flight[5]);
+    			
+    			// it retrieves the corresponding origin airport corresponding to the code
+    			Airport originAirport = airportHashTable.get(originAirportCode);
+
+    			// it retrieves the corresponding departure airport corresponding to the code
+    			Airport destinationAirport = airportHashTable.get(destinationAirportCode);
+    			
+    			// it creates the new flight variable
+    			Flight newFlight = new Flight(flightCode,fromTime,originAirport,toTime,destinationAirport,price);
+
+    			// it adds the flight as a graph edge
+    			graph.addEdge(originAirport, destinationAirport, newFlight);
+    			
+    		}
+            
+            
+		} catch (FileNotFoundException | FlyingPlannerException e) 
+        {
+			System.err.println(e);
+		}
+        
+        
+	}
+	
 	private static void deleteDemo() {
 		
 		// DELETEEE SOOOOOOOOOOOOOOOOOOOOOOOOOOOON !!!!!!!!!!!!!!!!!!!!!!!!
@@ -69,36 +159,6 @@ public class FlyingPlannerMainPartA {
         DijkstraShortestPath<String,DefaultWeightedEdge> dijkstra = new DijkstraShortestPath<String, DefaultWeightedEdge>(g);
         
         System.out.println(dijkstra.getPath(v1, v3));
-        
-	}
-
-
-
-	public static void main(String[] args) 
-	{
-//		deleteDemo();
-		
-		System.out.println("\n\n");
-		
-
-        FlyingPlanner fp = new FlyingPlanner();
-        
-        FlightsReader fr;
-        
-        try {
-        	fr = new FlightsReader();
-            
-            fp.populate(fr);
-            
-            
-            
-            
-            
-		} catch (FileNotFoundException | FlyingPlannerException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-        
         
 	}
 	
