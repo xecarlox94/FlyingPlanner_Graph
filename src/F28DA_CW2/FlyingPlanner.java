@@ -4,12 +4,10 @@ import java.util.HashSet;
 import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Scanner;
 import java.util.Set;
 import org.jgrapht.Graph;
 import org.jgrapht.GraphPath;
 import org.jgrapht.alg.shortestpath.AllDirectedPaths;
-import org.jgrapht.alg.shortestpath.DijkstraShortestPath;
 import org.jgrapht.graph.SimpleDirectedWeightedGraph;
 
 public class FlyingPlanner implements IFlyingPlannerPartB<Airport,Flight>, IFlyingPlannerPartC<Airport,Flight> 
@@ -27,6 +25,7 @@ public class FlyingPlanner implements IFlyingPlannerPartB<Airport,Flight>, IFlyi
 
 		// it stores the airport string array set locally
 		HashSet<String[]> flights = fr.getFlights();
+		
 		
 		return this.populate(airports, flights);
 	}
@@ -202,13 +201,7 @@ public class FlyingPlanner implements IFlyingPlannerPartB<Airport,Flight>, IFlyi
 	}
 
 	@Override
-	public Journey leastCost(String from, String to) throws FlyingPlannerException {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public Journey leastHop(String from, String to) throws FlyingPlannerException 
+	public Journey leastCost(String from, String to) throws FlyingPlannerException 
 	{
 		// overloading the method
 		return this.leastCost(from, to, null);
@@ -226,20 +219,23 @@ public class FlyingPlanner implements IFlyingPlannerPartB<Airport,Flight>, IFlyi
 
 		// getting the departure airport
 		Airport destinationAirport = this.airport(to);
-
 		
-		List list = allPaths.getAllPaths(departureAirport, destinationAirport, true, null);
+//		int numberEdgesGraph = this.graph.edgeSet().size();
 		
+		System.out.println("getting the list");
+//		List<GraphPath<Airport, Flight>> list = allPaths.getAllPaths(departureAirport, destinationAirport, true, numberEdgesGraph);
 		
-		for(int i = 0; i < list.size(); i++)
-		{
-			System.out.println(list.get(i));
-
-			
-		}
+		System.out.println("finished getting all paths");
+//		System.out.println(list);
 		
 		// TODO Auto-generated method stub
 		return new Journey();
+	}
+
+	@Override
+	public Journey leastHop(String from, String to) throws FlyingPlannerException {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 
