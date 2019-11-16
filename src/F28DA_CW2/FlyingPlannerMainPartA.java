@@ -4,6 +4,7 @@ import java.io.FileNotFoundException;
 import java.util.HashSet;
 import java.util.Hashtable;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Scanner;
 
 import org.jgrapht.Graph;
@@ -181,8 +182,13 @@ public class FlyingPlannerMainPartA {
     		GraphPath<Airport, Flight> path = dijkstra.getPath(originAirport, departureAirport);
             
     		//IMPROVE PRINTING
-    		System.out.println(path);
     		
+    		List<Flight> pathFlights = path.getEdgeList();
+    		
+    		for(int i = 0; i < pathFlights.size(); i++)
+    		{
+    			System.out.println(pathFlights.get(i));
+    		}
     		
     		//IMPROVE PRINTING
     		System.out.println(path.getWeight() + " pounds");
