@@ -1,6 +1,7 @@
 package F28DA_CW2;
 
 import java.io.FileNotFoundException;
+import java.util.Scanner;
 
 public class FlyingPlannerMainPartBC {
 
@@ -20,8 +21,35 @@ public class FlyingPlannerMainPartBC {
 			
 			System.out.println("working");
 			
+			Scanner sc = new Scanner(System.in);
 			
-			System.out.println();
+			boolean areQueriesValid = false;
+			
+    		while ( !areQueriesValid )
+    		{
+    			// questions the origin airport
+        		System.out.println("Please enter the start airport code");
+        		
+        		// stores the origin airport location string
+        		String originCode = sc.nextLine();
+        		
+        		
+        		System.out.println("Please enter the destination airport code");
+        		
+        		// stores the departure airport location string
+        		String destinationCode = sc.nextLine();
+
+        		
+        		fi.leastCost(originCode, destinationCode);
+        		
+        		areQueriesValid = true;
+    		}
+    		
+
+			
+			
+			System.out.println("Finished");
+			
 
 		} 
 		catch (FileNotFoundException | FlyingPlannerException e) 

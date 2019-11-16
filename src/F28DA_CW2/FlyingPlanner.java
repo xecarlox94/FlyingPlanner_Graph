@@ -8,6 +8,7 @@ import java.util.Scanner;
 import java.util.Set;
 import org.jgrapht.Graph;
 import org.jgrapht.GraphPath;
+import org.jgrapht.alg.shortestpath.AllDirectedPaths;
 import org.jgrapht.alg.shortestpath.DijkstraShortestPath;
 import org.jgrapht.graph.SimpleDirectedWeightedGraph;
 
@@ -207,16 +208,38 @@ public class FlyingPlanner implements IFlyingPlannerPartB<Airport,Flight>, IFlyi
 	}
 
 	@Override
-	public Journey leastHop(String from, String to) throws FlyingPlannerException {
-		// TODO Auto-generated method stub
-		return null;
+	public Journey leastHop(String from, String to) throws FlyingPlannerException 
+	{
+		// overloading the method
+		return this.leastCost(from, to, null);
 	}
 	
 
 	@Override
-	public Journey leastCost(String from, String to, List<String> excluding) throws FlyingPlannerException {
+	public Journey leastCost(String from, String to, List<String> excluding) throws FlyingPlannerException 
+	{
+		// loading the graph into the find all paths algorithm
+		AllDirectedPaths<Airport, Flight> allPaths = new AllDirectedPaths<Airport, Flight>(this.graph);
+		
+		// getting the departure airport
+		Airport departureAirport = this.airport(from);
+
+		// getting the departure airport
+		Airport destinationAirport = this.airport(to);
+
+		
+		List list = allPaths.getAllPaths(departureAirport, destinationAirport, true, null);
+		
+		
+		for(int i = 0; i < list.size(); i++)
+		{
+			System.out.println(list.get(i));
+
+			
+		}
+		
 		// TODO Auto-generated method stub
-		return null;
+		return new Journey();
 	}
 
 
