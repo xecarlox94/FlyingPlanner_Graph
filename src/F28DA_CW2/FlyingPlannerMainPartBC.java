@@ -1,6 +1,7 @@
 package F28DA_CW2;
 
 import java.io.FileNotFoundException;
+import java.util.List;
 import java.util.Scanner;
 
 public class FlyingPlannerMainPartBC {
@@ -37,7 +38,28 @@ public class FlyingPlannerMainPartBC {
 //    		String destinationCode = sc.nextLine();
 
     		
-    		fi.leastCost("EDI", "DWC");
+    		Journey journey = fi.leastCost("EDI", "DWC");
+    		
+
+    		System.out.println("Air time: " + journey.airTime());
+    		System.out.println("Connecting time: " + journey.connectingTime());
+    		System.out.println("Total cost: " + journey.totalCost());
+    		System.out.println("Total hop: " + journey.totalHop());
+    		System.out.println("Total cost: " + journey.totalTime());
+
+    		System.out.println("Flights: ");
+    		List<String> flights = journey.getFlights();
+    		for(int i =0; i < flights.size(); i++)
+    		{
+    			System.out.println(flights.get(i));
+    		}
+    		
+    		System.out.println("Stops: ");
+    		List<String> stops = journey.getStops();
+    		for(int i =0; i < stops.size(); i++)
+    		{
+    			System.out.println(stops.get(i));
+    		}
     		
 
 			

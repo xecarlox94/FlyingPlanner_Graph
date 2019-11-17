@@ -2,7 +2,24 @@ package F28DA_CW2;
 
 import java.util.List;
 
+import org.jgrapht.GraphPath;
+
 public class Journey implements IJourneyPartB<Airport, Flight>, IJourneyPartC<Airport, Flight> {
+	
+	// stores the graph path locally 
+	private GraphPath<Airport,Flight> graphPath;
+	
+	public Journey(GraphPath<Airport,Flight> graphPath)
+	{
+		// initializes the local graph path
+		this.graphPath = graphPath;
+	}
+	
+	public Journey()
+	{
+		// DELETEEEE
+	}
+	
 
 	@Override
 	public List<String> getStops() {

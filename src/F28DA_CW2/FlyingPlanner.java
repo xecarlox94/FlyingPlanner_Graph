@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Set;
 import org.jgrapht.Graph;
 import org.jgrapht.GraphPath;
-import org.jgrapht.alg.shortestpath.AllDirectedPaths;
+import org.jgrapht.alg.shortestpath.KShortestSimplePaths;
 import org.jgrapht.graph.SimpleDirectedWeightedGraph;
 
 public class FlyingPlanner implements IFlyingPlannerPartB<Airport,Flight>, IFlyingPlannerPartC<Airport,Flight> 
@@ -212,7 +212,7 @@ public class FlyingPlanner implements IFlyingPlannerPartB<Airport,Flight>, IFlyi
 	public Journey leastCost(String from, String to, List<String> excluding) throws FlyingPlannerException 
 	{
 		// loading the graph into the find all paths algorithm
-		AllDirectedPaths<Airport, Flight> allPaths = new AllDirectedPaths<Airport, Flight>(this.graph);
+		KShortestSimplePaths<Airport,Flight> kShortestPathAlg = new KShortestSimplePaths<Airport, Flight>(this.graph);
 		
 		// getting the departure airport
 		Airport departureAirport = this.airport(from);
@@ -220,16 +220,40 @@ public class FlyingPlanner implements IFlyingPlannerPartB<Airport,Flight>, IFlyi
 		// getting the departure airport
 		Airport destinationAirport = this.airport(to);
 		
-//		int numberEdgesGraph = this.graph.edgeSet().size();
+		int numberEdgesGraph = this.graph.edgeSet().size();
+
+		System.out.println(departureAirport);
+		System.out.println(destinationAirport);
 		
-		System.out.println("getting the list");
-//		List<GraphPath<Airport, Flight>> list = allPaths.getAllPaths(departureAirport, destinationAirport, true, numberEdgesGraph);
 		
-		System.out.println("finished getting all paths");
-//		System.out.println(list);
+		List<GraphPath<Airport, Flight>> shortestPaths = kShortestPathAlg.getPaths(departureAirport, destinationAirport, 1);
+
+
+		// gets the shortest paths from the departure to the destination nodes
+		Journey[] journeys = getJourneyArray(shortestPaths);
+		
+
 		
 		// TODO Auto-generated method stub
-		return new Journey();
+		return journeys[0];
+	}
+	
+	// gets the different paths 
+	private Journey[] getJourneyArray(List<GraphPath<Airport, Flight>> paths)
+	{
+		// initialises the local journey array
+		Journey[] journeys = new Journey[paths.size()];
+		
+		for(int i = 0; i < paths.size(); i++)
+		{
+			// stores the temporary path
+			GraphPath<Airport, Flight> tempPath = paths.get(i);
+			
+			// constructs a new journey and assigns it, in the journeys array
+			journeys[i] = new Journey(tempPath);
+		}
+		
+		return journeys;
 	}
 
 	@Override
