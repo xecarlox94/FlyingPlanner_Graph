@@ -75,12 +75,14 @@ public class FlyingPlanner implements IFlyingPlannerPartB<Airport,Flight>, IFlyi
 			String fromTime = flight[2];
 
 			
+			
 			// stores the temporary origin airport code string
 			String destinationAirportCode = flight[3];
 
 			
 			// stores the temporary arrival time
 			String toTime = flight[4];
+
 			
 			
 			// it parses the temporary flight price string into an integer

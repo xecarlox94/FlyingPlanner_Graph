@@ -63,7 +63,7 @@ public class FlyingPlannerMainPartBC {
     		}
     		
 
-			
+    		journey.totalTime();
 			
 			System.out.println("Finished");
 			

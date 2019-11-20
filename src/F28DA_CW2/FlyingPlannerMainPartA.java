@@ -193,6 +193,11 @@ public class FlyingPlannerMainPartA {
     		//IMPROVE PRINTING
     		System.out.println(path.getWeight() + " pounds");
     		
+    		
+    		
+    		// close scanner
+    		sc.close();
+    		
 		} 
         catch (FileNotFoundException | FlyingPlannerException e) 
         {

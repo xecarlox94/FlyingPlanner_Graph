@@ -13,7 +13,7 @@ public class Journey implements IJourneyPartB<Airport, Flight>, IJourneyPartC<Ai
 	
 	public Journey(GraphPath<Airport,Flight> graphPath)
 	{
-		// initializes the local graph path
+		// initialises the local graph path
 		this.graphPath = graphPath;
 	}
 	
@@ -120,14 +120,26 @@ public class Journey implements IJourneyPartB<Airport, Flight>, IJourneyPartC<Ai
 
 	@Override
 	public int totalTime() {
-		// TODO Auto-generated method stub
+		
+		Flight firstFlight = this.graphPath.getEdgeList().get(0);
+		String time = firstFlight.getFromGMTime();
+
+		System.out.print("\n\nworking on first flight departure time string	" + time + "	");
+		System.out.println("hours: " + this.getDecHrs(time));
+		System.out.println("minutes: " + this.getDecMin(time) + "\n\n");
+		
 		return 0;
 	}
-	
-	
-	private int decTime(String stringTime) 
+
+	private int getDecHrs(String stringTime)
 	{
 		return 0;
 	}
+	
+	private int getDecMin(String stringTime)
+	{
+		return 0;
+	}
+
 
 }
