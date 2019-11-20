@@ -220,14 +220,15 @@ public class FlyingPlanner implements IFlyingPlannerPartB<Airport,Flight>, IFlyi
 		// getting the departure airport
 		Airport destinationAirport = this.airport(to);
 		
-		int numberEdgesGraph = this.graph.edgeSet().size();
 
 		System.out.println(departureAirport);
 		System.out.println(destinationAirport);
 		
 		
 		List<GraphPath<Airport, Flight>> shortestPaths = kShortestPathAlg.getPaths(departureAirport, destinationAirport, 1);
-
+		
+		
+		
 
 		// gets the shortest paths from the departure to the destination nodes
 		Journey[] journeys = getJourneyArray(shortestPaths);
