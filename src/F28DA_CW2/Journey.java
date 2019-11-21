@@ -109,7 +109,7 @@ public class Journey implements IJourneyPartB<Airport, Flight>, IJourneyPartC<Ai
 	@Override
 	public int airTime() {
 		// TODO Auto-generated method stub
-		return 0;
+		return 0; // question
 	}
 
 	@Override
