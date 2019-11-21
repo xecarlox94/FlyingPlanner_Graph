@@ -59,12 +59,12 @@ public class Journey implements IJourneyPartB<Airport, Flight>, IJourneyPartC<Ai
 		{
 			// storing the temporary flight variable
 			Flight tempFlight = flightsList.get(i);
-			
-			// stores the flight code
-			String flightCode = tempFlight.getFlightCode();
+//			
+//			// stores the flight code
+//			String flightCode = tempFlight.getFlightCode();
 			
 			// adds the flight code 
-			flightsCodeList.add(flightCode);
+			flightsCodeList.add(tempFlight.toString());
 		}
 
 		// return flight code string list
@@ -124,21 +124,107 @@ public class Journey implements IJourneyPartB<Airport, Flight>, IJourneyPartC<Ai
 		Flight firstFlight = this.graphPath.getEdgeList().get(0);
 		String time = firstFlight.getFromGMTime();
 
-		System.out.print("\n\nworking on first flight departure time string	" + time + "	");
+		System.out.println("\n\nworking on first flight departure time string	" + time + "	");
 		System.out.println("hours: " + this.getDecHrs(time));
 		System.out.println("minutes: " + this.getDecMin(time) + "\n\n");
+		
+		System.out.println("departure decimal time: " + this.getDecFullTime(time));
+		
+		
+//		System.out.println("flight time duration: " );
+
+		System.out.println(this.subDecTimes(15.23f, 11.45f));
+		System.out.println(this.subDecTimes(11.76f, 15.7f));
+		
+		System.out.println(this.addDecTimes(15.56f, 11.78f));
+		System.out.println(this.addDecTimes(11.45f, 15.67f));
+		System.out.println(this.addDecTimes(11.95f, 2.78f));
+		System.out.println(this.addDecTimes(2.78f, 2.34f));
 		
 		return 0;
 	}
 
-	private int getDecHrs(String stringTime)
+	
+	private float addDecTimes(Float time1, Float time2)
 	{
-		return 0;
+		// initialise the float result
+		// if times the same it will not change the value
+		Float result = 0f;
+		
+		result = time1 + time2;
+
+		// ensure result is within the clock bounds
+		result %= 24f;
+		
+		return result;
 	}
 	
-	private int getDecMin(String stringTime)
+	private float subDecTimes(Float time1, Float time2)
 	{
-		return 0;
+		// initialise the float result
+		// if times the same it will not change the value
+		Float result = 0f;
+		
+		
+		if (time1 == time2)
+		{
+			// returns initial result
+			return result;
+		} 
+		else if (time1 < time2)
+		{
+			// adding 24 hours because it is the next day
+			time1 += 24f;
+		}
+
+		// normal subtraction
+		result = time1 - time2;
+
+		// ensure result is within the clock bounds
+		result %= 24f;
+		
+		return result;
+	}
+	
+	
+	private float getDecFullTime(String stringTime) 
+	{
+		// assigning hours time
+		Float finalDecTime = this.getDecHrs(stringTime);
+		
+		// adding the minutes time to full time
+		finalDecTime += this.getDecMin(stringTime);
+		
+		return finalDecTime;
+	}
+
+	private float getDecHrs(String stringTime)
+	{
+		// all sting have length 4
+		// the first 2 characters are reserved for hours
+		String hoursString = stringTime.substring(0, 2);
+		
+		// parses the substring containing the hours segment to float
+		float hours = Float.parseFloat(hoursString);
+		
+		return hours;
+	}
+	
+	private float getDecMin(String stringTime)
+	{
+		// all sting have length 4
+		// the last 2 characters are reserved for minutes
+		String minsString = stringTime.substring(2, 4);
+		
+		// parses the substring containing the minutes segment to float
+		float mins = Float.parseFloat(minsString);
+		
+		// convert the time to decimal minutes
+		mins = ( mins / 60f );
+		
+		
+		
+		return mins;
 	}
 
 
