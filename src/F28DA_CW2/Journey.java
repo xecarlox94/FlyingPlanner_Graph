@@ -145,6 +145,9 @@ public class Journey implements IJourneyPartB<Airport, Flight>, IJourneyPartC<Ai
 			
 			System.out.println("Connection time: " + tConnectTimeMin);
 			
+			
+			System.err.println("STILL ERROR IN CONNECTION TIME");
+			
 			previousFlight = nextFlight;
 			
 			connectTimeTotalMin += tConnectTimeMin;
