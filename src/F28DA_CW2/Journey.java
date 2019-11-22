@@ -112,6 +112,13 @@ public class Journey implements IJourneyPartB<Airport, Flight>, IJourneyPartC<Ai
 		// getting flight objects list from graph path 
 		List<Flight> flightsList  = this.graphPath.getEdgeList();
 		
+		
+		
+		for(int i = 0; i < flightsList.size(); i++)
+		{
+			
+		}
+		
 		return 0;
 	}
 
@@ -120,6 +127,11 @@ public class Journey implements IJourneyPartB<Airport, Flight>, IJourneyPartC<Ai
 	{
 		// getting flight objects list from graph path 
 		List<Flight> flightsList  = this.graphPath.getEdgeList();
+		
+		for(int i = 0; i < flightsList.size(); i++)
+		{
+			
+		}
 		
 		return 0;
 	}
@@ -169,6 +181,31 @@ public class Journey implements IJourneyPartB<Airport, Flight>, IJourneyPartC<Ai
 		finalMinutes += hours * 60;
 		
 		return finalMinutes;
+	}
+	
+	private int getAirTimeFlight(Flight flight)
+	{
+		
+		String departure;
+		
+		String arrival;
+		
+		
+		
+		return 0;
+	}
+	
+	private int getMinutesSumStr(String time1, String time2)
+	{
+		float decTime1 = this.getDecFullTime(time1);
+		
+		float decTime2 = this.getDecFullTime(time2);
+		
+		float decTotalTime = this.addDecTimes(decTime1, decTime2);
+		
+		int totalMinutes = this.getMinutes(decTotalTime);
+		
+		return totalMinutes;
 	}
 	
 	private float addDecTimes(float time1, float time2)

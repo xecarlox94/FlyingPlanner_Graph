@@ -48,19 +48,19 @@ public class FlyingPlannerMainPartBC {
     		System.out.println("\nTotal hop: " + journey.totalHop());
     		System.out.println("\nTotal cost: " + journey.totalTime());
 
-    		System.out.println("\n\nFlights: ");
-    		List<String> flights = journey.getFlights();
-    		for(int i =0; i < flights.size(); i++)
-    		{
-    			System.out.println(flights.get(i));
-    		}
-    		
-    		System.out.println("\n\nStops: ");
-    		List<String> stops = journey.getStops();
-    		for(int i =0; i < stops.size(); i++)
-    		{
-    			System.out.println(stops.get(i));
-    		}
+//    		System.out.println("\n\nFlights: ");
+//    		List<String> flights = journey.getFlights();
+//    		for(int i =0; i < flights.size(); i++)
+//    		{
+//    			System.out.println(flights.get(i));
+//    		}
+//    		
+//    		System.out.println("\n\nStops: ");
+//    		List<String> stops = journey.getStops();
+//    		for(int i =0; i < stops.size(); i++)
+//    		{
+//    			System.out.println(stops.get(i));
+//    		}
     		
 
     		journey.totalTime();
