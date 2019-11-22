@@ -55,17 +55,17 @@ public class Journey implements IJourneyPartB<Airport, Flight>, IJourneyPartC<Ai
 		LinkedList<String> flightsCodeList = new LinkedList<String>();
 		
 		// iterating through the flight object list
-//		for(int i = 0; i < flightsList.size(); i++)
-//		{
-//			// storing the temporary flight variable
-//			Flight tempFlight = flightsList.get(i);
-////			
-////			// stores the flight code
-////			String flightCode = tempFlight.getFlightCode();
+		for(int i = 0; i < flightsList.size(); i++)
+		{
+			// storing the temporary flight variable
+			Flight tempFlight = flightsList.get(i);
 //			
-//			// adds the flight code 
-//			flightsCodeList.add(tempFlight.toString());
-//		}
+//			// stores the flight code
+//			String flightCode = tempFlight.getFlightCode();
+			
+			// adds the flight code 
+			flightsCodeList.add(tempFlight.toString());
+		}
 
 		// return flight code string list
 		return flightsCodeList;
@@ -92,16 +92,16 @@ public class Journey implements IJourneyPartB<Airport, Flight>, IJourneyPartC<Ai
 		// initialises total cost accumulator
 		int totalCost = 0;
 		
-//		// loops through each flight in list
-//		for( int i = 0; i < flightsList.size(); i++ )
-//		{
-//			// stores the index flight
-//			Flight tempFlight = flightsList.get(i);
-//
-//			// accumulates the fight cost into the total cost
-//			totalCost += tempFlight.getCost();
-//		}
-//		
+		// loops through each flight in list
+		for( int i = 0; i < flightsList.size(); i++ )
+		{
+			// stores the index flight
+			Flight tempFlight = flightsList.get(i);
+
+			// accumulates the fight cost into the total cost
+			totalCost += tempFlight.getCost();
+		}
+		
 		
 		return totalCost;
 	}
@@ -112,14 +112,21 @@ public class Journey implements IJourneyPartB<Airport, Flight>, IJourneyPartC<Ai
 		// getting flight objects list from graph path 
 		List<Flight> flightsList  = this.graphPath.getEdgeList();
 		
+		int airTimeTotalMin = 0;
 		
+		for(int i = 0; i < flightsList.size(); i++)
+		{
+			Flight tempFlight = flightsList.get(i);
+			
+			int airTimeMin = this.getAirTimeMinFlight(tempFlight);
+			
+			
+			System.out.println("Air time flight: " + airTimeMin);
+			
+			airTimeTotalMin += airTimeMin;
+		}
 		
-//		for(int i = 0; i < flightsList.size(); i++)
-//		{
-//			
-//		}
-//		
-		return 0;
+		return airTimeTotalMin;
 	}
 
 	@Override
@@ -141,6 +148,9 @@ public class Journey implements IJourneyPartB<Airport, Flight>, IJourneyPartC<Ai
 	{
 		int airTime = this.airTime();
 		
+		
+		System.out.println("Total air time: " + airTime);
+		
 		int connectionTime = this.connectingTime();
 		
 		int totalTime = airTime + connectionTime;
@@ -155,14 +165,12 @@ public class Journey implements IJourneyPartB<Airport, Flight>, IJourneyPartC<Ai
 		// get minutes from float (hours plus minutes)
 		int hours = 0;
 		
-//		while( time >= 1f )
-//		{
-//			time -= 1;
-//			
-//			hours++;
-//		}
-		
-		System.out.println("FINAL HOURS: "+ hours);
+		while( time >= 1f )
+		{
+			time -= 1;
+			
+			hours++;
+		}
 
 		
 		int finalMinutes = 0;
@@ -183,16 +191,29 @@ public class Journey implements IJourneyPartB<Airport, Flight>, IJourneyPartC<Ai
 		return finalMinutes;
 	}
 	
-	private int getAirTimeFlight(Flight flight)
+	private int getAirTimeMinFlight(Flight flight)
 	{
 		
-		String departure;
+		String departureTime = flight.getFromGMTime();
 		
-		String arrival;
+		String arrivalTime = flight.getToGMTime();
 		
+		int minutesAirTime = this.getMinutesSubStr(arrivalTime, departureTime);
 		
+		return minutesAirTime;
+	}
+
+	private int getMinutesSubStr(String time1, String time2)
+	{
+		float decTime1 = this.getDecFullTime(time1);
 		
-		return 0;
+		float decTime2 = this.getDecFullTime(time2);
+		
+		float decTotalTime = this.subDecTimes(decTime1, decTime2);
+		
+		int totalMinutes = this.getMinutes(decTotalTime);
+		
+		return totalMinutes;
 	}
 	
 	private int getMinutesSumStr(String time1, String time2)
