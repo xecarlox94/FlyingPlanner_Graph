@@ -125,23 +125,15 @@ public class Journey implements IJourneyPartB<Airport, Flight>, IJourneyPartC<Ai
 	}
 
 	@Override
-	public int totalTime() {
+	public int totalTime() 
+	{
+		int airTime = this.airTime();
 		
-		Flight firstFlight = this.graphPath.getEdgeList().get(0);
-		String time = firstFlight.getFromGMTime();
-
-		System.out.println("\n\nworking on first flight departure time string	" + time + "	");
-		System.out.println("hours: " + this.getDecHrs(time));
-		System.out.println("minutes: " + this.getDecMin(time) + "\n\n");
+		int connectionTime = this.connectingTime();
 		
-		System.out.println("departure decimal time: " + this.getDecFullTime(time));
+		int totalTime = airTime + connectionTime;
 		
-		
-		System.out.println("flight time duration: " );
-
-		
-		
-		return 0;
+		return totalTime;
 	}
 	
 	
