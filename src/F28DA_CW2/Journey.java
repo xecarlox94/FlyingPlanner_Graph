@@ -74,11 +74,11 @@ public class Journey implements IJourneyPartB<Airport, Flight>, IJourneyPartC<Ai
 	@Override
 	public int totalHop() 
 	{
-		// gets the airports list (stops)
-		List<Airport> airports = this.graphPath.getVertexList();
+		// getting flight objects list from graph path 
+		List<Flight> flightsList = this.graphPath.getEdgeList();
 		
-		// number of airport hops
-		int numberHops = airports.size() - 1;
+		// number of flights which is the same as hops
+		int numberHops = flightsList.size();
 		
 		return numberHops;
 	}
@@ -139,13 +139,13 @@ public class Journey implements IJourneyPartB<Airport, Flight>, IJourneyPartC<Ai
 		
 //		System.out.println("flight time duration: " );
 
-		System.out.println(this.subDecTimes(15.23f, 11.45f));
-		System.out.println(this.subDecTimes(11.76f, 15.7f));
-		
-		System.out.println(this.addDecTimes(15.56f, 11.78f));
-		System.out.println(this.addDecTimes(11.45f, 15.67f));
-		System.out.println(this.addDecTimes(11.95f, 2.78f));
-		System.out.println(this.addDecTimes(2.78f, 2.34f));
+//		System.out.println(this.subDecTimes(15.23f, 11.45f));
+//		System.out.println(this.subDecTimes(11.76f, 15.7f));
+//		
+//		System.out.println(this.addDecTimes(15.56f, 11.78f));
+//		System.out.println(this.addDecTimes(11.45f, 15.67f));
+//		System.out.println(this.addDecTimes(11.95f, 2.78f));
+//		System.out.println(this.addDecTimes(2.78f, 2.34f));
 		
 		return 0;
 	}
