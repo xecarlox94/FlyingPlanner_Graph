@@ -55,17 +55,17 @@ public class Journey implements IJourneyPartB<Airport, Flight>, IJourneyPartC<Ai
 		LinkedList<String> flightsCodeList = new LinkedList<String>();
 		
 		// iterating through the flight object list
-		for(int i = 0; i < flightsList.size(); i++)
-		{
-			// storing the temporary flight variable
-			Flight tempFlight = flightsList.get(i);
+//		for(int i = 0; i < flightsList.size(); i++)
+//		{
+//			// storing the temporary flight variable
+//			Flight tempFlight = flightsList.get(i);
+////			
+////			// stores the flight code
+////			String flightCode = tempFlight.getFlightCode();
 //			
-//			// stores the flight code
-//			String flightCode = tempFlight.getFlightCode();
-			
-			// adds the flight code 
-			flightsCodeList.add(tempFlight.toString());
-		}
+//			// adds the flight code 
+//			flightsCodeList.add(tempFlight.toString());
+//		}
 
 		// return flight code string list
 		return flightsCodeList;
@@ -92,16 +92,16 @@ public class Journey implements IJourneyPartB<Airport, Flight>, IJourneyPartC<Ai
 		// initialises total cost accumulator
 		int totalCost = 0;
 		
-		// loops through each flight in list
-		for( int i = 0; i < flightsList.size(); i++ )
-		{
-			// stores the index flight
-			Flight tempFlight = flightsList.get(i);
-
-			// accumulates the fight cost into the total cost
-			totalCost += tempFlight.getCost();
-		}
-		
+//		// loops through each flight in list
+//		for( int i = 0; i < flightsList.size(); i++ )
+//		{
+//			// stores the index flight
+//			Flight tempFlight = flightsList.get(i);
+//
+//			// accumulates the fight cost into the total cost
+//			totalCost += tempFlight.getCost();
+//		}
+//		
 		
 		return totalCost;
 	}
@@ -114,11 +114,11 @@ public class Journey implements IJourneyPartB<Airport, Flight>, IJourneyPartC<Ai
 		
 		
 		
-		for(int i = 0; i < flightsList.size(); i++)
-		{
-			
-		}
-		
+//		for(int i = 0; i < flightsList.size(); i++)
+//		{
+//			
+//		}
+//		
 		return 0;
 	}
 
@@ -128,10 +128,10 @@ public class Journey implements IJourneyPartB<Airport, Flight>, IJourneyPartC<Ai
 		// getting flight objects list from graph path 
 		List<Flight> flightsList  = this.graphPath.getEdgeList();
 		
-		for(int i = 0; i < flightsList.size(); i++)
-		{
-			
-		}
+//		for(int i = 0; i < flightsList.size(); i++)
+//		{
+//			
+//		}
 		
 		return 0;
 	}
@@ -155,12 +155,12 @@ public class Journey implements IJourneyPartB<Airport, Flight>, IJourneyPartC<Ai
 		// get minutes from float (hours plus minutes)
 		int hours = 0;
 		
-		while( time >= 1f )
-		{
-			time -= 1;
-			
-			hours++;
-		}
+//		while( time >= 1f )
+//		{
+//			time -= 1;
+//			
+//			hours++;
+//		}
 		
 		System.out.println("FINAL HOURS: "+ hours);
 
