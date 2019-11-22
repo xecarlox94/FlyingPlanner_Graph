@@ -36,7 +36,7 @@ public class FlyingPlannerMainPartBC {
 //    		
 //    		// stores the departure airport location string
 //    		String destinationCode = sc.nextLine();
-
+			
     		
     		Journey journey = fi.leastCost("EDI", "DWC");
     		

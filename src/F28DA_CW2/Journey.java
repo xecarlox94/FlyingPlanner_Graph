@@ -137,33 +137,53 @@ public class Journey implements IJourneyPartB<Airport, Flight>, IJourneyPartC<Ai
 		System.out.println("departure decimal time: " + this.getDecFullTime(time));
 		
 		
-//		System.out.println("flight time duration: " );
+		System.out.println("flight time duration: " );
 
-//		System.out.println(this.subDecTimes(15.23f, 11.45f));
-//		System.out.println(this.subDecTimes(11.76f, 15.7f));
-//		
-//		System.out.println(this.addDecTimes(15.56f, 11.78f));
-//		System.out.println(this.addDecTimes(11.45f, 15.67f));
-//		System.out.println(this.addDecTimes(11.95f, 2.78f));
-//		System.out.println(this.addDecTimes(2.78f, 2.34f));
+		
 		
 		return 0;
 	}
 	
 	
-	private int getMinutes(Float time)
+	private int getMinutes(float time)
 	{
 		
 		// get minutes from float (hours plus minutes)
+		int hours = 0;
 		
-		return 0;
+		while( time >= 1f )
+		{
+			time -= 1;
+			
+			hours++;
+		}
+		
+		System.out.println("FINAL HOURS: "+ hours);
+
+		
+		int finalMinutes = 0;
+		
+		
+		if (time != 0) 
+		{
+			time = time * 60;
+			
+			int remainingMinutes = (int) time;
+			
+			finalMinutes += remainingMinutes;
+			
+		}
+
+		finalMinutes += hours * 60;
+		
+		return finalMinutes;
 	}
 	
-	private float addDecTimes(Float time1, Float time2)
+	private float addDecTimes(float time1, float time2)
 	{
 		// initialise the float result
 		// if times the same it will not change the value
-		Float result = 0f;
+		float result = 0f;
 		
 		result = time1 + time2;
 
@@ -173,11 +193,11 @@ public class Journey implements IJourneyPartB<Airport, Flight>, IJourneyPartC<Ai
 		return result;
 	}
 	
-	private float subDecTimes(Float time1, Float time2)
+	private float subDecTimes(float time1, float time2)
 	{
 		// initialise the float result
 		// if times the same it will not change the value
-		Float result = 0f;
+		float result = 0f;
 		
 		
 		if (time1 == time2)
@@ -211,6 +231,7 @@ public class Journey implements IJourneyPartB<Airport, Flight>, IJourneyPartC<Ai
 		
 		return finalDecTime;
 	}
+	
 
 	private float getDecHrs(String stringTime)
 	{
@@ -224,6 +245,7 @@ public class Journey implements IJourneyPartB<Airport, Flight>, IJourneyPartC<Ai
 		return hours;
 	}
 	
+	
 	private float getDecMin(String stringTime)
 	{
 		// all sting have length 4
@@ -235,8 +257,6 @@ public class Journey implements IJourneyPartB<Airport, Flight>, IJourneyPartC<Ai
 		
 		// convert the time to decimal minutes
 		mins = ( mins / 60f );
-		
-		
 		
 		return mins;
 	}
