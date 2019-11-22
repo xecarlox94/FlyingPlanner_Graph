@@ -120,9 +120,6 @@ public class Journey implements IJourneyPartB<Airport, Flight>, IJourneyPartC<Ai
 			
 			int airTimeMin = this.getAirTimeMinFlight(tempFlight);
 			
-			
-			System.out.println("Air time flight: " + airTimeMin);
-			
 			airTimeTotalMin += airTimeMin;
 		}
 		
@@ -135,12 +132,25 @@ public class Journey implements IJourneyPartB<Airport, Flight>, IJourneyPartC<Ai
 		// getting flight objects list from graph path 
 		List<Flight> flightsList  = this.graphPath.getEdgeList();
 		
-//		for(int i = 0; i < flightsList.size(); i++)
-//		{
-//			
-//		}
+		Flight previousFlight = flightsList.get(0);
 		
-		return 0;
+		int connectTimeTotalMin = 0;
+		
+		for(int i = 1; i < flightsList.size(); i++)
+		{
+			Flight nextFlight = flightsList.get(i);
+			
+			int tConnectTimeMin = this.getConnectionTimeMinFlights(previousFlight, nextFlight);
+			
+			
+			System.out.println("Connection time: " + tConnectTimeMin);
+			
+			previousFlight = nextFlight;
+			
+			connectTimeTotalMin += tConnectTimeMin;
+		}
+		
+		return connectTimeTotalMin;
 	}
 
 	@Override
@@ -148,14 +158,61 @@ public class Journey implements IJourneyPartB<Airport, Flight>, IJourneyPartC<Ai
 	{
 		int airTime = this.airTime();
 		
-		
-		System.out.println("Total air time: " + airTime);
-		
 		int connectionTime = this.connectingTime();
 		
 		int totalTime = airTime + connectionTime;
 		
 		return totalTime;
+	}
+	
+	private int getAirTimeMinFlight(Flight flight)
+	{
+		
+		String departureTime = flight.getFromGMTime();
+		
+		String arrivalTime = flight.getToGMTime();
+		
+		int minutesAirTime = this.getMinutesSubStr(arrivalTime, departureTime);
+		
+		return minutesAirTime;
+	}
+	
+	
+	private int getConnectionTimeMinFlights(Flight previousFlight, Flight nextFlight)
+	{
+		String arrivalTime = previousFlight.getToGMTime();
+		
+		String departureTime = nextFlight.getFromGMTime();
+
+		int minutesConnectionTime = this.getMinutesSubStr(arrivalTime, departureTime);
+		
+		return minutesConnectionTime;
+	}
+
+	private int getMinutesSubStr(String time1, String time2)
+	{
+		float decTime1 = this.getDecFullTime(time1);
+		
+		float decTime2 = this.getDecFullTime(time2);
+		
+		float decTotalTime = this.subDecTimes(decTime1, decTime2);
+		
+		int totalMinutes = this.getMinutes(decTotalTime);
+		
+		return totalMinutes;
+	}
+	
+	private int getMinutesSumStr(String time1, String time2)
+	{
+		float decTime1 = this.getDecFullTime(time1);
+		
+		float decTime2 = this.getDecFullTime(time2);
+		
+		float decTotalTime = this.addDecTimes(decTime1, decTime2);
+		
+		int totalMinutes = this.getMinutes(decTotalTime);
+		
+		return totalMinutes;
 	}
 	
 	
@@ -189,44 +246,6 @@ public class Journey implements IJourneyPartB<Airport, Flight>, IJourneyPartC<Ai
 		finalMinutes += hours * 60;
 		
 		return finalMinutes;
-	}
-	
-	private int getAirTimeMinFlight(Flight flight)
-	{
-		
-		String departureTime = flight.getFromGMTime();
-		
-		String arrivalTime = flight.getToGMTime();
-		
-		int minutesAirTime = this.getMinutesSubStr(arrivalTime, departureTime);
-		
-		return minutesAirTime;
-	}
-
-	private int getMinutesSubStr(String time1, String time2)
-	{
-		float decTime1 = this.getDecFullTime(time1);
-		
-		float decTime2 = this.getDecFullTime(time2);
-		
-		float decTotalTime = this.subDecTimes(decTime1, decTime2);
-		
-		int totalMinutes = this.getMinutes(decTotalTime);
-		
-		return totalMinutes;
-	}
-	
-	private int getMinutesSumStr(String time1, String time2)
-	{
-		float decTime1 = this.getDecFullTime(time1);
-		
-		float decTime2 = this.getDecFullTime(time2);
-		
-		float decTotalTime = this.addDecTimes(decTime1, decTime2);
-		
-		int totalMinutes = this.getMinutes(decTotalTime);
-		
-		return totalMinutes;
 	}
 	
 	private float addDecTimes(float time1, float time2)
