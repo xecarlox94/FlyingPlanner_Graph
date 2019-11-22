@@ -107,14 +107,20 @@ public class Journey implements IJourneyPartB<Airport, Flight>, IJourneyPartC<Ai
 	}
 
 	@Override
-	public int airTime() {
-		// TODO Auto-generated method stub
-		return 0; // question
+	public int airTime() 
+	{
+		// getting flight objects list from graph path 
+		List<Flight> flightsList  = this.graphPath.getEdgeList();
+		
+		return 0;
 	}
 
 	@Override
-	public int connectingTime() {
-		// TODO Auto-generated method stub
+	public int connectingTime() 
+	{
+		// getting flight objects list from graph path 
+		List<Flight> flightsList  = this.graphPath.getEdgeList();
+		
 		return 0;
 	}
 
@@ -143,7 +149,15 @@ public class Journey implements IJourneyPartB<Airport, Flight>, IJourneyPartC<Ai
 		
 		return 0;
 	}
-
+	
+	
+	private int getMinutes(Float time)
+	{
+		
+		// get minutes from float (hours plus minutes)
+		
+		return 0;
+	}
 	
 	private float addDecTimes(Float time1, Float time2)
 	{
