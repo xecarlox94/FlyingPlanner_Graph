@@ -41,12 +41,6 @@ public class FlyingPlannerMainPartBC {
     		Journey journey = fi.leastCost("EDI", "DWC");
     		
     		
-    		
-    		System.out.println("\n\nAir time: " + journey.airTime());
-    		System.out.println("\nConnecting time: " + journey.connectingTime());
-    		System.out.println("\nTotal cost: " + journey.totalCost());
-    		System.out.println("\nTotal hop: " + journey.totalHop());
-    		System.out.println("\nTotal cost: " + journey.totalTime());
 
     		System.out.println("\n\nFlights: ");
     		List<String> flights = journey.getFlights();
@@ -62,8 +56,11 @@ public class FlyingPlannerMainPartBC {
     			System.out.println(stops.get(i));
     		}
     		
+    		
+    		System.out.println("\nTotal cost: " + journey.totalCost());
+    		System.out.println("\nTotal hop: " + journey.totalHop());
+    		System.out.println("\nTotal cost: " + journey.totalTime());
 
-    		journey.totalTime();
 			
 			System.out.println("Finished");
 			

@@ -15,6 +15,7 @@ public class Journey implements IJourneyPartB<Airport, Flight>, IJourneyPartC<Ai
 	{
 		// initialises the local graph path
 		this.graphPath = graphPath;
+
 	}
 	
 	
@@ -59,9 +60,6 @@ public class Journey implements IJourneyPartB<Airport, Flight>, IJourneyPartC<Ai
 		{
 			// storing the temporary flight variable
 			Flight tempFlight = flightsList.get(i);
-//			
-//			// stores the flight code
-//			String flightCode = tempFlight.getFlightCode();
 			
 			// adds the flight code 
 			flightsCodeList.add(tempFlight.toString());
@@ -122,6 +120,7 @@ public class Journey implements IJourneyPartB<Airport, Flight>, IJourneyPartC<Ai
 			
 			airTimeTotalMin += airTimeMin;
 		}
+
 		
 		return airTimeTotalMin;
 	}
@@ -132,21 +131,19 @@ public class Journey implements IJourneyPartB<Airport, Flight>, IJourneyPartC<Ai
 		// getting flight objects list from graph path 
 		List<Flight> flightsList  = this.graphPath.getEdgeList();
 		
-		Flight previousFlight = flightsList.get(0);
+		Flight previousFlight;
+		
+		Flight nextFlight;
 		
 		int connectTimeTotalMin = 0;
 		
-		for(int i = 1; i < flightsList.size(); i++)
+		for(int i = 0; i < flightsList.size() - 1; i++)
 		{
-			Flight nextFlight = flightsList.get(i);
+			previousFlight = flightsList.get(i);
+
+			nextFlight = flightsList.get(i + 1);
 			
 			int tConnectTimeMin = this.getConnectionTimeMinFlights(previousFlight, nextFlight);
-			
-			
-			System.out.println("Connection time: " + tConnectTimeMin);
-			
-			
-			System.err.println("STILL ERROR IN CONNECTION TIME");
 			
 			previousFlight = nextFlight;
 			
@@ -187,7 +184,7 @@ public class Journey implements IJourneyPartB<Airport, Flight>, IJourneyPartC<Ai
 		
 		String departureTime = nextFlight.getFromGMTime();
 
-		int minutesConnectionTime = this.getMinutesSubStr(arrivalTime, departureTime);
+		int minutesConnectionTime = this.getMinutesSubStr(departureTime, arrivalTime);
 		
 		return minutesConnectionTime;
 	}
@@ -199,19 +196,6 @@ public class Journey implements IJourneyPartB<Airport, Flight>, IJourneyPartC<Ai
 		float decTime2 = this.getDecFullTime(time2);
 		
 		float decTotalTime = this.subDecTimes(decTime1, decTime2);
-		
-		int totalMinutes = this.getMinutes(decTotalTime);
-		
-		return totalMinutes;
-	}
-	
-	private int getMinutesSumStr(String time1, String time2)
-	{
-		float decTime1 = this.getDecFullTime(time1);
-		
-		float decTime2 = this.getDecFullTime(time2);
-		
-		float decTotalTime = this.addDecTimes(decTime1, decTime2);
 		
 		int totalMinutes = this.getMinutes(decTotalTime);
 		
@@ -251,43 +235,19 @@ public class Journey implements IJourneyPartB<Airport, Flight>, IJourneyPartC<Ai
 		return finalMinutes;
 	}
 	
-	private float addDecTimes(float time1, float time2)
-	{
-		// initialise the float result
-		// if times the same it will not change the value
-		float result = 0f;
-		
-		result = time1 + time2;
-
-		// ensure result is within the clock bounds
-		result %= 24f;
-		
-		return result;
-	}
 	
 	private float subDecTimes(float time1, float time2)
 	{
-		// initialise the float result
-		// if times the same it will not change the value
-		float result = 0f;
+		
+		float result = time1 - time2;
 		
 		
-		if (time1 == time2)
+		if (result < 0) 
 		{
-			// returns initial result
-			return result;
-		} 
-		else if (time1 < time2)
-		{
-			// adding 24 hours because it is the next day
-			time1 += 24f;
+			time1 += 24;
+			
+			result = time1 - time2;
 		}
-
-		// normal subtraction
-		result = time1 - time2;
-
-		// ensure result is within the clock bounds
-		result %= 24f;
 		
 		return result;
 	}
