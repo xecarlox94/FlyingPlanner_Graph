@@ -326,15 +326,13 @@ public class FlyingPlanner implements IFlyingPlannerPartB<Airport,Flight>, IFlyi
 			
 			if ( tempAirport.equals(airport) ) continue;
 
-			if ( depth > 2) break;
+			if ( depth > 1) break;
 
 			dirConnectedAirports.add(tempAirport);
 		}
 		
 		
 		Iterator<Airport> airportsIterator = dirConnectedAirports.iterator();
-		
-		System.out.println("airports set initial size: " + dirConnectedAirports.size());
 		
 		HashSet<Airport> toRemoveAirports = new HashSet<Airport>();
 		
@@ -355,7 +353,7 @@ public class FlyingPlanner implements IFlyingPlannerPartB<Airport,Flight>, IFlyi
 				
 				depth = bfsBack.getDepth(temp);
 				
-				if ( depth > 2 ) 
+				if ( depth > 1 ) 
 				{
 					toRemoveAirports.add(temp);
 					break;
@@ -367,31 +365,9 @@ public class FlyingPlanner implements IFlyingPlannerPartB<Airport,Flight>, IFlyi
 			
 		}
 		
-		System.out.println("airports remove final size: " + toRemoveAirports.size());
-		
-		
-		Iterator<Airport> toRemoveIterator = toRemoveAirports.iterator();
-		while (toRemoveIterator.hasNext())
-		{
-			Airport removed = toRemoveIterator.next();
-			System.out.println(removed);
-			System.out.println(dirConnectedAirports.contains(removed));
-		}
-		
 		dirConnectedAirports.removeAll(toRemoveAirports);
-		System.out.println("REMOVED ELEMENTS");
 		
-		toRemoveIterator = toRemoveAirports.iterator();
-		while (toRemoveIterator.hasNext())
-		{
-			Airport removed = toRemoveIterator.next();
-			System.out.println(removed);
-			System.out.println(dirConnectedAirports.contains(removed));
-		}
-		
-		System.out.println("airports set final size: " + dirConnectedAirports.size());
-		
-		return null;
+		return dirConnectedAirports;
 	}
 
 

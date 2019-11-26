@@ -3,6 +3,7 @@ package F28DA_CW2;
 import java.io.FileNotFoundException;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Set;
 
 public class FlyingPlannerMainPartBC {
 
@@ -33,36 +34,39 @@ public class FlyingPlannerMainPartBC {
 //			excluding.add("IST");
 
 //    		Journey journey = fi.leastCost("EDI", "DXB", excluding);
-    		Journey journey = fi.leastCost("EDI", "DXB");
+//    		Journey journey = fi.leastCost("EDI", "DXB");
 
 //    		Journey journey = fi.leastHop("EDI", "DXB", excluding);
 //    		Journey journey = fi.leastHop("EDI", "DXB");
     		
     		
 
-    		System.out.println("\n\nFlights: ");
-    		List<String> flights = journey.getFlights();
-    		for(int i =0; i < flights.size(); i++)
-    		{
-    			System.out.println(flights.get(i));
-    		}
-    		
-    		System.out.println("\n\nStops: ");
-    		List<String> stops = journey.getStops();
-    		for(int i =0; i < stops.size(); i++)
-    		{
-    			System.out.println(stops.get(i));
-    		}
+//    		System.out.println("\n\nFlights: ");
+//    		List<String> flights = journey.getFlights();
+//    		for(int i =0; i < flights.size(); i++)
+//    		{
+//    			System.out.println(flights.get(i));
+//    		}
+//    		
+//    		System.out.println("\n\nStops: ");
+//    		List<String> stops = journey.getStops();
+//    		for(int i =0; i < stops.size(); i++)
+//    		{
+//    			System.out.println(stops.get(i));
+//    		}
     		
     		
 //    		System.out.println("\nTotal cost: " + journey.totalCost());
 //    		System.out.println("\nTotal hop: " + journey.totalHop());
-    		System.out.println("\nTotal air time: " + journey.airTime());
-    		System.out.println("\nTotal con time: " + journey.connectingTime());
-    		System.out.println("\nTotal tot time: " + journey.totalTime());
+//    		System.out.println("\nTotal air time: " + journey.airTime());
+//    		System.out.println("\nTotal con time: " + journey.connectingTime());
+//    		System.out.println("\nTotal tot time: " + journey.totalTime());
 
-			
-//			fi.directlyConnected(fi.airport("LIS"));
+
+    		Airport lhr = fi.airport("LHR");
+    		Set<Airport> s = fi.directlyConnected(lhr);
+    		
+    		System.out.println("FINAL RESULT: " + s.size());
 			
 			System.out.println("Finished");
 			
