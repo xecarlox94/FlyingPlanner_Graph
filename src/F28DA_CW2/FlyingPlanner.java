@@ -407,15 +407,18 @@ public class FlyingPlanner implements IFlyingPlannerPartB<Airport,Flight>, IFlyi
 	@Override
 	public String leastCostMeetUp(String at1, String at2) throws FlyingPlannerException 
 	{
-//		List<String> excluding = new LinkedList<String>();
-//		
-//		boolean finished = false;
-//		
-//		while ( !finished )
-//		{
-//			
-//			Journey j1 = this.leastCost(at1, at2, excluding);
-//		}
+		List<String> excluding = new LinkedList<String>();
+		
+		boolean finished = false;
+		
+		while ( !finished )
+		{
+			
+			Journey j1 = this.leastCost(at1, at2, excluding);
+			
+
+			Journey j2 = this.leastCost(at1, at2, excluding);
+		}
 		return null;
 	}
 
