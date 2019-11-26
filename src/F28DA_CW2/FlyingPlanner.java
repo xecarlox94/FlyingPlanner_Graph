@@ -3,6 +3,7 @@ package F28DA_CW2;
 import java.util.HashSet;
 import java.util.Hashtable;
 import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 import org.jgrapht.Graph;
@@ -254,7 +255,7 @@ public class FlyingPlanner implements IFlyingPlannerPartB<Airport,Flight>, IFlyi
 	{
 		
 		// if excluding list is not full modify the graph
-		if ( excluding != null) 
+		if ( excluding != null ) 
 		{
 			
 			// for each string in the excluding list
@@ -404,19 +405,30 @@ public class FlyingPlanner implements IFlyingPlannerPartB<Airport,Flight>, IFlyi
 	}
 
 	@Override
-	public String leastCostMeetUp(String at1, String at2) throws FlyingPlannerException {
+	public String leastCostMeetUp(String at1, String at2) throws FlyingPlannerException 
+	{
+//		List<String> excluding = new LinkedList<String>();
+//		
+//		boolean finished = false;
+//		
+//		while ( !finished )
+//		{
+//			
+//			Journey j1 = this.leastCost(at1, at2, excluding);
+//		}
+		return null;
+	}
+
+	@Override
+	public String leastHopMeetUp(String at1, String at2) throws FlyingPlannerException 
+	{
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public String leastHopMeetUp(String at1, String at2) throws FlyingPlannerException {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public String leastTimeMeetUp(String at1, String at2, String startTime) throws FlyingPlannerException {
+	public String leastTimeMeetUp(String at1, String at2, String startTime) throws FlyingPlannerException 
+	{
 		// TODO Auto-generated method stub
 		return null;
 	}

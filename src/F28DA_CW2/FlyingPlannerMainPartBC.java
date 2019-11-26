@@ -72,9 +72,13 @@ public class FlyingPlannerMainPartBC {
     		
     		
 
-    		int sum = fi.setDirectlyConnected();
-    		
-    		System.out.println("FINAL RESULT: " + sum);
+//    		int sum = fi.setDirectlyConnected();
+//    		
+//    		System.out.println("FINAL RESULT: " + sum);
+			
+			
+			
+			
 			
 			System.out.println("Finished");
 			
