@@ -224,13 +224,14 @@ public class Journey implements IJourneyPartB<Airport, Flight>, IJourneyPartC<Ai
 		{
 			time = time * 60;
 			
-			int remainingMinutes = (int) time;
+			int remainingMinutes = Math.round(time);
 			
 			finalMinutes += remainingMinutes;
 			
 		}
 
 		finalMinutes += hours * 60;
+		
 		
 		return finalMinutes;
 	}
@@ -289,6 +290,7 @@ public class Journey implements IJourneyPartB<Airport, Flight>, IJourneyPartC<Ai
 		
 		// convert the time to decimal minutes
 		mins = ( mins / 60f );
+		
 		
 		return mins;
 	}

@@ -9,6 +9,7 @@ import org.jgrapht.Graph;
 import org.jgrapht.GraphPath;
 import org.jgrapht.alg.shortestpath.DijkstraShortestPath;
 import org.jgrapht.graph.SimpleDirectedWeightedGraph;
+import org.jgrapht.traverse.BreadthFirstIterator;
 
 public class FlyingPlanner implements IFlyingPlannerPartB<Airport,Flight>, IFlyingPlannerPartC<Airport,Flight> 
 {
@@ -310,8 +311,86 @@ public class FlyingPlanner implements IFlyingPlannerPartB<Airport,Flight>, IFlyi
 	}
 
 	@Override
-	public Set<Airport> directlyConnected(Airport airport) {
-		// TODO Auto-generated method stub
+	public Set<Airport> directlyConnected(Airport airport) 
+	{
+		BreadthFirstIterator<Airport, Flight> bfs = new BreadthFirstIterator<Airport, Flight>(this.graph, airport);
+		
+		int depth = 0;
+		
+		HashSet<Airport> dirConnectedAirports = new HashSet<Airport>();
+		
+		while ( bfs.hasNext() )
+		{
+			Airport tempAirport = bfs.next();
+			depth = bfs.getDepth(tempAirport);
+			
+			if ( tempAirport.equals(airport) ) continue;
+
+			if ( depth > 2) break;
+
+			dirConnectedAirports.add(tempAirport);
+		}
+		
+		
+		Iterator<Airport> airportsIterator = dirConnectedAirports.iterator();
+		
+		System.out.println("airports set initial size: " + dirConnectedAirports.size());
+		
+		HashSet<Airport> toRemoveAirports = new HashSet<Airport>();
+		
+		BreadthFirstIterator<Airport, Flight> bfsBack;
+		
+		while ( airportsIterator.hasNext() )
+		{
+			
+			Airport tempAirport = airportsIterator.next();
+			
+			bfsBack = new BreadthFirstIterator<Airport, Flight>(this.graph, tempAirport);
+
+			depth = 0;
+			
+			while ( bfsBack.hasNext() )
+			{
+				Airport temp = bfsBack.next();
+				
+				depth = bfsBack.getDepth(temp);
+				
+				if ( depth > 2 ) 
+				{
+					toRemoveAirports.add(temp);
+					break;
+				}
+				
+				if ( temp.equals(airport) ) break;
+				
+			}
+			
+		}
+		
+		System.out.println("airports remove final size: " + toRemoveAirports.size());
+		
+		
+		Iterator<Airport> toRemoveIterator = toRemoveAirports.iterator();
+		while (toRemoveIterator.hasNext())
+		{
+			Airport removed = toRemoveIterator.next();
+			System.out.println(removed);
+			System.out.println(dirConnectedAirports.contains(removed));
+		}
+		
+		dirConnectedAirports.removeAll(toRemoveAirports);
+		System.out.println("REMOVED ELEMENTS");
+		
+		toRemoveIterator = toRemoveAirports.iterator();
+		while (toRemoveIterator.hasNext())
+		{
+			Airport removed = toRemoveIterator.next();
+			System.out.println(removed);
+			System.out.println(dirConnectedAirports.contains(removed));
+		}
+		
+		System.out.println("airports set final size: " + dirConnectedAirports.size());
+		
 		return null;
 	}
 

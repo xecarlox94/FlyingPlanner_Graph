@@ -22,21 +22,21 @@ public class FlyingPlannerMainPartBC {
 			
 			System.out.println("b part");
 			
-			
-			List<String> excluding = new LinkedList<String>();
+//			
+//			List<String> excluding = new LinkedList<String>();
+//
+//			excluding.add("AMS");
+//			excluding.add("LHR");
+//			excluding.add("DXB");
+//			excluding.add("CDG");
+//			excluding.add("FRA");
+//			excluding.add("IST");
 
-			excluding.add("AMS");
-			excluding.add("LHR");
-			excluding.add("DXB");
-			excluding.add("CDG");
-			excluding.add("FRA");
-			excluding.add("IST");
+//    		Journey journey = fi.leastCost("EDI", "DXB", excluding);
+    		Journey journey = fi.leastCost("EDI", "DXB");
 
-//    		Journey journey = fi.leastCost("LIS", "MFM", excluding);
-//    		Journey journey = fi.leastCost("LIS", "MFM");
-
-    		Journey journey = fi.leastHop("LIS", "MFM", excluding);
-//    		Journey journey = fi.leastHop("LIS", "MFM");
+//    		Journey journey = fi.leastHop("EDI", "DXB", excluding);
+//    		Journey journey = fi.leastHop("EDI", "DXB");
     		
     		
 
@@ -55,10 +55,14 @@ public class FlyingPlannerMainPartBC {
     		}
     		
     		
-    		System.out.println("\nTotal cost: " + journey.totalCost());
-    		System.out.println("\nTotal hop: " + journey.totalHop());
-    		System.out.println("\nTotal time: " + journey.totalTime());
+//    		System.out.println("\nTotal cost: " + journey.totalCost());
+//    		System.out.println("\nTotal hop: " + journey.totalHop());
+    		System.out.println("\nTotal air time: " + journey.airTime());
+    		System.out.println("\nTotal con time: " + journey.connectingTime());
+    		System.out.println("\nTotal tot time: " + journey.totalTime());
 
+			
+//			fi.directlyConnected(fi.airport("LIS"));
 			
 			System.out.println("Finished");
 			
