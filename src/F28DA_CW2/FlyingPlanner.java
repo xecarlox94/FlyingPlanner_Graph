@@ -372,9 +372,23 @@ public class FlyingPlanner implements IFlyingPlannerPartB<Airport,Flight>, IFlyi
 
 
 	@Override
-	public int setDirectlyConnected() {
-		// TODO Auto-generated method stub
-		return 0;
+	public int setDirectlyConnected() 
+	{
+		
+		Iterator<Airport> airportIterator = this.graph.vertexSet().iterator();
+		
+		int total = 0;
+		
+		while ( airportIterator.hasNext() )
+		{
+			Airport tempAirport = airportIterator.next();
+			
+			Set<Airport> tempSet = this.directlyConnected(tempAirport);
+			
+			total += tempSet.size();
+		}
+		
+		return total;
 	}
 
 	@Override

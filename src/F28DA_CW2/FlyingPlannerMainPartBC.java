@@ -1,5 +1,7 @@
 package F28DA_CW2;
 
+import static org.junit.Assert.assertEquals;
+
 import java.io.FileNotFoundException;
 import java.util.LinkedList;
 import java.util.List;
@@ -63,10 +65,16 @@ public class FlyingPlannerMainPartBC {
 //    		System.out.println("\nTotal tot time: " + journey.totalTime());
 
 
-    		Airport lhr = fi.airport("LHR");
-    		Set<Airport> s = fi.directlyConnected(lhr);
+//    		Airport lhr = fi.airport("LHR");
+//    		Set<Airport> s = fi.directlyConnected(lhr);
+//    		
+//    		System.out.println("FINAL RESULT: " + s.size());
     		
-    		System.out.println("FINAL RESULT: " + s.size());
+    		
+
+    		int sum = fi.setDirectlyConnected();
+    		
+    		System.out.println("FINAL RESULT: " + sum);
 			
 			System.out.println("Finished");
 			
