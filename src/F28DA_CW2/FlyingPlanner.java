@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Set;
 import org.jgrapht.Graph;
 import org.jgrapht.GraphPath;
-import org.jgrapht.alg.shortestpath.KShortestSimplePaths;
+import org.jgrapht.alg.shortestpath.DijkstraShortestPath;
 import org.jgrapht.graph.SimpleDirectedWeightedGraph;
 
 public class FlyingPlanner implements IFlyingPlannerPartB<Airport,Flight>, IFlyingPlannerPartC<Airport,Flight> 
@@ -165,6 +165,156 @@ public class FlyingPlanner implements IFlyingPlannerPartB<Airport,Flight>, IFlyi
 		return null;
 	}
 
+	@Override
+	public Journey leastCost(String from, String to) throws FlyingPlannerException 
+	{
+		// overloading the method
+		return this.leastCost(from, to, null);
+	}
+	
+
+	@Override
+	public Journey leastCost(String from, String to, List<String> excluding) throws FlyingPlannerException 
+	{
+		
+		// if excluding list is not full modify the graph
+		if ( excluding != null) 
+		{
+			
+			// for each string in the excluding list
+			for ( int i = 0; i < excluding.size(); i++)
+			{
+				
+				// gets the airport code
+				String airportCode = excluding.get(i);
+				
+				
+				// gets the airport code
+				Airport tempAirport = this.airport(airportCode);
+
+				
+				// gets all the edges of the temporary airport vertex
+				Set<Flight> tempFlights = this.graph.edgesOf(tempAirport);
+				
+				
+				// removes all the flight set elements from the graph
+				this.graph.removeAllEdges(tempFlights);
+				
+				// removes the temporary airport vertex from the graph
+				this.graph.removeVertex(tempAirport);
+			}
+		}
+		
+		
+		// gets a edge set from the graph
+		// and returns its iterator
+		Iterator<Flight> flights = this.graph.edgeSet().iterator();
+		
+		
+		// iterates through each edge in the set
+		while (flights.hasNext())
+		{
+			
+			// gets the next flight
+			Flight tempFlight = flights.next();
+			
+			// gets the cost of the temporary flight
+			double cost = (double) tempFlight.getCost();
+
+			// sets the edge weight to its cost
+			this.graph.setEdgeWeight(tempFlight, cost);
+		}
+		
+		
+		// it initialises the dijkstra algorithm, by passing the graph as a parameter
+		DijkstraShortestPath<Airport,Flight> dijkstra = new DijkstraShortestPath<Airport,Flight>(this.graph);
+		
+		// getting the departure airport
+		Airport departureAirport = this.airport(from);
+
+		// getting the departure airport
+		Airport destinationAirport = this.airport(to);
+		
+		
+		// gets the graph shortest path
+		GraphPath<Airport, Flight> shortestPath = dijkstra.getPath(departureAirport, destinationAirport);
+
+		
+		// instantiates the journey object from the shortest path
+		Journey journey = new Journey(shortestPath);
+
+		// returns the object
+		return journey;
+	}
+
+
+	@Override
+	public Journey leastHop(String from, String to, List<String> excluding) throws FlyingPlannerException 
+	{
+		
+		// if excluding list is not full modify the graph
+		if ( excluding != null) 
+		{
+			
+			// for each string in the excluding list
+			for ( int i = 0; i < excluding.size(); i++)
+			{
+				
+				// gets the airport code
+				String airportCode = excluding.get(i);
+				
+				
+				// gets the airport code
+				Airport tempAirport = this.airport(airportCode);
+
+				
+				// gets all the edges of the temporary airport vertex
+				Set<Flight> tempFlights = this.graph.edgesOf(tempAirport);
+				
+				
+				// removes all the flight set elements from the graph
+				this.graph.removeAllEdges(tempFlights);
+				
+				// removes the temporary airport vertex from the graph
+				this.graph.removeVertex(tempAirport);
+			}
+		}
+		
+		
+		// it initialises the dijkstra algorithm, by passing the graph as a parameter
+		DijkstraShortestPath<Airport,Flight> dijkstra = new DijkstraShortestPath<Airport,Flight>(this.graph);
+		
+		// getting the departure airport
+		Airport departureAirport = this.airport(from);
+
+		// getting the departure airport
+		Airport destinationAirport = this.airport(to);
+		
+		
+		// gets the graph shortest path
+		GraphPath<Airport, Flight> shortestPath = dijkstra.getPath(departureAirport, destinationAirport);
+
+		
+		// instantiates the journey object from the shortest path
+		Journey journey = new Journey(shortestPath);
+
+		// returns the object
+		return journey;
+	}
+
+	@Override
+	public Journey leastHop(String from, String to) throws FlyingPlannerException 
+	{
+		// overloading the least hop function
+		return this.leastHop(from, to, null);
+	}
+
+	@Override
+	public Set<Airport> directlyConnected(Airport airport) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 
 	@Override
 	public int setDirectlyConnected() {
@@ -201,83 +351,6 @@ public class FlyingPlanner implements IFlyingPlannerPartB<Airport,Flight>, IFlyi
 		// TODO Auto-generated method stub
 		return null;
 	}
-
-	@Override
-	public Journey leastCost(String from, String to) throws FlyingPlannerException 
-	{
-		// overloading the method
-		return this.leastCost(from, to, null);
-	}
-	
-
-	@Override
-	public Journey leastCost(String from, String to, List<String> excluding) throws FlyingPlannerException 
-	{
-		// loading the graph into the find all paths algorithm
-		KShortestSimplePaths<Airport,Flight> kShortestPathAlg = new KShortestSimplePaths<Airport, Flight>(this.graph);
-		
-		// getting the departure airport
-		Airport departureAirport = this.airport(from);
-
-		// getting the departure airport
-		Airport destinationAirport = this.airport(to);
-		
-
-		System.out.println(departureAirport);
-		System.out.println(destinationAirport);
-		
-		
-		List<GraphPath<Airport, Flight>> shortestPaths = kShortestPathAlg.getPaths(departureAirport, destinationAirport, 1);
-		
-		
-		
-
-		// gets the shortest paths from the departure to the destination nodes
-		Journey[] journeys = getJourneyArray(shortestPaths);
-		
-
-		
-		// TODO Auto-generated method stub
-		return journeys[0];
-	}
-	
-	// gets the different paths 
-	private Journey[] getJourneyArray(List<GraphPath<Airport, Flight>> paths)
-	{
-		// initialises the local journey array
-		Journey[] journeys = new Journey[paths.size()];
-		
-		for(int i = 0; i < paths.size(); i++)
-		{
-			// stores the temporary path
-			GraphPath<Airport, Flight> tempPath = paths.get(i);
-			
-			// constructs a new journey and assigns it, in the journeys array
-			journeys[i] = new Journey(tempPath);
-		}
-		
-		return journeys;
-	}
-
-	@Override
-	public Journey leastHop(String from, String to) throws FlyingPlannerException {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-
-	@Override
-	public Journey leastHop(String from, String to, List<String> excluding) throws FlyingPlannerException {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public Set<Airport> directlyConnected(Airport airport) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
 
 	
 	

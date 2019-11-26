@@ -1,8 +1,8 @@
 package F28DA_CW2;
 
 import java.io.FileNotFoundException;
+import java.util.LinkedList;
 import java.util.List;
-import java.util.Scanner;
 
 public class FlyingPlannerMainPartBC {
 
@@ -22,23 +22,21 @@ public class FlyingPlannerMainPartBC {
 			
 			System.out.println("b part");
 			
-//			Scanner sc = new Scanner(System.in);
-//
-//
-//			// questions the origin airport
-//    		System.out.println("Please enter the start airport code");
-//    		
-//    		// stores the origin airport location string
-//    		String originCode = sc.nextLine();
-//    		
-//    		
-//    		System.out.println("Please enter the destination airport code");
-//    		
-//    		// stores the departure airport location string
-//    		String destinationCode = sc.nextLine();
 			
-    		
-    		Journey journey = fi.leastCost("EDI", "DWC");
+			List<String> excluding = new LinkedList<String>();
+
+			excluding.add("AMS");
+			excluding.add("LHR");
+			excluding.add("DXB");
+			excluding.add("CDG");
+			excluding.add("FRA");
+			excluding.add("IST");
+
+//    		Journey journey = fi.leastCost("LIS", "MFM", excluding);
+//    		Journey journey = fi.leastCost("LIS", "MFM");
+
+    		Journey journey = fi.leastHop("LIS", "MFM", excluding);
+//    		Journey journey = fi.leastHop("LIS", "MFM");
     		
     		
 
@@ -59,7 +57,7 @@ public class FlyingPlannerMainPartBC {
     		
     		System.out.println("\nTotal cost: " + journey.totalCost());
     		System.out.println("\nTotal hop: " + journey.totalHop());
-    		System.out.println("\nTotal cost: " + journey.totalTime());
+    		System.out.println("\nTotal time: " + journey.totalTime());
 
 			
 			System.out.println("Finished");
