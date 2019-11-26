@@ -273,45 +273,11 @@ public class FlyingPlanner implements IFlyingPlannerPartB<Airport,Flight>, IFlyi
 	}
 
 	@Override
-	public Set<Airport> directlyConnected(Airport airport) 
-	{
-		HashSet<Airport> tempAirportSet = new HashSet<Airport>();
-		
-		// returns an iterator with all the outgoing flights
-		Iterator<Flight> outgoingFlightSet = this.graph.outgoingEdgesOf(airport).iterator();
-		
-		// loops through the iterator
-		while(outgoingFlightSet.hasNext())
-		{
-			// returns the temporary flight
-			Flight temp = outgoingFlightSet.next();
-			
-			// returns the destination airport
-			Airport tempAirport = temp.getTo();
-			
-			// add the destination airport
-			tempAirportSet.add(tempAirport);
-		}
-		
-		// returns an iterator with all the incoming flights
-		Iterator<Flight> incomingFlightSet = this.graph.incomingEdgesOf(airport).iterator();
-		
-		// loops through the iterator
-		while(incomingFlightSet.hasNext())
-		{
-			// returns the temporary flight
-			Flight temp = incomingFlightSet.next();
-			
-			// returns the origin airport
-			Airport tempAirport = temp.getTo();
-			
-			// add the destination airport
-			tempAirportSet.add(tempAirport);
-		}
-
-		
-		return tempAirportSet;
+	public Set<Airport> directlyConnected(Airport airport) {
+		// TODO Auto-generated method stub
+		return null;
 	}
+
 
 	
 	
