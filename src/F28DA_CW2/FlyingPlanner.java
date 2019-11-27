@@ -451,13 +451,6 @@ public class FlyingPlanner implements IFlyingPlannerPartB<Airport,Flight>, IFlyi
 		return meetup;
 	}
 
-	@Override
-	public String leastTimeMeetUp(String at1, String at2, String startTime) throws FlyingPlannerException 
-	{
-		// TODO Auto-generated method stub
-		return null;
-	}
-
 	
 	private List<String> airportExceptCodes(String at1, String at2)
 	{
@@ -649,6 +642,13 @@ public class FlyingPlanner implements IFlyingPlannerPartB<Airport,Flight>, IFlyi
 		}
 		
 		return total;
+	}
+
+	@Override
+	public String leastTimeMeetUp(String at1, String at2, String startTime) throws FlyingPlannerException 
+	{
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 	@Override

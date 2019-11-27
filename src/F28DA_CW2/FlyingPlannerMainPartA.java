@@ -201,7 +201,10 @@ public class FlyingPlannerMainPartA {
 		} 
         catch (FileNotFoundException | FlyingPlannerException e) 
         {
+        	// printing error
 			System.err.println(e);
+			// show stack trace
+			e.printStackTrace();
 		}
         
         
