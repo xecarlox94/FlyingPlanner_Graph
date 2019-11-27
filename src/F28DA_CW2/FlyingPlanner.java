@@ -203,6 +203,14 @@ public class FlyingPlanner implements IFlyingPlannerPartB<Airport,Flight>, IFlyi
 					Airport tempAirport = this.airport(airportCode);
 					
 					
+					
+					
+					// THROW ERROR!!!!!!!!!!!!!!!!
+					
+					
+					
+					
+					
 					// gets all the edges of the temporary airport vertex
 					Set<Flight> tempFlights = tempGraph.edgesOf(tempAirport);
 					
@@ -245,6 +253,14 @@ public class FlyingPlanner implements IFlyingPlannerPartB<Airport,Flight>, IFlyi
 
 		// getting the departure airport
 		Airport destinationAirport = this.airport(to);
+		
+		
+		
+		
+		// THROW ERROR!!!!!!!!!!!!!!!!
+		
+		
+		
 		
 		
 		// gets the graph shortest path
@@ -285,6 +301,13 @@ public class FlyingPlanner implements IFlyingPlannerPartB<Airport,Flight>, IFlyi
 					Airport tempAirport = this.airport(airportCode);
 					
 					
+					
+					
+					// THROW ERROR!!!!!!!!!!!!!!!!
+					
+					
+					
+					
 					// gets all the edges of the temporary airport vertex
 					Set<Flight> tempFlights = tempGraph.edgesOf(tempAirport);
 					
@@ -327,6 +350,15 @@ public class FlyingPlanner implements IFlyingPlannerPartB<Airport,Flight>, IFlyi
 
 		// getting the departure airport
 		Airport destinationAirport = this.airport(to);
+		
+		
+		
+		
+		
+		// THROW ERROR!!!!!!!!!!!!!!!!
+		
+		
+		
 		
 		
 		// gets the graph shortest path
@@ -486,6 +518,15 @@ public class FlyingPlanner implements IFlyingPlannerPartB<Airport,Flight>, IFlyi
 	private Set<Airport> nonDirConnected(String airportCode)
 	{
 		Airport airport = this.airport(airportCode);
+		
+		
+		
+		
+		// THROW ERROR!!!!!!!!!!!!!!!!
+		
+		
+		
+		
 
 		Iterator<Flight> outFlights = this.graph.incomingEdgesOf(airport).iterator();
 		Iterator<Flight> incFlights = this.graph.incomingEdgesOf(airport).iterator();
