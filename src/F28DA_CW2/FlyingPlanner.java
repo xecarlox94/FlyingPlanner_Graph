@@ -106,8 +106,7 @@ public class FlyingPlanner implements IFlyingPlannerPartB<Airport,Flight>, IFlyi
 			// it adds the flight as a graph edge
 			graph.addEdge(originAirport, destinationAirport, newFlight);
 			
-		}    		
-		
+		}
 		
 		return true;
 	}
@@ -178,39 +177,45 @@ public class FlyingPlanner implements IFlyingPlannerPartB<Airport,Flight>, IFlyi
 	@Override
 	public Journey leastCost(String from, String to, List<String> excluding) throws FlyingPlannerException 
 	{
+		Graph<Airport, Flight> tempGraph = this.graph;
 		
 		// if excluding list is not full modify the graph
 		if ( excluding != null) 
 		{
-			
-			// for each string in the excluding list
-			for ( int i = 0; i < excluding.size(); i++)
+			if (excluding.size() > 0)
 			{
+				// populating a temporary graph with the current graph data
+				tempGraph = this.populateTempGraph();
 				
-				// gets the airport code
-				String airportCode = excluding.get(i);
-				
-				
-				// gets the airport code
-				Airport tempAirport = this.airport(airportCode);
-
-				
-				// gets all the edges of the temporary airport vertex
-				Set<Flight> tempFlights = this.graph.edgesOf(tempAirport);
-				
-				
-				// removes all the flight set elements from the graph
-				this.graph.removeAllEdges(tempFlights);
-				
-				// removes the temporary airport vertex from the graph
-				this.graph.removeVertex(tempAirport);
+				// for each string in the excluding list
+				for ( int i = 0; i < excluding.size(); i++)
+				{
+					
+					// gets the airport code
+					String airportCode = excluding.get(i);
+					
+					
+					// gets the airport code
+					Airport tempAirport = this.airport(airportCode);
+					
+					
+					// gets all the edges of the temporary airport vertex
+					Set<Flight> tempFlights = tempGraph.edgesOf(tempAirport);
+					
+					
+					// removes all the flight set elements from the graph
+					tempGraph.removeAllEdges(tempFlights);
+					
+					// removes the temporary airport vertex from the graph
+					tempGraph.removeVertex(tempAirport);
+				}
 			}
 		}
 		
 		
 		// gets a edge set from the graph
 		// and returns its iterator
-		Iterator<Flight> flights = this.graph.edgeSet().iterator();
+		Iterator<Flight> flights = tempGraph.edgeSet().iterator();
 		
 		
 		// iterates through each edge in the set
@@ -229,7 +234,7 @@ public class FlyingPlanner implements IFlyingPlannerPartB<Airport,Flight>, IFlyi
 		
 		
 		// it initialises the dijkstra algorithm, by passing the graph as a parameter
-		DijkstraShortestPath<Airport,Flight> dijkstra = new DijkstraShortestPath<Airport,Flight>(this.graph);
+		DijkstraShortestPath<Airport,Flight> dijkstra = new DijkstraShortestPath<Airport,Flight>(tempGraph);
 		
 		// getting the departure airport
 		Airport departureAirport = this.airport(from);
@@ -253,38 +258,64 @@ public class FlyingPlanner implements IFlyingPlannerPartB<Airport,Flight>, IFlyi
 	@Override
 	public Journey leastHop(String from, String to, List<String> excluding) throws FlyingPlannerException 
 	{
+		Graph<Airport, Flight> tempGraph = this.graph;
 		
 		// if excluding list is not full modify the graph
-		if ( excluding != null ) 
+		if ( excluding != null) 
 		{
-			
-			// for each string in the excluding list
-			for ( int i = 0; i < excluding.size(); i++)
+			if (excluding.size() > 0)
 			{
+				// populating a temporary graph with the current graph data
+				tempGraph = this.populateTempGraph();
 				
-				// gets the airport code
-				String airportCode = excluding.get(i);
-				
-				
-				// gets the airport code
-				Airport tempAirport = this.airport(airportCode);
-
-				
-				// gets all the edges of the temporary airport vertex
-				Set<Flight> tempFlights = this.graph.edgesOf(tempAirport);
-				
-				
-				// removes all the flight set elements from the graph
-				this.graph.removeAllEdges(tempFlights);
-				
-				// removes the temporary airport vertex from the graph
-				this.graph.removeVertex(tempAirport);
+				// for each string in the excluding list
+				for ( int i = 0; i < excluding.size(); i++)
+				{
+					
+					// gets the airport code
+					String airportCode = excluding.get(i);
+					
+					
+					// gets the airport code
+					Airport tempAirport = this.airport(airportCode);
+					
+					
+					// gets all the edges of the temporary airport vertex
+					Set<Flight> tempFlights = tempGraph.edgesOf(tempAirport);
+					
+					
+					// removes all the flight set elements from the graph
+					tempGraph.removeAllEdges(tempFlights);
+					
+					// removes the temporary airport vertex from the graph
+					tempGraph.removeVertex(tempAirport);
+				}
 			}
 		}
 		
 		
+		// gets a edge set from the graph
+		// and returns its iterator
+		Iterator<Flight> flights = tempGraph.edgeSet().iterator();
+		
+		
+		// iterates through each edge in the set
+		while (flights.hasNext())
+		{
+			
+			// gets the next flight
+			Flight tempFlight = flights.next();
+			
+			// gets the cost of the temporary flight
+			double cost = (double) tempFlight.getCost();
+
+			// sets the edge weight to its cost
+			this.graph.setEdgeWeight(tempFlight, cost);
+		}
+		
+		
 		// it initialises the dijkstra algorithm, by passing the graph as a parameter
-		DijkstraShortestPath<Airport,Flight> dijkstra = new DijkstraShortestPath<Airport,Flight>(this.graph);
+		DijkstraShortestPath<Airport,Flight> dijkstra = new DijkstraShortestPath<Airport,Flight>(tempGraph);
 		
 		// getting the departure airport
 		Airport departureAirport = this.airport(from);
@@ -407,18 +438,47 @@ public class FlyingPlanner implements IFlyingPlannerPartB<Airport,Flight>, IFlyi
 	@Override
 	public String leastCostMeetUp(String at1, String at2) throws FlyingPlannerException 
 	{
-		List<String> excluding = new LinkedList<String>();
 		
-		boolean finished = false;
+		List<String> except = this.airportExceptCodes(at1, at2);
+
+
+		for (int i = 0; i < except.size(); i++)
+		{
+			System.out.println(except.get(i));
+		}
 		
-		while ( !finished )
+		System.out.println();
+		except.add("LGW");
+		except.add("FRA");
+		
+		boolean pathFound = false;
+		
+		while ( !pathFound )
 		{
 			
-			Journey j1 = this.leastCost(at1, at2, excluding);
+			Journey j1 = this.leastCost(at1, at2, except);
 			
+			List<String> stps1 = j1.getStops();
 
-			Journey j2 = this.leastCost(at1, at2, excluding);
+			Journey j2 = this.leastCost(at2, at1, except);
+			
+			List<String> stps2 = j2.getStops();
+			
+			for ( int i = 1; i < stps1.size() - 1; i++)
+			{
+				String temp = stps1.get(i);
+				System.out.println(temp);
+			}
+			
+			System.out.println();
+			for ( int j = 1; j < stps2.size() - 1; j++)
+			{
+				String temp = stps2.get(j);
+				System.out.println(temp);
+			}
+			pathFound = true;
 		}
+
 		return null;
 	}
 
@@ -437,8 +497,114 @@ public class FlyingPlanner implements IFlyingPlannerPartB<Airport,Flight>, IFlyi
 	}
 
 	
+	private List<String> airportExceptCodes(String at1, String at2)
+	{
+
+		Set<Airport> nonDirConnnected = this.nonDirConnected(at1);
+		
+		Set<Airport> tempNonDirCon = this.nonDirConnected(at2);
+
+		
+		
+		nonDirConnnected.addAll(tempNonDirCon);
+		
+		Iterator<Airport> nonDirConnectedIterator = nonDirConnnected.iterator();
+		
+		List<String> except = new LinkedList<String>();
+		
+		while ( nonDirConnectedIterator.hasNext() )
+		{
+			Airport tempAirport = nonDirConnectedIterator.next();
+			
+			String airportCode = tempAirport.getCode();
+			
+			except.add(airportCode);
+		}
+		
+
+		except.remove(at1);
+		except.remove(at2);
+		
+		return except;
+	}
+	
+	private Set<Airport> nonDirConnected(String airportCode)
+	{
+		Airport airport = this.airport(airportCode);
+
+		Iterator<Flight> outFlights = this.graph.incomingEdgesOf(airport).iterator();
+		Iterator<Flight> incFlights = this.graph.incomingEdgesOf(airport).iterator();
+		
+		Set<Airport> connectedAirport = this.directlyConnected(airport);
+
+		while ( outFlights.hasNext() )
+		{
+			Flight tempFlight = outFlights.next();
+			Airport tempAirport = tempFlight.getTo();
+			connectedAirport.add(tempAirport);
+		}
+		
+		while ( incFlights.hasNext() )
+		{
+			Flight tempFlight = incFlights.next();
+			Airport tempAirport = tempFlight.getFrom();
+			connectedAirport.add(tempAirport);
+		}
+		
+		Set<Airport> dirConnectedAirport = this.directlyConnected(airport);
+
+		connectedAirport.removeAll(dirConnectedAirport);
+		
+		return connectedAirport;
+	}
 	
 	
+	private SimpleDirectedWeightedGraph<Airport, Flight> populateTempGraph()
+	{
+
+		// retrieves the graph airport iterator
+		Iterator<Airport> airportIterator = this.graph.vertexSet().iterator();
+
+		// retrieves the graph flights iterator
+		Iterator<Flight> flightsIterator = this.graph.edgeSet().iterator();
+		
+		// creates a new temporary graph
+		SimpleDirectedWeightedGraph<Airport, Flight> tempGraph = new SimpleDirectedWeightedGraph<Airport,Flight>(Flight.class);
+
+		
+		// iterates through the the airport iterator
+		while (airportIterator.hasNext())
+		{
+			// stores an airport from the iterator
+			Airport tempAirport = airportIterator.next();
+			
+			// adds the airport as a graph vertex
+			tempGraph.addVertex(tempAirport);
+		}
+		
+
+		// iterates through the the flight iterator
+		while (flightsIterator.hasNext())
+		{		
+			
+			// it creates the new flight variable
+			Flight tempFlight = flightsIterator.next();
+			
+			// it retrieves the corresponding origin airport
+			Airport originAirport = tempFlight.getFrom();
+
+			
+			// it retrieves the corresponding departure airport
+			Airport destinationAirport = tempFlight.getTo();
+
+			
+			// it adds the flight as a graph edge
+			tempGraph.addEdge(originAirport, destinationAirport, tempFlight);
+			
+		}
+		
+		return tempGraph;
+	}
 
 
 }

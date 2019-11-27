@@ -1,11 +1,9 @@
 package F28DA_CW2;
 
-import static org.junit.Assert.assertEquals;
 
 import java.io.FileNotFoundException;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Set;
 
 public class FlyingPlannerMainPartBC {
 
@@ -27,12 +25,11 @@ public class FlyingPlannerMainPartBC {
 			
 //			
 //			List<String> excluding = new LinkedList<String>();
-//
+
 //			excluding.add("AMS");
 //			excluding.add("LHR");
-//			excluding.add("DXB");
 //			excluding.add("CDG");
-//			excluding.add("FRA");
+//			excluding.add("LGW");
 //			excluding.add("IST");
 
 //    		Journey journey = fi.leastCost("EDI", "DXB", excluding);
@@ -56,8 +53,8 @@ public class FlyingPlannerMainPartBC {
 //    		{
 //    			System.out.println(stops.get(i));
 //    		}
-    		
-    		
+//    		
+//    		
 //    		System.out.println("\nTotal cost: " + journey.totalCost());
 //    		System.out.println("\nTotal hop: " + journey.totalHop());
 //    		System.out.println("\nTotal air time: " + journey.airTime());
@@ -67,17 +64,15 @@ public class FlyingPlannerMainPartBC {
 
 //    		Airport lhr = fi.airport("LHR");
 //    		Set<Airport> s = fi.directlyConnected(lhr);
-//    		
 //    		System.out.println("FINAL RESULT: " + s.size());
     		
     		
 
 //    		int sum = fi.setDirectlyConnected();
-//    		
 //    		System.out.println("FINAL RESULT: " + sum);
 			
 			
-			
+			fi.leastCostMeetUp("EDI", "DXB");
 			
 			
 			System.out.println("Finished");
