@@ -31,6 +31,7 @@ public class FlyingPlanner implements IFlyingPlannerPartB<Airport,Flight>, IFlyi
 		HashSet<String[]> flights = fr.getFlights();
 		
 		
+		// overloading function
 		return this.populate(airports, flights);
 	}
 
@@ -179,6 +180,7 @@ public class FlyingPlanner implements IFlyingPlannerPartB<Airport,Flight>, IFlyi
 	@Override
 	public Journey leastCost(String from, String to, List<String> excluding) throws FlyingPlannerException 
 	{
+		// assigns the local graph to the temporary graph variable
 		Graph<Airport, Flight> tempGraph = this.graph;
 		
 		// if excluding list is not full modify the graph
@@ -260,6 +262,7 @@ public class FlyingPlanner implements IFlyingPlannerPartB<Airport,Flight>, IFlyi
 	@Override
 	public Journey leastHop(String from, String to, List<String> excluding) throws FlyingPlannerException 
 	{
+		// assigns the local graph to the temporary graph variable
 		Graph<Airport, Flight> tempGraph = this.graph;
 		
 		// if excluding list is not full modify the graph
@@ -345,106 +348,10 @@ public class FlyingPlanner implements IFlyingPlannerPartB<Airport,Flight>, IFlyi
 	}
 
 	@Override
-	public Set<Airport> directlyConnected(Airport airport) 
-	{
-		BreadthFirstIterator<Airport, Flight> bfs = new BreadthFirstIterator<Airport, Flight>(this.graph, airport);
-		
-		int depth = 0;
-		
-		HashSet<Airport> dirConnectedAirports = new HashSet<Airport>();
-		
-		while ( bfs.hasNext() )
-		{
-			Airport tempAirport = bfs.next();
-			depth = bfs.getDepth(tempAirport);
-			
-			if ( tempAirport.equals(airport) ) continue;
-
-			if ( depth > 1) break;
-
-			dirConnectedAirports.add(tempAirport);
-		}
-		
-		
-		Iterator<Airport> airportsIterator = dirConnectedAirports.iterator();
-		
-		HashSet<Airport> toRemoveAirports = new HashSet<Airport>();
-		
-		BreadthFirstIterator<Airport, Flight> bfsBack;
-		
-		while ( airportsIterator.hasNext() )
-		{
-			
-			Airport tempAirport = airportsIterator.next();
-			
-			bfsBack = new BreadthFirstIterator<Airport, Flight>(this.graph, tempAirport);
-
-			depth = 0;
-			
-			while ( bfsBack.hasNext() )
-			{
-				Airport temp = bfsBack.next();
-				
-				depth = bfsBack.getDepth(temp);
-				
-				if ( depth > 1 ) 
-				{
-					toRemoveAirports.add(temp);
-					break;
-				}
-				
-				if ( temp.equals(airport) ) break;
-				
-			}
-			
-		}
-		
-		dirConnectedAirports.removeAll(toRemoveAirports);
-		
-		return dirConnectedAirports;
-	}
-
-
-	@Override
-	public int setDirectlyConnected() 
-	{
-		
-		Iterator<Airport> airportIterator = this.graph.vertexSet().iterator();
-		
-		int total = 0;
-		
-		while ( airportIterator.hasNext() )
-		{
-			Airport tempAirport = airportIterator.next();
-			
-			Set<Airport> tempSet = this.directlyConnected(tempAirport);
-			
-			total += tempSet.size();
-		}
-		
-		return total;
-	}
-
-	@Override
-	public int setDirectlyConnectedOrder() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	@Override
-	public Set<Airport> getBetterConnectedInOrder(Airport airport) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
 	public String leastCostMeetUp(String at1, String at2) throws FlyingPlannerException 
 	{
 		
 		List<String> except = this.airportExceptCodes(at1, at2);
-		
-
-		System.out.println();
 		
 		boolean pathFound = false;
 		
@@ -453,8 +360,6 @@ public class FlyingPlanner implements IFlyingPlannerPartB<Airport,Flight>, IFlyi
 		
 		while ( !pathFound )
 		{
-			
-			System.out.println("Loop");
 			
 			Journey j1 = this.leastCost(at1, at2, except);
 			
@@ -487,8 +392,6 @@ public class FlyingPlanner implements IFlyingPlannerPartB<Airport,Flight>, IFlyi
 			{
 				except.add(stps1.get(0));
 				except.add(stps2.get(0));
-				
-				for(int i = 0; i < except.size(); i++) System.out.println(except.get(i));
 			}
 			
 		}
@@ -502,9 +405,6 @@ public class FlyingPlanner implements IFlyingPlannerPartB<Airport,Flight>, IFlyi
 		
 		List<String> except = this.airportExceptCodes(at1, at2);
 		
-
-		System.out.println();
-		
 		boolean pathFound = false;
 		
 		String meetup = null;
@@ -513,16 +413,14 @@ public class FlyingPlanner implements IFlyingPlannerPartB<Airport,Flight>, IFlyi
 		while ( !pathFound )
 		{
 			
-			System.out.println("Loop");
-			
-			Journey j1 = this.leastCost(at1, at2, except);
+			Journey j1 = this.leastHop(at1, at2, except);
 			
 			List<String> stps1 = j1.getStops();
 			
 			stps1.remove(0);
 			stps1.remove(stps1.size() - 1);
 
-			Journey j2 = this.leastCost(at2, at1, except);
+			Journey j2 = this.leastHop(at2, at1, except);
 			
 			List<String> stps2 = j2.getStops();
 
@@ -546,8 +444,6 @@ public class FlyingPlanner implements IFlyingPlannerPartB<Airport,Flight>, IFlyi
 			{
 				except.add(stps1.get(0));
 				except.add(stps2.get(0));
-				
-				for(int i = 0; i < except.size(); i++) System.out.println(except.get(i));
 			}
 			
 		}
@@ -671,6 +567,100 @@ public class FlyingPlanner implements IFlyingPlannerPartB<Airport,Flight>, IFlyi
 		
 		return tempGraph;
 	}
+	
 
+
+	@Override
+	public Set<Airport> directlyConnected(Airport airport) 
+	{
+		BreadthFirstIterator<Airport, Flight> bfs = new BreadthFirstIterator<Airport, Flight>(this.graph, airport);
+		
+		int depth = 0;
+		
+		HashSet<Airport> dirConnectedAirports = new HashSet<Airport>();
+		
+		while ( bfs.hasNext() )
+		{
+			Airport tempAirport = bfs.next();
+			depth = bfs.getDepth(tempAirport);
+			
+			if ( tempAirport.equals(airport) ) continue;
+
+			if ( depth > 1) break;
+
+			dirConnectedAirports.add(tempAirport);
+		}
+		
+		
+		Iterator<Airport> airportsIterator = dirConnectedAirports.iterator();
+		
+		HashSet<Airport> toRemoveAirports = new HashSet<Airport>();
+		
+		BreadthFirstIterator<Airport, Flight> bfsBack;
+		
+		while ( airportsIterator.hasNext() )
+		{
+			
+			Airport tempAirport = airportsIterator.next();
+			
+			bfsBack = new BreadthFirstIterator<Airport, Flight>(this.graph, tempAirport);
+
+			depth = 0;
+			
+			while ( bfsBack.hasNext() )
+			{
+				Airport temp = bfsBack.next();
+				
+				depth = bfsBack.getDepth(temp);
+				
+				if ( depth > 1 ) 
+				{
+					toRemoveAirports.add(temp);
+					break;
+				}
+				
+				if ( temp.equals(airport) ) break;
+				
+			}
+			
+		}
+		
+		dirConnectedAirports.removeAll(toRemoveAirports);
+		
+		return dirConnectedAirports;
+	}
+
+
+	@Override
+	public int setDirectlyConnected() 
+	{
+		
+		Iterator<Airport> airportIterator = this.graph.vertexSet().iterator();
+		
+		int total = 0;
+		
+		while ( airportIterator.hasNext() )
+		{
+			Airport tempAirport = airportIterator.next();
+			
+			Set<Airport> tempSet = this.directlyConnected(tempAirport);
+			
+			total += tempSet.size();
+		}
+		
+		return total;
+	}
+
+	@Override
+	public int setDirectlyConnectedOrder() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public Set<Airport> getBetterConnectedInOrder(Airport airport) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
 }
