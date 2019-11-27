@@ -382,39 +382,59 @@ public class FlyingPlanner implements IFlyingPlannerPartB<Airport,Flight>, IFlyi
 	@Override
 	public String leastCostMeetUp(String at1, String at2) throws FlyingPlannerException 
 	{
-		// It gets the list with the 
+		// It gets the list with the union airports that are not completely directly connected
 		List<String> except = this.airportExceptCodes(at1, at2);
 		
+		// Checks is the path was found
 		boolean pathFound = false;
 		
+		// Stores the meet up airport
 		String meetup = null;
 		
-		
+		// it will loop while the path was not found
 		while ( !pathFound )
 		{
-			
+			// gets the first journey
+			// avoiding certain airports contained in the except list
 			Journey j1 = this.leastCost(at1, at2, except);
 			
+			// gets the stops list of first journey
 			List<String> stps1 = j1.getStops();
 			
+			// removes the origin stop, from the first journey
 			stps1.remove(0);
+			// removes the destination stop, from the first journey
 			stps1.remove(stps1.size() - 1);
 
+			// gets the second journey (back)
+			// avoiding certain airports contained in the except list
 			Journey j2 = this.leastCost(at2, at1, except);
-			
+
+			// gets the stops list of first journey
 			List<String> stps2 = j2.getStops();
 
+			// removes the origin stop, from the second journey
 			stps2.remove(0);
+			// removes the destination stop, from the second journey
 			stps2.remove(stps2.size() - 1);
 			
+			// loops though the first stop list
 			for ( int i = 0; i < stps1.size(); i++)
 			{
+				// stores the String of each stop
 				String temp = stps1.get(i);
 				
+				// checks if the second list of stops contains this stop string value
 				if ( stps2.contains(temp) )
 				{
+					// assigns the meet up string with the current
 					meetup = temp;
+					
+					// changes the path found to true to break the while loop
 					pathFound = true;
+					
+					// breaks the inner loop
+					break;
 				}
 				
 			}
@@ -422,6 +442,9 @@ public class FlyingPlanner implements IFlyingPlannerPartB<Airport,Flight>, IFlyi
 			
 			if ( !pathFound ) 
 			{
+				// if path not found
+				// remove the first stop of both journeys
+				// by adding them to the except list
 				except.add(stps1.get(0));
 				except.add(stps2.get(0));
 			}
@@ -434,39 +457,59 @@ public class FlyingPlanner implements IFlyingPlannerPartB<Airport,Flight>, IFlyi
 	@Override
 	public String leastHopMeetUp(String at1, String at2) throws FlyingPlannerException 
 	{
-		
+		// It gets the list with the union airports that are not completely directly connected
 		List<String> except = this.airportExceptCodes(at1, at2);
 		
+		// Checks is the path was found
 		boolean pathFound = false;
 		
+		// Stores the meet up airport
 		String meetup = null;
 		
-		
+		// it will loop while the path was not found
 		while ( !pathFound )
 		{
-			
+			// gets the first journey
+			// avoiding certain airports contained in the except list
 			Journey j1 = this.leastHop(at1, at2, except);
 			
+			// gets the stops list of first journey
 			List<String> stps1 = j1.getStops();
 			
+			// removes the origin stop, from the first journey
 			stps1.remove(0);
+			// removes the destination stop, from the first journey
 			stps1.remove(stps1.size() - 1);
 
+			// gets the second journey (back)
+			// avoiding certain airports contained in the except list
 			Journey j2 = this.leastHop(at2, at1, except);
-			
+
+			// gets the stops list of first journey
 			List<String> stps2 = j2.getStops();
 
+			// removes the origin stop, from the second journey
 			stps2.remove(0);
+			// removes the destination stop, from the second journey
 			stps2.remove(stps2.size() - 1);
 			
+			// loops though the first stop list
 			for ( int i = 0; i < stps1.size(); i++)
 			{
+				// stores the String of each stop
 				String temp = stps1.get(i);
 				
+				// checks if the second list of stops contains this stop string value
 				if ( stps2.contains(temp) )
 				{
+					// assigns the meet up string with the current
 					meetup = temp;
+					
+					// changes the path found to true to break the while loop
 					pathFound = true;
+					
+					// breaks the inner loop
+					break;
 				}
 				
 			}
@@ -474,6 +517,9 @@ public class FlyingPlanner implements IFlyingPlannerPartB<Airport,Flight>, IFlyi
 			
 			if ( !pathFound ) 
 			{
+				// if path not found
+				// remove the first stop of both journeys
+				// by adding them to the except list
 				except.add(stps1.get(0));
 				except.add(stps2.get(0));
 			}
@@ -483,32 +529,40 @@ public class FlyingPlanner implements IFlyingPlannerPartB<Airport,Flight>, IFlyi
 		return meetup;
 	}
 
-	
+	/**
+	 * It gets the airport to initially remove from the shortest path search between airport 1 and airport 2 meetup
+	 * */
 	private List<String> airportExceptCodes(String at1, String at2)
 	{
-
+		// gets the airports non directly connected from airport 1
 		Set<Airport> nonDirConnnected = this.nonDirConnected(at1);
-		
+
+		// gets the airports non directly connected from airport 2
 		Set<Airport> tempNonDirCon = this.nonDirConnected(at2);
 
-		
-		
+		// does the union of both sets of non directly connected sets from airport 1 and airport 2
 		nonDirConnnected.addAll(tempNonDirCon);
 		
+		// retrieves an iterator from the non directed set
 		Iterator<Airport> nonDirConnectedIterator = nonDirConnnected.iterator();
 		
+		// Initialises a new string list to hold the airport codes for set
 		List<String> except = new LinkedList<String>();
 		
+		// iterates through the non directed iterator
 		while ( nonDirConnectedIterator.hasNext() )
 		{
+			// stores the current airport
 			Airport tempAirport = nonDirConnectedIterator.next();
 			
+			// stores its string code
 			String airportCode = tempAirport.getCode();
 			
+			// adds the string code to the except string list
 			except.add(airportCode);
 		}
 		
-
+		// removes the strings codes from the airport 1 and airport 2
 		except.remove(at1);
 		except.remove(at2);
 		
