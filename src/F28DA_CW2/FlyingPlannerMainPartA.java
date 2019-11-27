@@ -49,7 +49,7 @@ public class FlyingPlannerMainPartA {
     		for( String[] airport: airports)
     		{
     			// creates an airport using the string
-    			Airport tempAirport = new Airport(airport[0], airport[2], airport[1]);
+    			Airport tempAirport = new Airport(airport[0], airport[2]);
 
     			
     			// adds the airport as a graph vertex
@@ -115,7 +115,7 @@ public class FlyingPlannerMainPartA {
     		}    		
     		
     		// printing the list of airports
-    		System.out.print("The following airports are used");
+    		System.out.println("The following airports are used");
     		
     		
     		// gets an iterator of the vertex set, for display purposes
@@ -129,7 +129,7 @@ public class FlyingPlannerMainPartA {
     			Airport tempAirport = airportSet.next();
 
     			// prints the airport name
-    			System.out.println("( " + tempAirport.getCode() + " ) -		" + tempAirport.getLocation() );
+    			System.out.println("( " + tempAirport.getCode() + " ) - " + tempAirport.getName());
     			
     		}
     		

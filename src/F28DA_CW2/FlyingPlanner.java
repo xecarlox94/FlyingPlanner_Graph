@@ -50,7 +50,7 @@ public class FlyingPlanner implements IFlyingPlannerPartB<Airport,Flight>, IFlyi
 		for( String[] airport: airports)
 		{
 			// creates an airport using the string
-			Airport tempAirport = new Airport(airport[0], airport[2], airport[1]);
+			Airport tempAirport = new Airport(airport[0], airport[2]);
 
 			
 			// adds the airport as a graph vertex

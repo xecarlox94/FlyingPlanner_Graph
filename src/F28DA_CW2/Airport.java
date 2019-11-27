@@ -10,17 +10,13 @@ public class Airport implements IAirportPartB, IAirportPartC
 	// airport name
 	private String name;
 	
-	// city or location name
-	private String location;
-	
 	
 	
 	// constructor
-	public Airport(String code, String name, String location)
+	public Airport(String code, String name)
 	{
 		this.code = code;
 		this.name = name;
-		this.location = location;
 	}
 	
 	
@@ -36,12 +32,6 @@ public class Airport implements IAirportPartB, IAirportPartC
 	{
 		// name getter
 		return this.name;
-	}
-	
-	public String getLocation()
-	{
-		// it returns the airport location
-		return this.location;
 	}
 
 
@@ -61,12 +51,7 @@ public class Airport implements IAirportPartB, IAirportPartC
 	@Override
 	public String toString() {
 		// TODO Auto-generated method stub
-		return "airport code: " + this.code + ",	name: " + this.getName() + ",	location: " + this.getLocation();
-	}
-	
-	public String toStringOverview() {
-		// TODO Auto-generated method stub
-		return "Airport code: " + this.code;
+		return "airport code: " + this.code + ",	name: " + this.getName();
 	}
 
 
@@ -82,9 +67,6 @@ public class Airport implements IAirportPartB, IAirportPartC
 		// TODO Auto-generated method stub
 		
 	}
-	
-	
-	
 	
 
 }
