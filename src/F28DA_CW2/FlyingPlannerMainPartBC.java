@@ -36,30 +36,30 @@ public class FlyingPlannerMainPartBC {
 //    		Journey journey = fi.leastCost("EDI", "DXB");
 
 //    		Journey journey = fi.leastHop("EDI", "DXB", excluding);
-//    		Journey journey = fi.leastHop("EDI", "DXB");
+    		Journey journey = fi.leastHop("EDI", "DXB");
     		
     		
 
-//    		System.out.println("\n\nFlights: ");
-//    		List<String> flights = journey.getFlights();
-//    		for(int i =0; i < flights.size(); i++)
-//    		{
-//    			System.out.println(flights.get(i));
-//    		}
-//    		
-//    		System.out.println("\n\nStops: ");
-//    		List<String> stops = journey.getStops();
-//    		for(int i =0; i < stops.size(); i++)
-//    		{
-//    			System.out.println(stops.get(i));
-//    		}
-//    		
-//    		
-//    		System.out.println("\nTotal cost: " + journey.totalCost());
-//    		System.out.println("\nTotal hop: " + journey.totalHop());
-//    		System.out.println("\nTotal air time: " + journey.airTime());
-//    		System.out.println("\nTotal con time: " + journey.connectingTime());
-//    		System.out.println("\nTotal tot time: " + journey.totalTime());
+    		System.out.println("\n\nFlights: ");
+    		List<String> flights = journey.getFlights();
+    		for(int i =0; i < flights.size(); i++)
+    		{
+    			System.out.println(flights.get(i));
+    		}
+    		
+    		System.out.println("\n\nStops: ");
+    		List<String> stops = journey.getStops();
+    		for(int i =0; i < stops.size(); i++)
+    		{
+    			System.out.println(stops.get(i));
+    		}
+    		
+    		
+    		System.out.println("\nTotal cost: " + journey.totalCost());
+    		System.out.println("\nTotal hop: " + journey.totalHop());
+    		System.out.println("\nTotal air time: " + journey.airTime());
+    		System.out.println("\nTotal con time: " + journey.connectingTime());
+    		System.out.println("\nTotal tot time: " + journey.totalTime());
 
 
 //    		Airport lhr = fi.airport("LHR");
@@ -73,8 +73,8 @@ public class FlyingPlannerMainPartBC {
 			
 
 //			System.out.println("Final meetup: " + fi.leastCostMeetUp("EDI", "DXB"));
-			System.out.println("Final least cost meetup: " + fi.leastCostMeetUp("ANC", "BKO"));
-			System.out.println("Final least hop meetup: " + fi.leastHopMeetUp("EDI", "MEL"));
+//			System.out.println("Final least cost meetup: " + fi.leastCostMeetUp("ANC", "BKO"));
+//			System.out.println("Final least hop meetup: " + fi.leastHopMeetUp("EDI", "MEL"));
 			
 			
 			System.out.println("Finished");

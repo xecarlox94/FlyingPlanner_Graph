@@ -191,108 +191,15 @@ public class Journey implements IJourneyPartB<Airport, Flight>, IJourneyPartC<Ai
 
 	private int getMinutesSubStr(String time1, String time2)
 	{
-		float decTime1 = this.getDecFullTime(time1);
+		float decTime1 = Time.getDecFullTime(time1);
 		
-		float decTime2 = this.getDecFullTime(time2);
+		float decTime2 = Time.getDecFullTime(time2);
 		
-		float decTotalTime = this.subDecTimes(decTime1, decTime2);
+		float decTotalTime = Time.subDecTimes(decTime1, decTime2);
 		
-		int totalMinutes = this.getMinutes(decTotalTime);
+		int totalMinutes = Time.getMinutes(decTotalTime);
 		
 		return totalMinutes;
-	}
-	
-	
-	private int getMinutes(float time)
-	{
-		
-		// get minutes from float (hours plus minutes)
-		int hours = 0;
-		
-		while( time >= 1f )
-		{
-			time -= 1;
-			
-			hours++;
-		}
-
-		
-		int finalMinutes = 0;
-		
-		
-		if (time != 0) 
-		{
-			time = time * 60;
-			
-			int remainingMinutes = Math.round(time);
-			
-			finalMinutes += remainingMinutes;
-			
-		}
-
-		finalMinutes += hours * 60;
-		
-		
-		return finalMinutes;
-	}
-	
-	
-	private float subDecTimes(float time1, float time2)
-	{
-		
-		float result = time1 - time2;
-		
-		
-		if (result < 0) 
-		{
-			time1 += 24;
-			
-			result = time1 - time2;
-		}
-		
-		return result;
-	}
-	
-	
-	private float getDecFullTime(String stringTime) 
-	{
-		// assigning hours time
-		Float finalDecTime = this.getDecHrs(stringTime);
-		
-		// adding the minutes time to full time
-		finalDecTime += this.getDecMin(stringTime);
-		
-		return finalDecTime;
-	}
-	
-
-	private float getDecHrs(String stringTime)
-	{
-		// all sting have length 4
-		// the first 2 characters are reserved for hours
-		String hoursString = stringTime.substring(0, 2);
-		
-		// parses the substring containing the hours segment to float
-		float hours = Float.parseFloat(hoursString);
-		
-		return hours;
-	}
-	
-	
-	private float getDecMin(String stringTime)
-	{
-		// all sting have length 4
-		// the last 2 characters are reserved for minutes
-		String minsString = stringTime.substring(2, 4);
-		
-		// parses the substring containing the minutes segment to float
-		float mins = Float.parseFloat(minsString);
-		
-		// convert the time to decimal minutes
-		mins = ( mins / 60f );
-		
-		
-		return mins;
 	}
 
 
