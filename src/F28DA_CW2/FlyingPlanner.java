@@ -575,6 +575,7 @@ public class FlyingPlanner implements IFlyingPlannerPartB<Airport,Flight>, IFlyi
 	 * */
 	private Set<Airport> nonDirConnected(String airportCode)
 	{
+		// gets the airport from its airport code
 		Airport airport = this.airport(airportCode);
 		
 		
@@ -584,32 +585,51 @@ public class FlyingPlanner implements IFlyingPlannerPartB<Airport,Flight>, IFlyi
 		
 		
 		
-		
 
+		// gets an Iterator holding the outgoing flights from this vertex
 		Iterator<Flight> outFlights = this.graph.incomingEdgesOf(airport).iterator();
+		
+		// gets an Iterator holding the outgoing flights from this vertex
 		Iterator<Flight> incFlights = this.graph.incomingEdgesOf(airport).iterator();
 		
-		Set<Airport> connectedAirport = this.directlyConnected(airport);
+		// initialises a set to hold all non directly connected airports to given airport
+		Set<Airport> nonDirConnected = new HashSet<Airport>();
 
+		// iterates through the outgoing flights
 		while ( outFlights.hasNext() )
 		{
+			// stores the current flight
 			Flight tempFlight = outFlights.next();
+			
+			// gets the destination airport
 			Airport tempAirport = tempFlight.getTo();
-			connectedAirport.add(tempAirport);
+			
+			// adds the airport to the non directly connected airports set
+			nonDirConnected.add(tempAirport);
 		}
-		
+
+		// iterates through the incoming flights
 		while ( incFlights.hasNext() )
 		{
+			// stores the current flight
 			Flight tempFlight = incFlights.next();
+			
+			// gets the origin airport
 			Airport tempAirport = tempFlight.getFrom();
-			connectedAirport.add(tempAirport);
+			
+			// adds the airport to the non directly connected airports set
+			nonDirConnected.add(tempAirport);
 		}
 		
+		// gets a set containing the airports directly connected to the given airport
 		Set<Airport> dirConnectedAirport = this.directlyConnected(airport);
 
-		connectedAirport.removeAll(dirConnectedAirport);
-		
-		return connectedAirport;
+		// removes all the directly connected airports from the set
+		nonDirConnected.removeAll(dirConnectedAirport);
+
+		// the set holds now the airports that are not connected 
+		// in both ways with the airport
+		return nonDirConnected;
 	}
 	
 	/**
@@ -667,61 +687,87 @@ public class FlyingPlanner implements IFlyingPlannerPartB<Airport,Flight>, IFlyi
 	@Override
 	public Set<Airport> directlyConnected(Airport airport) 
 	{
+		// Initialises the BFS Algorithm with the local graph
 		BreadthFirstIterator<Airport, Flight> bfs = new BreadthFirstIterator<Airport, Flight>(this.graph, airport);
 		
+		// stores the BFS depth
 		int depth = 0;
 		
-		HashSet<Airport> dirConnectedAirports = new HashSet<Airport>();
+		// Initialises a set to hold the connected airport (outgoing edges)
+		HashSet<Airport> connectedAirports = new HashSet<Airport>();
 		
+		// iterating through the BFS traversal
 		while ( bfs.hasNext() )
 		{
+			// stores the current airport
 			Airport tempAirport = bfs.next();
+			
+			// gets the BFS depth
 			depth = bfs.getDepth(tempAirport);
 			
+			// the continue keyword will ignore the first call
+			// that gets the first element, the same airport
 			if ( tempAirport.equals(airport) ) continue;
 
+			// breaks the while loop if the depth is bigger than 1
 			if ( depth > 1) break;
 
-			dirConnectedAirports.add(tempAirport);
+			// adds the current airport to the set
+			connectedAirports.add(tempAirport);
 		}
 		
+		// retrieves an airport iterator from the connected airport
+		Iterator<Airport> airportsIterator = connectedAirports.iterator();
 		
-		Iterator<Airport> airportsIterator = dirConnectedAirports.iterator();
-		
+		// Initialises a set holding airports to remove
 		HashSet<Airport> toRemoveAirports = new HashSet<Airport>();
 		
+		// Declares the BFS from the connected airports
 		BreadthFirstIterator<Airport, Flight> bfsBack;
 		
+		// iterates through the airports iterator
 		while ( airportsIterator.hasNext() )
 		{
-			
+			// stores the current airport
 			Airport tempAirport = airportsIterator.next();
 			
+			// Initialises a BFS from the temporary airport
 			bfsBack = new BreadthFirstIterator<Airport, Flight>(this.graph, tempAirport);
 
+			// changes the depth to zero, for the beginning of a new BFS traversal
 			depth = 0;
 			
+			// Iterates through the BFS
 			while ( bfsBack.hasNext() )
 			{
+				// stores the current airport, in the BFS
 				Airport temp = bfsBack.next();
 				
+				// updates the depth
 				depth = bfsBack.getDepth(temp);
 				
+				// if the depth is greater than 1
+				// the temporary airport is not directly connected to the original airport
 				if ( depth > 1 ) 
 				{
+					// adds the current airport to the remove set
 					toRemoveAirports.add(temp);
+					// stops the iteration
 					break;
 				}
 				
+				// if the given airport is found
+				// stop the iteration
 				if ( temp.equals(airport) ) break;
 				
 			}
 			
 		}
 		
-		dirConnectedAirports.removeAll(toRemoveAirports);
+		// remove the non directed airports from all connected airports to the original
+		connectedAirports.removeAll(toRemoveAirports);
 		
-		return dirConnectedAirports;
+		return connectedAirports;
 	}
 
 
