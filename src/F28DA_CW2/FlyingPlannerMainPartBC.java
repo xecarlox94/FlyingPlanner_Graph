@@ -71,8 +71,10 @@ public class FlyingPlannerMainPartBC {
 //    		int sum = fi.setDirectlyConnected();
 //    		System.out.println("FINAL RESULT: " + sum);
 			
-			
-			fi.leastCostMeetUp("EDI", "DXB");
+
+//			System.out.println("Final meetup: " + fi.leastCostMeetUp("EDI", "DXB"));
+			System.out.println("Final least cost meetup: " + fi.leastCostMeetUp("ANC", "BKO"));
+			System.out.println("Final least hop meetup: " + fi.leastHopMeetUp("EDI", "MEL"));
 			
 			
 			System.out.println("Finished");

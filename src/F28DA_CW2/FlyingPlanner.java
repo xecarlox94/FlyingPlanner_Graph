@@ -6,6 +6,8 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
+import java.util.Stack;
+
 import org.jgrapht.Graph;
 import org.jgrapht.GraphPath;
 import org.jgrapht.alg.shortestpath.DijkstraShortestPath;
@@ -440,53 +442,117 @@ public class FlyingPlanner implements IFlyingPlannerPartB<Airport,Flight>, IFlyi
 	{
 		
 		List<String> except = this.airportExceptCodes(at1, at2);
-
-
-		for (int i = 0; i < except.size(); i++)
-		{
-			System.out.println(except.get(i));
-		}
 		
+
 		System.out.println();
-		except.add("LGW");
-		except.add("FRA");
 		
 		boolean pathFound = false;
+		
+		String meetup = null;
+		
 		
 		while ( !pathFound )
 		{
 			
+			System.out.println("Loop");
+			
 			Journey j1 = this.leastCost(at1, at2, except);
 			
 			List<String> stps1 = j1.getStops();
+			
+			stps1.remove(0);
+			stps1.remove(stps1.size() - 1);
 
 			Journey j2 = this.leastCost(at2, at1, except);
 			
 			List<String> stps2 = j2.getStops();
+
+			stps2.remove(0);
+			stps2.remove(stps2.size() - 1);
 			
-			for ( int i = 1; i < stps1.size() - 1; i++)
+			for ( int i = 0; i < stps1.size(); i++)
 			{
 				String temp = stps1.get(i);
-				System.out.println(temp);
+				
+				if ( stps2.contains(temp) )
+				{
+					meetup = temp;
+					pathFound = true;
+				}
+				
 			}
 			
-			System.out.println();
-			for ( int j = 1; j < stps2.size() - 1; j++)
+			
+			if ( !pathFound ) 
 			{
-				String temp = stps2.get(j);
-				System.out.println(temp);
+				except.add(stps1.get(0));
+				except.add(stps2.get(0));
+				
+				for(int i = 0; i < except.size(); i++) System.out.println(except.get(i));
 			}
-			pathFound = true;
+			
 		}
 
-		return null;
+		return meetup;
 	}
 
 	@Override
 	public String leastHopMeetUp(String at1, String at2) throws FlyingPlannerException 
 	{
-		// TODO Auto-generated method stub
-		return null;
+		
+		List<String> except = this.airportExceptCodes(at1, at2);
+		
+
+		System.out.println();
+		
+		boolean pathFound = false;
+		
+		String meetup = null;
+		
+		
+		while ( !pathFound )
+		{
+			
+			System.out.println("Loop");
+			
+			Journey j1 = this.leastCost(at1, at2, except);
+			
+			List<String> stps1 = j1.getStops();
+			
+			stps1.remove(0);
+			stps1.remove(stps1.size() - 1);
+
+			Journey j2 = this.leastCost(at2, at1, except);
+			
+			List<String> stps2 = j2.getStops();
+
+			stps2.remove(0);
+			stps2.remove(stps2.size() - 1);
+			
+			for ( int i = 0; i < stps1.size(); i++)
+			{
+				String temp = stps1.get(i);
+				
+				if ( stps2.contains(temp) )
+				{
+					meetup = temp;
+					pathFound = true;
+				}
+				
+			}
+			
+			
+			if ( !pathFound ) 
+			{
+				except.add(stps1.get(0));
+				except.add(stps2.get(0));
+				
+				for(int i = 0; i < except.size(); i++) System.out.println(except.get(i));
+			}
+			
+		}
+
+		return meetup;
 	}
 
 	@Override
