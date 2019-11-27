@@ -515,6 +515,10 @@ public class FlyingPlanner implements IFlyingPlannerPartB<Airport,Flight>, IFlyi
 		return except;
 	}
 	
+	
+	/**
+	 * It retrieves a set containing the airports connected, but not directly connect, to given airport 
+	 * */
 	private Set<Airport> nonDirConnected(String airportCode)
 	{
 		Airport airport = this.airport(airportCode);
@@ -554,7 +558,9 @@ public class FlyingPlanner implements IFlyingPlannerPartB<Airport,Flight>, IFlyi
 		return connectedAirport;
 	}
 	
-	
+	/**
+	 * It returns a new graph populated from the local graph data
+	 * */
 	private SimpleDirectedWeightedGraph<Airport, Flight> populateTempGraph()
 	{
 
