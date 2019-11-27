@@ -10,7 +10,11 @@ public class Airport implements IAirportPartB, IAirportPartC
 	// airport name
 	private String name;
 	
+	// set containing directed connected airports
+	private Set<Airport> directlyConnected;
 	
+	// order directly connected
+	private int order;
 	
 	// constructor
 	public Airport(String code, String name)
@@ -36,36 +40,35 @@ public class Airport implements IAirportPartB, IAirportPartC
 
 
 	@Override
-	public void setDicrectlyConnectedOrder(int order) {
-		// TODO Auto-generated method stub
-
+	public void setDicrectlyConnectedOrder(int order) 
+	{
+		this.order = order;
 	}
 
 	@Override
-	public int getDirectlyConnectedOrder() {
-		// TODO Auto-generated method stub
-		return 0;
+	public int getDirectlyConnectedOrder() 
+	{
+		return this.order;
 	}
 
 
 	@Override
 	public String toString() {
-		// TODO Auto-generated method stub
 		return "airport code: " + this.code + ",	name: " + this.getName();
 	}
 
 
 	@Override
-	public Set<Airport> getDicrectlyConnected() {
-		// TODO Auto-generated method stub
-		return null;
+	public Set<Airport> getDicrectlyConnected() 
+	{
+		return this.directlyConnected;
 	}
 
 
 	@Override
-	public void setDicrectlyConnected(Set<Airport> dicrectlyConnected) {
-		// TODO Auto-generated method stub
-		
+	public void setDicrectlyConnected(Set<Airport> dicrectlyConnected) 
+	{
+		this.directlyConnected = dicrectlyConnected;
 	}
 	
 
