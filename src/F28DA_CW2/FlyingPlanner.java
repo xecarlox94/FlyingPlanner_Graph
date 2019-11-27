@@ -382,7 +382,7 @@ public class FlyingPlanner implements IFlyingPlannerPartB<Airport,Flight>, IFlyi
 	@Override
 	public String leastCostMeetUp(String at1, String at2) throws FlyingPlannerException 
 	{
-		
+		// It gets the list with the 
 		List<String> except = this.airportExceptCodes(at1, at2);
 		
 		boolean pathFound = false;
