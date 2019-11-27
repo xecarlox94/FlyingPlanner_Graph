@@ -774,17 +774,23 @@ public class FlyingPlanner implements IFlyingPlannerPartB<Airport,Flight>, IFlyi
 	@Override
 	public int setDirectlyConnected() 
 	{
-		
+		// gets the graph vertex iterator
 		Iterator<Airport> airportIterator = this.graph.vertexSet().iterator();
 		
+		// initialises the total integer variable
 		int total = 0;
 		
+		// iterates through the vertices
 		while ( airportIterator.hasNext() )
 		{
+			// gets the current airport
 			Airport tempAirport = airportIterator.next();
 			
+			// gets the directly connected airport set
+			// of the given airport
 			Set<Airport> tempSet = this.directlyConnected(tempAirport);
 			
+			// adds the set size to the total variable
 			total += tempSet.size();
 		}
 		
