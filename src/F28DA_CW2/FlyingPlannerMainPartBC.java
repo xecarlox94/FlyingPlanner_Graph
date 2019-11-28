@@ -16,9 +16,15 @@ public class FlyingPlannerMainPartBC {
 		fi = new FlyingPlanner();
 		try 
 		{
+			// It populates the flight planner
 			fi.populate(new FlightsReader());
 
 			
+			// It is a public that does all the necessary queries to the user, for parts B and C.
+			// This method is public to initialise a single Scanner object and to close it.
+			// The reason is also to make this the methods that the user runs on the part B and C, 
+			// and all the remaining public methods are public to be tested 
+			fi.userQueriesPartsBC();
 			
 
 		} 

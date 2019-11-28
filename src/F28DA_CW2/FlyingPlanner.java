@@ -116,19 +116,6 @@ public class FlyingPlanner implements IFlyingPlannerPartB<Airport,Flight>, IFlyi
 			
 		}
 		
-		// prints all the airports available
-		this.printingAirports();
-		
-
-		// Initializes the scanner
-		this.sc = new Scanner(System.in);
-		
-		// It queries the user about journeys data
-		this.userQueries();
-		
-		// closes scanner
-		this.sc.close();
-		
 		return true;
 	}
 
@@ -385,7 +372,8 @@ public class FlyingPlanner implements IFlyingPlannerPartB<Airport,Flight>, IFlyi
 			// gets the next flight
 			Flight tempFlight = flights.next();
 
-			// sets the edge weight to its cost
+			// sets the edge weight to its cost to 1
+			// this way it will get the path with less hops
 			tempGraph.setEdgeWeight(tempFlight, 1d);
 		}
 		
@@ -881,15 +869,41 @@ public class FlyingPlanner implements IFlyingPlannerPartB<Airport,Flight>, IFlyi
 	}
 	
 	/**
-	 * It does all the necessary queries to the user
+	 * It is a public that does all the necessary queries to the user, for parts B and C.
+	 * This method is public to initialise a single Scanner object and to close it.
+	 * The reason is also to make this the methods that the user runs on the part B and C, 
+	 * and all the remaining public methods are public to be tested 
 	 * */
-	private void userQueries() 
+	public void userQueriesPartsBC() 
 	{
-		// queries for the least cost journey
+		
+		// prints all the airports available
+		this.printingAirports();
+		
+
+		// Initialises the scanner
+		this.sc = new Scanner(System.in);
+
+		// Beginning part B
+		System.out.println("\nBeginning part B ");
+		
+		// queries for the least cost journey (part B)
+		this.queryingLeastCostJourneyPartB();
+		
+
+		// Beginning part C
+		System.out.println("\nBeginning part C ");
+
+		
+		// queries for the least cost journey (part B)
 		this.queryingLeastCostJourney();
+		
 		
 		// queries for the least hop journey
 		this.queryingLeastHopJourney();
+		
+		// closes scanner
+		this.sc.close();
 	}
 	
 	/**
@@ -1001,6 +1015,78 @@ public class FlyingPlanner implements IFlyingPlannerPartB<Airport,Flight>, IFlyi
 		
 		System.out.print("Printing the least cost journey between airports ...\n");
 		this.printJourney(journey);
+		
+	}
+	
+	/**
+	 * Queries user about least cost journey between two airports (Part B)
+	 * */
+	private void queryingLeastCostJourneyPartB() 
+	{
+		// Stores the journey to be printed
+		Journey journey = null;
+		
+		// makes sure the airports are found, otherwise asks user again
+		boolean inputValid = false;
+		
+		// origin airport temporarily to null
+		Airport originAirport = null;
+		
+		// departure airport temporarily to null
+		Airport departureAirport = null;
+		
+		
+		while ( !inputValid )
+		{
+			try
+			{
+				// printing the type of query
+				System.out.println("\nGetting the least cost journey");
+				
+				// questions the origin airport
+	    		System.out.println("Please enter the start airport code");
+	    		
+	    		// stores the origin airport location string
+	    		String originCode = sc.nextLine();
+	    		
+	    		System.out.println("Please enter the destination airport code");
+	    		
+	    		// stores the departure airport location string
+	    		String destinationCode = sc.nextLine();
+
+	    		journey = this.leastCost(originCode, destinationCode);
+	    		
+	    		inputValid = true;
+			} 
+			catch (FlyingPlannerException e)
+			{
+				// printing error
+				System.err.println(e.getMessage());
+				
+				// input valid is assured to be false
+				// to query the user again
+				inputValid = false;
+			}
+		}
+		
+		System.out.print("Printing the least cost journey between airports ...\n");
+		this.printJourneyPartB(journey);
+		
+	}
+	
+	/**
+	 * It prints a journey between two airports (Part B)
+	 * */
+	private void printJourneyPartB(Journey journey) 
+	{
+		// prints the journey
+		System.out.println(journey);		
+		
+		// prints total cost
+		System.out.println("Total cost: " + journey.totalCost());
+		
+		// prints total air time
+		System.out.println("Total air time: " + journey.airTime());
 		
 	}
 	
