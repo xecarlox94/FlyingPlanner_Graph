@@ -434,12 +434,18 @@ public class FlyingPlanner implements IFlyingPlannerPartB<Airport,Flight>, IFlyi
 	@Override
 	public String leastCostMeetUp(String at1, String at2) throws FlyingPlannerException 
 	{
+		// gets airport 1 and airport 2
+		Airport airport1 = this.airport(at1);
+		Airport airport2 = this.airport(at2);
 		
+		// gets the a set of directly connected airports to airport 1
+		Set<Airport> directlyConnectedToA1 = this.directlyConnected(airport1);
 		
-
-		// airports should not be already connected
-		
-		
+		// if both airports are directly connected
+		if ( directlyConnectedToA1.contains(airport2) ) 
+		{
+			throw new FlyingPlannerException("These two airports are already directly connected");
+		}
 		
 		// It gets the list with the union airports that are not completely directly connected
 		List<String> except = this.airportExceptCodes(at1, at2);
@@ -516,17 +522,18 @@ public class FlyingPlanner implements IFlyingPlannerPartB<Airport,Flight>, IFlyi
 	@Override
 	public String leastHopMeetUp(String at1, String at2) throws FlyingPlannerException 
 	{
+		// gets airport 1 and airport 2
+		Airport airport1 = this.airport(at1);
+		Airport airport2 = this.airport(at2);
 		
-
+		// gets the a set of directly connected airports to airport 1
+		Set<Airport> directlyConnectedToA1 = this.directlyConnected(airport1);
 		
-		
-
-		// airports should not be already connected
-		
-		
-		
-		
-		
+		// if both airports are directly connected
+		if ( directlyConnectedToA1.contains(airport2) ) 
+		{
+			throw new FlyingPlannerException("These two airports are already directly connected");
+		}
 		
 		// It gets the list with the union airports that are not completely directly connected
 		List<String> except = this.airportExceptCodes(at1, at2);
@@ -902,17 +909,23 @@ public class FlyingPlanner implements IFlyingPlannerPartB<Airport,Flight>, IFlyi
 		// queries for the least hop journey
 		this.queryingLeastHopJourney();
 		
+		// queries for the least cost meet up
+		this.queryingLeastCostMeetup();
+		
+		// queries for the least hop meet up
+		this.queryingLeastHopMeetup();
+		
 		// closes scanner
 		this.sc.close();
 	}
 	
 	/**
-	 * Queries user about least hop journey between two airports
+	 * Queries user about least cost meetup for two users in different airports
 	 * */
-	private void queryingLeastHopJourney() 
+	private void queryingLeastCostMeetup() 
 	{
 		// Stores the journey to be printed
-		Journey journey = null;
+		String meetup = null;
 		
 		// makes sure the airports are found, otherwise asks user again
 		boolean inputValid = false;
@@ -929,20 +942,21 @@ public class FlyingPlanner implements IFlyingPlannerPartB<Airport,Flight>, IFlyi
 			try
 			{
 				// printing the type of query
-				System.out.println("\nGetting the least hop journey");
+				System.out.println("\nGetting the least cost meetup");
 				
 				// questions the origin airport
-	    		System.out.println("Please enter the start airport code");
+	    		System.out.println("Please enter the start airport code, for traveller 1");
 	    		
 	    		// stores the origin airport location string
 	    		String originCode = sc.nextLine();
 	    		
-	    		System.out.println("Please enter the destination airport code");
+	    		System.out.println("Please enter the start airport code, for traveller 2");
 	    		
 	    		// stores the departure airport location string
 	    		String destinationCode = sc.nextLine();
 
-	    		journey = this.leastHop(originCode, destinationCode);
+	    		// gets the least cost meet up
+	    		meetup = this.leastCostMeetUp(originCode, destinationCode);
 	    		
 	    		inputValid = true;
 			} 
@@ -957,9 +971,70 @@ public class FlyingPlanner implements IFlyingPlannerPartB<Airport,Flight>, IFlyi
 			}
 		}
 		
-		System.out.print("Printing the least hop journey between airports ...\n");
-		this.printJourney(journey);
+		System.out.print("Printing the least cost meetup airport ...\n");
 		
+		Airport meetupAirport = this.airport(meetup);
+		
+		System.out.println(meetupAirport);
+	}
+	
+	/**
+	 * Queries user about least hop meetup for two users in different airports
+	 * */
+	private void queryingLeastHopMeetup() 
+	{
+		// Stores the journey to be printed
+		String meetup = null;
+		
+		// makes sure the airports are found, otherwise asks user again
+		boolean inputValid = false;
+		
+		// origin airport temporarily to null
+		Airport originAirport = null;
+		
+		// departure airport temporarily to null
+		Airport departureAirport = null;
+		
+		
+		while ( !inputValid )
+		{
+			try
+			{
+				// printing the type of query
+				System.out.println("\nGetting the least hop meetup");
+				
+				// questions the origin airport
+	    		System.out.println("Please enter the start airport code, for traveller 1");
+	    		
+	    		// stores the origin airport location string
+	    		String originCode = sc.nextLine();
+	    		
+	    		System.out.println("Please enter the start airport code, for traveller 2");
+	    		
+	    		// stores the departure airport location string
+	    		String destinationCode = sc.nextLine();
+
+	    		// gets the least cost meet up
+	    		meetup = this.leastCostMeetUp(originCode, destinationCode);
+	    		
+	    		inputValid = true;
+			} 
+			catch (FlyingPlannerException e)
+			{
+				// printing error
+				System.err.println(e.getMessage());
+				
+				// input valid is assured to be false
+				// to query the user again
+				inputValid = false;
+			}
+		}
+		
+		System.out.print("Printing the least hop meetup airport ...\n");
+		
+		Airport meetupAirport = this.airport(meetup);
+		
+		System.out.println(meetupAirport);
 	}
 	
 	/**
@@ -1014,6 +1089,62 @@ public class FlyingPlanner implements IFlyingPlannerPartB<Airport,Flight>, IFlyi
 		}
 		
 		System.out.print("Printing the least cost journey between airports ...\n");
+		this.printJourney(journey);
+		
+	}
+	
+	/**
+	 * Queries user about least hop journey between two airports
+	 * */
+	private void queryingLeastHopJourney() 
+	{
+		// Stores the journey to be printed
+		Journey journey = null;
+		
+		// makes sure the airports are found, otherwise asks user again
+		boolean inputValid = false;
+		
+		// origin airport temporarily to null
+		Airport originAirport = null;
+		
+		// departure airport temporarily to null
+		Airport departureAirport = null;
+		
+		
+		while ( !inputValid )
+		{
+			try
+			{
+				// printing the type of query
+				System.out.println("\nGetting the least hop journey");
+				
+				// questions the origin airport
+	    		System.out.println("Please enter the start airport code");
+	    		
+	    		// stores the origin airport location string
+	    		String originCode = sc.nextLine();
+	    		
+	    		System.out.println("Please enter the destination airport code");
+	    		
+	    		// stores the departure airport location string
+	    		String destinationCode = sc.nextLine();
+
+	    		journey = this.leastHop(originCode, destinationCode);
+	    		
+	    		inputValid = true;
+			} 
+			catch (FlyingPlannerException e)
+			{
+				// printing error
+				System.err.println(e.getMessage());
+				
+				// input valid is assured to be false
+				// to query the user again
+				inputValid = false;
+			}
+		}
+		
+		System.out.print("Printing the least hop journey between airports ...\n");
 		this.printJourney(journey);
 		
 	}
