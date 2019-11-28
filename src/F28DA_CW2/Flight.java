@@ -90,9 +90,13 @@ public class Flight implements IFlight {
 
 
 	@Override
-	public String toString() {
-		// TODO Auto-generated method stub
-		return "Flight code: " + this.getFlightCode() + ",	departure time: " + this.getFromGMTime() + " ,	from: " + this.getFrom().toString() + ",	to: " + this.getTo().toString() + ",	arrival time: " + this.getToGMTime() + ",	price: " + this.getCost();
+	public String toString() 
+	{
+
+		Airport originAirport = this.getFrom();
+		Airport destinationAirport = this.getTo();
+
+		return originAirport.toString() + " " + this.fromGMTime + " " +this.flightCode + " " + destinationAirport.toString() + " " + this.toGMTime;
 	}
 
 	

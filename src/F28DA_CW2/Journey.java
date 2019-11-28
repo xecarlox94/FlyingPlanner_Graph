@@ -53,7 +53,7 @@ public class Journey implements IJourneyPartB<Airport, Flight>, IJourneyPartC<Ai
 		List<Flight> flightsList  = this.graphPath.getEdgeList();
 		
 		// initialising flight string list
-		LinkedList<String> flightsCodeList = new LinkedList<String>();
+		LinkedList<String> flightsStringList = new LinkedList<String>();
 		
 		// iterating through the flight object list
 		for(int i = 0; i < flightsList.size(); i++)
@@ -61,12 +61,12 @@ public class Journey implements IJourneyPartB<Airport, Flight>, IJourneyPartC<Ai
 			// storing the temporary flight variable
 			Flight tempFlight = flightsList.get(i);
 			
-			// adds the flight code 
-			flightsCodeList.add(tempFlight.toString());
+			// adds the flight toString() string 
+			flightsStringList.add(tempFlight.toString());
 		}
 
-		// return flight code string list
-		return flightsCodeList;
+		// return flight string string list
+		return flightsStringList;
 	}
 
 	@Override
@@ -237,6 +237,44 @@ public class Journey implements IJourneyPartB<Airport, Flight>, IJourneyPartC<Ai
 		int totalMinutes = Time.getMinutes(decTotalTime);
 		
 		return totalMinutes;
+	}
+
+
+
+	@Override
+	public String toString() 
+	{
+		// getting flight objects list from graph path 
+		List<Flight> flightsList  = this.graphPath.getEdgeList();
+		
+		// gets the last index
+		int lastFlightIndex = flightsList.size() - 1;
+		
+		// first Flight
+		Flight firstFlight = flightsList.get(0);
+		
+		// last Flight 
+		Flight lastFlight = flightsList.get(lastFlightIndex);
+		
+		// gets the journey departure airport
+		Airport departureAirport = firstFlight.getFrom();
+		
+		// gets the journey destination airport
+		Airport destinationAirport = lastFlight.getTo();
+		
+		System.out.println();
+		
+		String printingString = "Journey from " + departureAirport + " to " + destinationAirport + "\n";
+		
+		List<String> flightStringList = this.getFlights();
+		
+		for (int i = 0; i < flightStringList.size(); i++)
+		{
+			printingString += ( i + 1 ) + " " + flightStringList.get(i) + "\n";
+		}
+		
+		
+		return printingString;
 	}
 
 

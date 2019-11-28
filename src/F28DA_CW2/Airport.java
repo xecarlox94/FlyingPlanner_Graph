@@ -58,7 +58,7 @@ public class Airport implements IAirportPartB, IAirportPartC
 
 	@Override
 	public String toString() {
-		return this.location;
+		return this.location + " (" + this.code + ")";
 	}
 
 

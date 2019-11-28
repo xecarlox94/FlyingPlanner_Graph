@@ -20,7 +20,7 @@ public class FlyingPlanner implements IFlyingPlannerPartB<Airport,Flight>, IFlyi
 {
 
 	// storing the graph
-	private Graph<Airport, Flight> graph;
+	private SimpleDirectedWeightedGraph<Airport, Flight> graph;
 	
 	// to get the input data from the user
 	private Scanner sc;
@@ -199,7 +199,7 @@ public class FlyingPlanner implements IFlyingPlannerPartB<Airport,Flight>, IFlyi
 	public Journey leastCost(String from, String to, List<String> excluding) throws FlyingPlannerException 
 	{
 		// assigns the local graph to the temporary graph variable
-		Graph<Airport, Flight> tempGraph = this.graph;
+		SimpleDirectedWeightedGraph<Airport, Flight> tempGraph = this.graph;
 		
 		// if excluding list is not full modify the graph
 		if ( excluding != null) 
@@ -266,7 +266,7 @@ public class FlyingPlanner implements IFlyingPlannerPartB<Airport,Flight>, IFlyi
 			double cost = (double) tempFlight.getCost();
 
 			// sets the edge weight to its cost
-			this.graph.setEdgeWeight(tempFlight, cost);
+			tempGraph.setEdgeWeight(tempFlight, cost);
 		}
 		
 		
@@ -322,7 +322,7 @@ public class FlyingPlanner implements IFlyingPlannerPartB<Airport,Flight>, IFlyi
 	public Journey leastHop(String from, String to, List<String> excluding) throws FlyingPlannerException 
 	{
 		// assigns the local graph to the temporary graph variable
-		Graph<Airport, Flight> tempGraph = this.graph;
+		SimpleDirectedWeightedGraph<Airport, Flight> tempGraph = this.graph;
 		
 		// if excluding list is not full modify the graph
 		if ( excluding != null) 
@@ -384,14 +384,10 @@ public class FlyingPlanner implements IFlyingPlannerPartB<Airport,Flight>, IFlyi
 			
 			// gets the next flight
 			Flight tempFlight = flights.next();
-			
-			// gets the cost of the temporary flight
-			double cost = (double) tempFlight.getCost();
 
 			// sets the edge weight to its cost
-			this.graph.setEdgeWeight(tempFlight, cost);
+			tempGraph.setEdgeWeight(tempFlight, 1d);
 		}
-		
 		
 		// it initialises the dijkstra algorithm, by passing the graph as a parameter
 		DijkstraShortestPath<Airport,Flight> dijkstra = new DijkstraShortestPath<Airport,Flight>(tempGraph);
@@ -885,6 +881,157 @@ public class FlyingPlanner implements IFlyingPlannerPartB<Airport,Flight>, IFlyi
 	}
 	
 	/**
+	 * It does all the necessary queries to the user
+	 * */
+	private void userQueries() 
+	{
+		// queries for the least cost journey
+		this.queryingLeastCostJourney();
+		
+		// queries for the least hop journey
+		this.queryingLeastHopJourney();
+	}
+	
+	/**
+	 * Queries user about least hop journey between two airports
+	 * */
+	private void queryingLeastHopJourney() 
+	{
+		// Stores the journey to be printed
+		Journey journey = null;
+		
+		// makes sure the airports are found, otherwise asks user again
+		boolean inputValid = false;
+		
+		// origin airport temporarily to null
+		Airport originAirport = null;
+		
+		// departure airport temporarily to null
+		Airport departureAirport = null;
+		
+		
+		while ( !inputValid )
+		{
+			try
+			{
+				// printing the type of query
+				System.out.println("\nGetting the least hop journey");
+				
+				// questions the origin airport
+	    		System.out.println("Please enter the start airport code");
+	    		
+	    		// stores the origin airport location string
+	    		String originCode = sc.nextLine();
+	    		
+	    		System.out.println("Please enter the destination airport code");
+	    		
+	    		// stores the departure airport location string
+	    		String destinationCode = sc.nextLine();
+
+	    		journey = this.leastHop(originCode, destinationCode);
+	    		
+	    		inputValid = true;
+			} 
+			catch (FlyingPlannerException e)
+			{
+				// printing error
+				System.err.println(e.getMessage());
+				
+				// input valid is assured to be false
+				// to query the user again
+				inputValid = false;
+			}
+		}
+		
+		System.out.print("Printing the least hop journey between airports ...\n");
+		this.printJourney(journey);
+		
+	}
+	
+	/**
+	 * Queries user about least cost journey between two airports
+	 * */
+	private void queryingLeastCostJourney() 
+	{
+		// Stores the journey to be printed
+		Journey journey = null;
+		
+		// makes sure the airports are found, otherwise asks user again
+		boolean inputValid = false;
+		
+		// origin airport temporarily to null
+		Airport originAirport = null;
+		
+		// departure airport temporarily to null
+		Airport departureAirport = null;
+		
+		
+		while ( !inputValid )
+		{
+			try
+			{
+				// printing the type of query
+				System.out.println("\nGetting the least cost journey");
+				
+				// questions the origin airport
+	    		System.out.println("Please enter the start airport code");
+	    		
+	    		// stores the origin airport location string
+	    		String originCode = sc.nextLine();
+	    		
+	    		System.out.println("Please enter the destination airport code");
+	    		
+	    		// stores the departure airport location string
+	    		String destinationCode = sc.nextLine();
+
+	    		journey = this.leastCost(originCode, destinationCode);
+	    		
+	    		inputValid = true;
+			} 
+			catch (FlyingPlannerException e)
+			{
+				// printing error
+				System.err.println(e.getMessage());
+				
+				// input valid is assured to be false
+				// to query the user again
+				inputValid = false;
+			}
+		}
+		
+		System.out.print("Printing the least cost journey between airports ...\n");
+		this.printJourney(journey);
+		
+	}
+	
+	/**
+	 * It prints a journey between two airports
+	 * */
+	private void printJourney(Journey journey) 
+	{
+		// prints the journey
+		System.out.println(journey);		
+		
+		// prints total cost
+		System.out.println("Total cost: " + journey.totalCost());
+		
+		// prints total cost
+		System.out.println("Total hops: " + journey.totalHop());
+		
+		// prints total air time
+		System.out.println("Total air time: " + journey.airTime());
+		
+		// prints total connection time
+		System.out.println("Total connection time: " + journey.connectingTime());
+		
+		// prints total journey time
+		System.out.println("Total journey time: " + journey.totalTime());
+		
+	}
+	
+
+	
+	/**
 	 * It prints all the airports available to the user, before doing the queries
 	 * */
 	private void printingAirports() 
@@ -907,120 +1054,6 @@ public class FlyingPlanner implements IFlyingPlannerPartB<Airport,Flight>, IFlyi
 			System.out.println("( " + tempAirport.getCode() + " ) - " + tempAirport.getName());
 			
 		}
-	}
-	
-	/**
-	 * It does all the necessary queries to the user
-	 * */
-	private void userQueries() 
-	{
-		// asks for the journey
-		this.queryingLeastCostJourney();
-	}
-	
-	/**
-	 * Queries user about journey between two airports
-	 * */
-	private void queryingLeastCostJourney() 
-	{
-		// Stores the journey to be printed
-		Journey journey = null;
-		
-		// makes sure the airports are found, otherwise asks user again
-		boolean inputValid = false;
-		
-		// origin airport temporarily to null
-		Airport originAirport = null;
-		
-		// departure airport temporarily to null
-		Airport departureAirport = null;
-		
-		
-		System.out.println();
-		
-		while ( !inputValid )
-		{
-			try
-			{
-
-				
-				// questions the origin airport
-	    		System.out.println("Please enter the start airport code");
-	    		
-	    		// stores the origin airport location string
-	    		String originCode = sc.nextLine();
-	    		
-	    		System.out.println("Please enter the destination airport code");
-	    		
-	    		// stores the departure airport location string
-	    		String destinationCode = sc.nextLine();
-
-	    		journey = this.leastCost(originCode, destinationCode);
-	    		
-	    		inputValid = true;
-			} 
-			catch (FlyingPlannerException e)
-			{
-				// printing error
-				System.err.println(e);
-				
-				// input valid is assured to be false
-				// to query the user again
-				inputValid = false;
-			}
-		}
-		
-		
-		this.printJourney(journey);
-		
-	}
-	
-	/**
-	 * It prints a journey between two airports
-	 * */
-	private void printJourney(Journey journey) 
-	{
-
-
-
-//		System.out.println("\n\nFlights: ");
-//		List<String> flights = journey.getFlights();
-//		for(int i =0; i < flights.size(); i++)
-//		{
-//			System.out.println(flights.get(i));
-//		}
-//		
-//		System.out.println("\n\nStops: ");
-//		List<String> stops = journey.getStops();
-//		for(int i =0; i < stops.size(); i++)
-//		{
-//			System.out.println(stops.get(i));
-//		}
-		
-		
-		System.out.println("\nTotal cost: " + journey.totalCost());
-		System.out.println("\nTotal hop: " + journey.totalHop());
-		System.out.println("\nTotal air time: " + journey.airTime());
-		System.out.println("\nTotal con time: " + journey.connectingTime());
-		System.out.println("\nTotal tot time: " + journey.totalTime());
-		
-		
-		System.out.println("Shortest ( i . e . cheapest ) path :");
-		
-//		for(int i = 0; i < pathFlights.size(); i++)
-//		{
-//			Flight flight = pathFlights.get(i);
-//			
-//			Airport origin = flight.getFrom();
-//			
-//			Airport destination = flight.getTo();
-//			
-//			System.out.println(( i + 1 ) + " " + origin.toString() + " -> " + destination.toString());
-//		}
-//		
-//		//IMPROVE PRINTING
-//		System.out.println("Cost of shortest ( i . e . cheapest ) path = £" + path.getWeight() + " pounds");
-		
 	}
 
 	@Override
