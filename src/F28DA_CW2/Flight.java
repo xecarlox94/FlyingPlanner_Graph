@@ -96,7 +96,21 @@ public class Flight implements IFlight {
 		Airport originAirport = this.getFrom();
 		Airport destinationAirport = this.getTo();
 
-		return originAirport.toString() + " " + this.fromGMTime + " " +this.flightCode + " " + destinationAirport.toString() + " " + this.toGMTime;
+		String originAptStr = String.format("%-20s", originAirport.toString() );
+		String fromTimeStr = String.format("%-6s", this.fromGMTime );
+		String flightCodeStr = String.format("%-8s", this.flightCode );
+		String destinationAptStr = String.format("%-20s", destinationAirport.toString() );
+		String toTimeStr = String.format("%-6s", this.toGMTime );
+        
+//        String cityStr = String.format("%-27s", this.city );
+//        String popGrowthStr = String.format("%-7s", this.popGrowth );
+//        String latStr = String.format("%-5s", this.lat );
+//        String lonStr = String.format("%-7s", this.lon );
+//        String popStr = String.format("%-7s", this.population );
+//        String rankStr = String.format("%-4s", this.rank );
+//        String stateStr = String.format("%-20s", this.state );
+
+		return originAptStr + fromTimeStr + flightCodeStr + destinationAptStr  + toTimeStr;
 	}
 
 	

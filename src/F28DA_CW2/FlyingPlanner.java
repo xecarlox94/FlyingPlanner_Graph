@@ -892,14 +892,14 @@ public class FlyingPlanner implements IFlyingPlannerPartB<Airport,Flight>, IFlyi
 		this.sc = new Scanner(System.in);
 
 		// Beginning part B
-		System.out.println("\nBeginning part B ");
+		System.out.println("\n\nPART B ");
 		
 		// queries for the least cost journey (part B)
 		this.queryingLeastCostJourneyPartB();
 		
 
 		// Beginning part C
-		System.out.println("\nBeginning part C ");
+		System.out.println("\n\nPART C ");
 
 		
 		// queries for the least cost journey (part B)
@@ -1276,16 +1276,8 @@ public class FlyingPlanner implements IFlyingPlannerPartB<Airport,Flight>, IFlyi
 	@Override
 	public String leastTimeMeetUp(String at1, String at2, String startTime) throws FlyingPlannerException 
 	{
-		
-
-		
-		
 
 		// airports should not be already connected
-		
-		
-		
-		
 		
 		// TODO Auto-generated method stub
 		return null;

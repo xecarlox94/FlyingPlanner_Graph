@@ -268,9 +268,11 @@ public class Journey implements IJourneyPartB<Airport, Flight>, IJourneyPartC<Ai
 		
 		List<String> flightStringList = this.getFlights();
 		
+		printingString += "\nLeg   Leave 		  At    On	Arrive		    At\n";
+		
 		for (int i = 0; i < flightStringList.size(); i++)
 		{
-			printingString += ( i + 1 ) + " " + flightStringList.get(i) + "\n";
+			printingString += ( i + 1 ) + "     " + flightStringList.get(i) + "\n";
 		}
 		
 		
