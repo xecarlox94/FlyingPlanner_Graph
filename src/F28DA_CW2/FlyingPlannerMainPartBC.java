@@ -21,9 +21,14 @@ public class FlyingPlannerMainPartBC {
 			// Implement here your user interface using the methods of Part B. You could
 			// optionally expand it to use the methods of Part C.
 			
-			System.out.println("b part");
 			
-//			
+			
+			
+			
+			
+			
+			
+			
 //			List<String> excluding = new LinkedList<String>();
 
 //			excluding.add("AMS");
@@ -73,11 +78,11 @@ public class FlyingPlannerMainPartBC {
 			
 
 //			System.out.println("Final meetup: " + fi.leastCostMeetUp("EDI", "DXB"));
-			System.out.println("Final least cost meetup: " + fi.leastCostMeetUp("EDI", "DXB"));
-			System.out.println("Final least hop meetup: " + fi.leastHopMeetUp("EDI", "DXB"));
+//			System.out.println("Final least cost meetup: " + fi.leastCostMeetUp("EDI", "DXB"));
+//			System.out.println("Final least hop meetup: " + fi.leastHopMeetUp("EDI", "DXB"));
 			
 			
-			System.out.println("Finished");
+			System.out.println("Finished part B");
 			
 
 		} 

@@ -1,10 +1,12 @@
 package F28DA_CW2;
 
+import java.io.FileNotFoundException;
 import java.util.HashSet;
 import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Scanner;
 import java.util.Set;
 import java.util.Stack;
 
@@ -19,6 +21,9 @@ public class FlyingPlanner implements IFlyingPlannerPartB<Airport,Flight>, IFlyi
 
 	// storing the graph
 	private Graph<Airport, Flight> graph;
+	
+	// to get the input data from the user
+	private Scanner sc;
 
 	@Override
 	public boolean populate(FlightsReader fr) 
@@ -111,6 +116,19 @@ public class FlyingPlanner implements IFlyingPlannerPartB<Airport,Flight>, IFlyi
 			
 		}
 		
+		// prints all the airports available
+		this.printingAirports();
+		
+
+		// Initializes the scanner
+		this.sc = new Scanner(System.in);
+		
+		// It queries the user about journeys data
+		this.userQueries();
+		
+		// closes scanner
+		this.sc.close();
+		
 		return true;
 	}
 
@@ -194,32 +212,39 @@ public class FlyingPlanner implements IFlyingPlannerPartB<Airport,Flight>, IFlyi
 				// for each string in the excluding list
 				for ( int i = 0; i < excluding.size(); i++)
 				{
-					
-					// gets the airport code
-					String airportCode = excluding.get(i);
-					
-					
-					// gets the airport code
-					Airport tempAirport = this.airport(airportCode);
-					
-					
-					
-					
-					// THROW ERROR!!!!!!!!!!!!!!!!
-					
-					
-					
-					
-					
-					// gets all the edges of the temporary airport vertex
-					Set<Flight> tempFlights = tempGraph.edgesOf(tempAirport);
-					
-					
-					// removes all the flight set elements from the graph
-					tempGraph.removeAllEdges(tempFlights);
-					
-					// removes the temporary airport vertex from the graph
-					tempGraph.removeVertex(tempAirport);
+					try
+					{
+
+						// gets the airport code
+						String airportCode = excluding.get(i);
+						
+						
+						// gets the airport code
+						Airport tempAirport = this.airport(airportCode);
+						
+						
+						// if excluding airport was not found
+						if ( tempAirport == null )
+						{
+							throw new FlyingPlannerException("Excluding airport not found: " + airportCode);
+						}
+						
+						
+						// gets all the edges of the temporary airport vertex
+						Set<Flight> tempFlights = tempGraph.edgesOf(tempAirport);
+						
+						
+						// removes all the flight set elements from the graph
+						tempGraph.removeAllEdges(tempFlights);
+						
+						// removes the temporary airport vertex from the graph
+						tempGraph.removeVertex(tempAirport);
+					} 
+					catch (FlyingPlannerException e)
+					{
+						// informing user that excluding airport was not found
+						System.err.println(e);
+					}
 				}
 			}
 		}
@@ -255,20 +280,38 @@ public class FlyingPlanner implements IFlyingPlannerPartB<Airport,Flight>, IFlyi
 		Airport destinationAirport = this.airport(to);
 		
 		
-		
-		
-		// THROW ERROR!!!!!!!!!!!!!!!!
-		
-		
-		
+		// error handling
+		if ( departureAirport == null )
+		{
+			// if departure was not found
+			throw new FlyingPlannerException("Departure airport " + from + " not found!");
+		} 
+		else if ( destinationAirport == null)
+		{
+			// if destination was not found
+			throw new FlyingPlannerException("Destination airport " + to + " not found!");
+		}
+		else if ( from == to)
+		{
+			// if both airports are the same
+			throw new FlyingPlannerException("Departure and destination airports must be different!\n"
+					+ "Departure: " + from + "\nDestination: " + to);
+		}
 		
 		
 		// gets the graph shortest path
 		GraphPath<Airport, Flight> shortestPath = dijkstra.getPath(departureAirport, destinationAirport);
 
+
+		// if the airports are not indirectly connected
+		if ( shortestPath == null ) 
+		{
+			throw new FlyingPlannerException("Journey not found!");
+		}
 		
 		// instantiates the journey object from the shortest path
 		Journey journey = new Journey(shortestPath);
+		
 
 		// returns the object
 		return journey;
@@ -292,31 +335,39 @@ public class FlyingPlanner implements IFlyingPlannerPartB<Airport,Flight>, IFlyi
 				// for each string in the excluding list
 				for ( int i = 0; i < excluding.size(); i++)
 				{
-					
-					// gets the airport code
-					String airportCode = excluding.get(i);
-					
-					
-					// gets the airport code
-					Airport tempAirport = this.airport(airportCode);
-					
-					
-					
-					
-					// THROW ERROR!!!!!!!!!!!!!!!!
-					
-					
-					
-					
-					// gets all the edges of the temporary airport vertex
-					Set<Flight> tempFlights = tempGraph.edgesOf(tempAirport);
-					
-					
-					// removes all the flight set elements from the graph
-					tempGraph.removeAllEdges(tempFlights);
-					
-					// removes the temporary airport vertex from the graph
-					tempGraph.removeVertex(tempAirport);
+					try
+					{
+
+						// gets the airport code
+						String airportCode = excluding.get(i);
+						
+						
+						// gets the airport code
+						Airport tempAirport = this.airport(airportCode);
+						
+						
+						// if excluding airport was not found
+						if ( tempAirport == null )
+						{
+							throw new FlyingPlannerException("Excluding airport not found: " + airportCode);
+						}
+						
+						
+						// gets all the edges of the temporary airport vertex
+						Set<Flight> tempFlights = tempGraph.edgesOf(tempAirport);
+						
+						
+						// removes all the flight set elements from the graph
+						tempGraph.removeAllEdges(tempFlights);
+						
+						// removes the temporary airport vertex from the graph
+						tempGraph.removeVertex(tempAirport);
+					} 
+					catch (FlyingPlannerException e)
+					{
+						// informing user that excluding airport was not found
+						System.err.println(e);
+					}
 				}
 			}
 		}
@@ -351,18 +402,35 @@ public class FlyingPlanner implements IFlyingPlannerPartB<Airport,Flight>, IFlyi
 		// getting the departure airport
 		Airport destinationAirport = this.airport(to);
 		
-		
-		
-		
-		
-		// THROW ERROR!!!!!!!!!!!!!!!!
-		
-		
-		
+
+		// error handling
+		if ( departureAirport == null )
+		{
+			// if departure was not found
+			throw new FlyingPlannerException("Departure airport " + from + " not found!");
+		} 
+		else if ( destinationAirport == null)
+		{
+			// if destination was not found
+			throw new FlyingPlannerException("Destination airport " + to + " not found!");
+		}
+		else if ( from == to)
+		{
+			// if both airports are the same
+			throw new FlyingPlannerException("Departure and destination airports must be different!\n"
+					+ "Departure: " + from + "\nDestination: " + to);
+		}
 		
 		
 		// gets the graph shortest path
 		GraphPath<Airport, Flight> shortestPath = dijkstra.getPath(departureAirport, destinationAirport);
+
+
+		// if the airports are not indirectly connected
+		if ( shortestPath == null ) 
+		{
+			throw new FlyingPlannerException("Journey not found!");
+		}
 
 		
 		// instantiates the journey object from the shortest path
@@ -382,6 +450,13 @@ public class FlyingPlanner implements IFlyingPlannerPartB<Airport,Flight>, IFlyi
 	@Override
 	public String leastCostMeetUp(String at1, String at2) throws FlyingPlannerException 
 	{
+		
+		
+
+		// airports should not be already connected
+		
+		
+		
 		// It gets the list with the union airports that are not completely directly connected
 		List<String> except = this.airportExceptCodes(at1, at2);
 		
@@ -457,6 +532,18 @@ public class FlyingPlanner implements IFlyingPlannerPartB<Airport,Flight>, IFlyi
 	@Override
 	public String leastHopMeetUp(String at1, String at2) throws FlyingPlannerException 
 	{
+		
+
+		
+		
+
+		// airports should not be already connected
+		
+		
+		
+		
+		
+		
 		// It gets the list with the union airports that are not completely directly connected
 		List<String> except = this.airportExceptCodes(at1, at2);
 		
@@ -796,10 +883,160 @@ public class FlyingPlanner implements IFlyingPlannerPartB<Airport,Flight>, IFlyi
 		
 		return total;
 	}
+	
+	/**
+	 * It prints all the airports available to the user, before doing the queries
+	 * */
+	private void printingAirports() 
+	{
+		// printing the list of airports
+		System.out.println("The following airports are used");
+		
+		
+		// gets an iterator of the vertex set, for display purposes
+		Iterator<Airport> airportSet = graph.vertexSet().iterator();
+		
+		
+		// loops through the iterator, to display the names of the available airports
+		while(airportSet.hasNext())
+		{
+			// stores the airport
+			Airport tempAirport = airportSet.next();
+
+			// prints the airport name
+			System.out.println("( " + tempAirport.getCode() + " ) - " + tempAirport.getName());
+			
+		}
+	}
+	
+	/**
+	 * It does all the necessary queries to the user
+	 * */
+	private void userQueries() 
+	{
+		// asks for the journey
+		this.queryingLeastCostJourney();
+	}
+	
+	/**
+	 * Queries user about journey between two airports
+	 * */
+	private void queryingLeastCostJourney() 
+	{
+		// Stores the journey to be printed
+		Journey journey = null;
+		
+		// makes sure the airports are found, otherwise asks user again
+		boolean inputValid = false;
+		
+		// origin airport temporarily to null
+		Airport originAirport = null;
+		
+		// departure airport temporarily to null
+		Airport departureAirport = null;
+		
+		
+		System.out.println();
+		
+		while ( !inputValid )
+		{
+			try
+			{
+
+				
+				// questions the origin airport
+	    		System.out.println("Please enter the start airport code");
+	    		
+	    		// stores the origin airport location string
+	    		String originCode = sc.nextLine();
+	    		
+	    		System.out.println("Please enter the destination airport code");
+	    		
+	    		// stores the departure airport location string
+	    		String destinationCode = sc.nextLine();
+
+	    		journey = this.leastCost(originCode, destinationCode);
+	    		
+	    		inputValid = true;
+			} 
+			catch (FlyingPlannerException e)
+			{
+				// printing error
+				System.err.println(e);
+				
+				// input valid is assured to be false
+				// to query the user again
+				inputValid = false;
+			}
+		}
+		
+		
+		this.printJourney(journey);
+		
+	}
+	
+	/**
+	 * It prints a journey between two airports
+	 * */
+	private void printJourney(Journey journey) 
+	{
+
+
+
+//		System.out.println("\n\nFlights: ");
+//		List<String> flights = journey.getFlights();
+//		for(int i =0; i < flights.size(); i++)
+//		{
+//			System.out.println(flights.get(i));
+//		}
+//		
+//		System.out.println("\n\nStops: ");
+//		List<String> stops = journey.getStops();
+//		for(int i =0; i < stops.size(); i++)
+//		{
+//			System.out.println(stops.get(i));
+//		}
+		
+		
+		System.out.println("\nTotal cost: " + journey.totalCost());
+		System.out.println("\nTotal hop: " + journey.totalHop());
+		System.out.println("\nTotal air time: " + journey.airTime());
+		System.out.println("\nTotal con time: " + journey.connectingTime());
+		System.out.println("\nTotal tot time: " + journey.totalTime());
+		
+		
+		System.out.println("Shortest ( i . e . cheapest ) path :");
+		
+//		for(int i = 0; i < pathFlights.size(); i++)
+//		{
+//			Flight flight = pathFlights.get(i);
+//			
+//			Airport origin = flight.getFrom();
+//			
+//			Airport destination = flight.getTo();
+//			
+//			System.out.println(( i + 1 ) + " " + origin.toString() + " -> " + destination.toString());
+//		}
+//		
+//		//IMPROVE PRINTING
+//		System.out.println("Cost of shortest ( i . e . cheapest ) path = £" + path.getWeight() + " pounds");
+		
+	}
 
 	@Override
 	public String leastTimeMeetUp(String at1, String at2, String startTime) throws FlyingPlannerException 
 	{
+		
+
+		
+		
+
+		// airports should not be already connected
+		
+		
+		
+		
+		
 		// TODO Auto-generated method stub
 		return null;
 	}
