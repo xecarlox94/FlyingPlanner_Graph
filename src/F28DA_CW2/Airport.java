@@ -10,6 +10,9 @@ public class Airport implements IAirportPartB, IAirportPartC
 	// airport name
 	private String name;
 	
+	// airport location
+	private String location;
+	
 	// set containing directed connected airports
 	private Set<Airport> directlyConnected;
 	
@@ -17,10 +20,11 @@ public class Airport implements IAirportPartB, IAirportPartC
 	private int order;
 	
 	// constructor
-	public Airport(String code, String name)
+	public Airport(String code, String name, String location)
 	{
 		this.code = code;
 		this.name = name;
+		this.location = location;
 	}
 	
 	
@@ -54,7 +58,7 @@ public class Airport implements IAirportPartB, IAirportPartC
 
 	@Override
 	public String toString() {
-		return "airport code: " + this.code + ",	name: " + this.getName();
+		return this.location;
 	}
 
 

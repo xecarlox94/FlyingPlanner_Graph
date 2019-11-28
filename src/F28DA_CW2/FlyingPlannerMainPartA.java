@@ -49,8 +49,9 @@ public class FlyingPlannerMainPartA {
     		for( String[] airport: airports)
     		{
     			// creates an airport using the string
-    			Airport tempAirport = new Airport(airport[0], airport[2]);
-
+    			Airport tempAirport = new Airport(airport[0], airport[2], airport[1]);
+    			
+    			System.out.println(tempAirport);
     			
     			// adds the airport as a graph vertex
     			graph.addVertex(tempAirport);
@@ -185,13 +186,22 @@ public class FlyingPlannerMainPartA {
     		
     		List<Flight> pathFlights = path.getEdgeList();
     		
+    		
+    		System.out.println("Shortest ( i . e . cheapest ) path :");
+    		
     		for(int i = 0; i < pathFlights.size(); i++)
     		{
-    			System.out.println(pathFlights.get(i));
+    			Flight flight = pathFlights.get(i);
+    			
+    			Airport origin = flight.getFrom();
+    			
+    			Airport destination = flight.getTo();
+    			
+    			System.out.println(( i + 1 ) + " " + origin.toString() + " -> " + destination.toString());
     		}
     		
     		//IMPROVE PRINTING
-    		System.out.println(path.getWeight() + " pounds");
+    		System.out.println("Cost of shortest ( i . e . cheapest ) path = £" + path.getWeight() + " pounds");
     		
     		
     		
