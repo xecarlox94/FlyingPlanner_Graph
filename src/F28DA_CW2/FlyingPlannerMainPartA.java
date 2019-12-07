@@ -201,7 +201,7 @@ public class FlyingPlannerMainPartA {
     		}
     		
     		//IMPROVE PRINTING
-    		System.out.println("Cost of shortest ( i . e . cheapest ) path = £" + path.getWeight() + " pounds");
+    		System.out.println("Cost of shortest ( i . e . cheapest ) path = " + path.getWeight() + " pounds");
     		
     		
     		
